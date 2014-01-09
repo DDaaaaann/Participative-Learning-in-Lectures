@@ -6,6 +6,8 @@ Project Participative Learning in Lectures
 - Inloggen in sessie/lecture met een password
 - Gebruik van stemronden
 - Knop om te passen
+- Knop om voten te skippen (bij twee foute antwoorden, bijvoorbeeld)
+- Een stem heet een vote
 
 Docent stelt open vraag:
 	Docent voert vraag in en komt op 'startpagina'
@@ -14,5 +16,24 @@ Docent stelt open vraag:
 
 Student geeft antwoord in app:
 	Student geeft antwoord en submit
+
+
+Stemronden:
+	Alle antwoorden worden verdeeld onder studenten om op te stemmen.
+	Er kan een keer een like per scherm gegeven worden
+	Een scherm heeft 2 of 3 vragen afhankelijk van de drukte?
+	Na de eerste ronde vallen er antwoorden af, hoe dit gebeurt is nog niet duidelijk
+
+
+	Als er niet gestemd wordt door een gebruiker, wordt deze voor de volgende ronde gediskwalificeert. De kans is groot dat deze de volgende ronde ook niet gaat.
+
+
+	dit is antwoord 1:	ABCDEFGH		BCDEFGHA
+									->	
+	dit is antwoord 2:	EFGHABCD		GHABCDEF
+						^
+						dit paar word gebruikt (AE)
+
+	op deze manier komt een paar nooit twee keer voor en zal een gebruiker niet twee keer hetzelfde antwoord zien (Bij grote getallen, moet dit verholpen worden?)
 
 
