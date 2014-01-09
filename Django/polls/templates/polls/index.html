@@ -1,0 +1,15 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+
+{% if latest_poll_list %}
+    <ul>
+    {% for poll in latest_poll_list %}
+		{% if poll.receiving_answers == True %}
+			<li><a href="{% url 'polls:answer' poll.id %}"> {{ poll.question }}</a></li>
+		{% endif%}
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}

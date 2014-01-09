@@ -1,0 +1,43 @@
+import datetime
+from django.utils import timezone
+from django.db import models
+
+class Poll(models.Model):
+    def __unicode__(self):
+        return self.question
+
+    def receiving_answers(self):
+        return self.answerable
+
+    receiving_answers.admin_order_field = 'answerable'
+    receiving_answers.boolean = True
+    receiving_answers.short_description = 'Voting in progress'
+    
+    def has_been_published(self):
+        return self.pub_date < timezone.now()
+    
+    has_been_published.admin_order_field = 'pub_date'
+    has_been_published.boolean = True
+    has_been_published.short_description = 'Published'
+
+    # Question is the string that holds the question.
+    question = models.CharField(max_length=200)
+    # Pub_Date is the date the poll was created.
+    pub_date = models.DateTimeField('date published')
+    # Answerable is the boolean to decide if the poll / question is still
+    # vulnerable for new votes.
+    answerable = models.BooleanField('Open for voting',default=True)
+
+
+class Choice(models.Model):
+    def __unicode__(self):
+        return self.choice_text
+
+    # Poll is the class that holds the question, answers and votes.
+    poll = models.ForeignKey(Poll)
+    # Choice_Text is the string that holds the possible choice.
+    choice_text = models.CharField(max_length=200)
+    # Votes is the number of votes for the specific choice.
+    votes = models.IntegerField(default=0)
+    # Tags are the keywords the teacher wants to see in the student's answers.
+    tags = models.CharField(max_length=200)
