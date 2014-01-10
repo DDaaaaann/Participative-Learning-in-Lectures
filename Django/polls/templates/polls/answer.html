@@ -6,9 +6,12 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'polls:vote' poll.id %}" method="post">
+<form action="{% url 'polls:answer' poll.choice_text %}" method="post">
 {% csrf_token %}
-	<textarea name="answer" cols=40 rows=6>
-	</textarea>
-<p><input type="submit" value="Answer" />
+	<input type="text" name="answer" />
+	<p>
+	<input type="submit" value="Answer" />
 </form>
+
+<textarea name="answer" cols=40 rows=6>
+</textarea>
