@@ -1,3 +1,14 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Project Software Engineering' %}</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+{% block content %}
 {% load staticfiles %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
@@ -13,3 +24,4 @@
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
+{% endblock %}

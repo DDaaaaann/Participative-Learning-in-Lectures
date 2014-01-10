@@ -1,3 +1,14 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Project Software Engineering' %}</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+{% block content %}
 {% load staticfiles %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
@@ -9,8 +20,9 @@
 <form action="{% url 'polls:vote' poll.id %}" method="post">
 {% csrf_token %}
 {% for choice in poll.choice_set.all %}
-    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+    <input type="radio" name="choice" id="choice{{ choice1 }}" value="{{ choice.id }}" />
     <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
 {% endfor %}
 <input type="submit" value="Vote" />
 </form>
+{% endblock %}

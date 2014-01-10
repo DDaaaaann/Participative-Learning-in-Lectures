@@ -1,3 +1,14 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Project Software Engineering' %}</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+{% block content %}
 {% load staticfiles %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
@@ -6,15 +17,11 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-{{ poll.id }}
-{{ poll.question }}
-
 <form action="{% url 'polls:answer' poll.id %}" method="post">
-{% csrf_token %}
-	<input type="text" name="answer" />
+	{% csrf_token %}
+	<textarea name="answer" cols=40 rows=6>
+	</textarea>
 	<p>
 	<input type="submit" value="Answer" />
 </form>
-
-<textarea name="answer" cols=40 rows=6>
-</textarea>
+{% endblock %}

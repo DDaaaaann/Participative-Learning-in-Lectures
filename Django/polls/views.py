@@ -48,8 +48,6 @@ def vote(request, poll_id):
     p = get_object_or_404(Poll, pk=poll_id)
     try:
         selected_choice = p.choice_set.get(pk=request.POST['choice'])
-        print selected_choice
-        print request
     except (KeyError, Choice.DoesNotExist):
         # Redisplay the poll voting form.
         return render(request, 'polls/detail.html', {
@@ -78,4 +76,4 @@ def answer(request, poll_id):
         })
     else:
         p.choice_set.create(choice_text=givenAnswer, votes=0)
-        return HttpResponseRedirect(reverse('polls:index', args=(p.id,)))
+        return HttpResponseRedirect(reverse('polls:vote', args=(p.id,)))
