@@ -1,0 +1,39 @@
+Product backlog
+
+Vraag, Antwoord en Raten
+- Een docent heeft op de homepage al zijn/haar vakken staan
+- Bij elk vak kan een nieuwe sessie gestart worden (lecture)
+- In deze sessie kan de docent meerdere vragen stellen 
+- De docent kan de vraag 'open' maken, de vraag is zichtbaar voor studenten
+- De vraag kan nu beantwoord worden door alle studenten
+- Heeft een student geen idee, dan kan deze de vraag passen
+- Als dit gedaan is kunnen studenten de antwoorden van hun mede-studenten gaan ranken met behulp van voten
+- Heeft een student niet gevote, dan kan deze in de volgende ronden niet meedoen
+- Een student heeft wel de optie om een vote te skippen, bijvoorbeeld bij 2 foute antwoorden
+- Als een student skipt mag deze in de volgende ronden wel gewoon mee stemmen
+- Er zijn 3 stemronden met elk 3 schermen
+- Na de stemronden komt er een top 3 of top 5 van de hoogst gerate antwoorden
+- Vervolgens moet de docent deze sessie kunnen sluiten
+
+
+Online
+- De app/site moet online op een server komen en dag en nacht bereikbaar zijn
+- Database moet werken
+
+
+Blackboard/Sakai
+- De app moet kunnen werken in blackboard
+- Een gebruiker logt in en gaat vervolgens naar de app
+- Blackboard geeft nodige informatie (variabelen) aan de app
+
+Analytics
+- Verkregen data moet verwerkt worden om nuttig gebruikt te kunnen worden
+- Dit houdt in dat de docent kan zien welke studenten goed mee doen en welke extra aandacht nodig hebben
+- Door met studentnummers te werken, krijgt de docent een persoon gebonden overzicht 
+- Als een student vote of antwoord telt dit ook mee bij de uiteindelijke 'rank' die een student heeft
+
+Pattern recognition
+- Er moet een patroon in vragen herkent worden
+- Er wordt naar de inhoud gekeken van de vraag en trefwoorden worden er uitgehaald
+- Zo onstaan er clusters van vragen die verschillende inhoud hebben en waarschijnlijk een andere benadering
+
