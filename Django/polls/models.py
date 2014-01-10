@@ -30,6 +30,9 @@ class Poll(models.Model):
 
 
 class Choice(models.Model):
+    class Meta:
+        ordering = ['?']
+
     def __unicode__(self):
         return self.choice_text
 
@@ -41,3 +44,13 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
     # Tags are the keywords the teacher wants to see in the student's answers.
     tags = models.CharField(max_length=200)
+
+    def random_choice(x):
+        """
+        Returns a random choice
+        """
+        print "test"
+        choice = Choice.objects.all().order_by('?')[:x]
+        print choice
+        return choice
+
