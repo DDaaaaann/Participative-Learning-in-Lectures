@@ -66,8 +66,9 @@ def vote(request, poll_id):
 
 def answer(request, poll_id):
     p = get_object_or_404(Poll, pk=poll_id)
+	
     try:
-        givenAnswer = p.choice_set.get(pk=request.POST['answer'])
+        givenAnswer = request.POST['answer']
         print givenAnswer
     except (KeyError, Choice.DoesNotExist):
         # Redisplay the poll answering form.

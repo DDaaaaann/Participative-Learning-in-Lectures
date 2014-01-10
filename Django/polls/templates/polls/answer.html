@@ -6,6 +6,9 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
+{{ poll.id }}
+{{ poll.question }}
+
 <form action="{% url 'polls:answer' poll.id %}" method="post">
 {% csrf_token %}
 	<input type="text" name="answer" />
