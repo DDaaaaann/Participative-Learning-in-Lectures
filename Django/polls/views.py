@@ -28,7 +28,7 @@ class DetailView(generic.DetailView):
         """
         Randomly orders all the choices and picks two of them.
         """
-        return Choice.objects.all().order_by('?')[:2]
+        return Poll.objects.filter(pub_date__lte=timezone.now())
 
 class AnswerView(generic.DetailView):
     model = Poll
