@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.template import RequestContext, loader
+from django.contrib.auth.models import User
 
 from models import Course
 from models import Lecture
@@ -18,7 +19,7 @@ def course_detail(request, course_id):
     return HttpResponse("You're looking at course %s." % course_id)
 
 def course_index(request):
-    course_list = Course.objects.order_by('-course_text')
+    course_list = Course.objects.filter(teachers_id=request.user.id).order_by('-course_text')
 
     template = loader.get_template('courses/course_index.html')
 
@@ -30,7 +31,8 @@ def course_index(request):
 
 def lecture_index(request, course_id):
     course = Course.objects.get(id=course_id)
-    lecture_list = course.lectures.order_by('-lecture_text')
+    #course = course.lectures.get(teacher_id=request.user.id)
+    lecture_list = course.lectures.filter(teacher_id=request.user.id).order_by('-lecture_text')
 
     template = loader.get_template('courses/lecture_index.html')
 

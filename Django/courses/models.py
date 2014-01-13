@@ -1,16 +1,21 @@
 import datetime
 from django.utils import timezone
 from django.db import models
+from django.contrib.auth.models import User
 
 class Course(models.Model):
     course_text = models.CharField(max_length=50, default='')
-
+    teachers = models.ForeignKey(User, related_name='courses')
+    #teachers = models.IntegerField(max_length=10)
+    #teachers = models.ManyToManyField(User)
+    
     def __str__(self):
         return self.course_text
 
 
 class Lecture(models.Model):
     lecture_text = models.CharField(max_length=50, default='')
+    teacher_id = models.IntegerField(max_length=10)
     course = models.ForeignKey(Course, related_name='lectures')
 
     def __str__(self):
