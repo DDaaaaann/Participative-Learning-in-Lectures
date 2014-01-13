@@ -1,0 +1,24 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+{% block title %}{{ title }} Answers {{ site_title }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Answers' %}</h1>
+
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content %}
+{% if answer_list %}
+    <ul>
+    {% for answer in answer_list %}
+        <li><a href="/courses/{{ course_id }}/{{ lecture_id }}/{{ question_id
+            }}/{{ answer.id }}/">{{ answer.answer_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No answers are available.</p>
+{% endif %}
+
+{% endblock %}
