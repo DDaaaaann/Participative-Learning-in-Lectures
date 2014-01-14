@@ -1,0 +1,32 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_urls admin_static admin_list %}
+{% block title %}{{ title }} Courses {{ site_title }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Courses' %}</h1>
+
+{% endblock %}
+{% block nav-global %}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'teacher:course_index' %}">{% trans 'Courses' %}</a>
+</div>
+{% endblock %}
+
+{% block content %}
+
+{% if course_list %}
+
+    <ul>
+    {% for course in course_list %}
+        <li><a href="/teacher/{{ course.id }}/">{{ course.course_text }}</a></li>
+    {% endfor %}
+    </ul>
+
+{% else %}
+    <p>No courses are available.</p>
+{% endif %}
+</div>
+{% endblock %}
