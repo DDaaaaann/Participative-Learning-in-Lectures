@@ -26,7 +26,7 @@ class DetailView(generic.DetailView):
 
     def get_queryset(self):
         """
-        Excludes any polls that aren't published yet.
+        Randomly orders all the choices and picks two of them.
         """
         return Poll.objects.filter(pub_date__lte=timezone.now())
 
@@ -64,7 +64,6 @@ def vote(request, poll_id):
 
 def answer(request, poll_id):
     p = get_object_or_404(Poll, pk=poll_id)
-	
     try:
         givenAnswer = request.POST['answer']
         print givenAnswer
@@ -76,4 +75,7 @@ def answer(request, poll_id):
         })
     else:
         p.choice_set.create(choice_text=givenAnswer, votes=0)
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:vote', args=(p.id,)))

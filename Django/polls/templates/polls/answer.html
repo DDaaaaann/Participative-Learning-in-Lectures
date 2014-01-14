@@ -19,8 +19,7 @@
 
 <form action="{% url 'polls:answer' poll.id %}" method="post">
 	{% csrf_token %}
-	<textarea name="answer" cols=40 rows=6>
-	</textarea>
+	<textarea name="answer" cols=40 rows=6></textarea>
 	<p>
 	<input type="submit" value="Answer" />
 </form>

@@ -14,15 +14,27 @@
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
 
 <h1>{{ poll.question }}</h1>
+<h1>Chose the best possible answer</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 <form action="{% url 'polls:vote' poll.id %}" method="post">
-{% csrf_token %}
-{% for choice in poll.choice_set.all %}
-    <input type="radio" name="choice" id="choice{{ choice1 }}" value="{{ choice.id }}" />
-    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
-{% endfor %}
-<input type="submit" value="Vote" />
+<table border="0" width="100%" height="100%"> 
+	<tr align="center" valign="center" height="100%">
+
+	{% csrf_token %}
+	{% for choice in poll.choice_set.all|slice:":2" %}
+		<td width="50%" height="100%">
+		<button type="submit" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" style="height: 200px; width: 80%">{{ choice.choice_text }}</button> 
+		</td>
+	    <!--
+	    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+	    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
+		-->
+	{% endfor %}
+
+	</tr>
+</table>
+<br/><input type="submit" value="skip" />
 </form>
 {% endblock %}
