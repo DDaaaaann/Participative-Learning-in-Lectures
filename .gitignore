@@ -17,6 +17,8 @@
 *.log
 *.sql
 *.sqlite
+*.db
+*.pyc
 .DS_Store
 .DS_Store?
 ._*
