@@ -57,7 +57,7 @@ def filterAnswers2(modeladmin,request, queryset):
     # Determine median. If the number of answers is even, the median is the
     # value of the entry just above the halfway point. For example, with twenty
     # answers the median should use the value of entry number eleven.
-    length = len(list_of
+    #length = len(list_of
     median = list_of_answers[math.ceil(0.5 * (len(list_of_answers) + 1))]
     print len(list_of_answers), "<", median
     # For every answer, a check should be done to identify the ones with less
