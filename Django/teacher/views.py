@@ -24,7 +24,7 @@ def course_index(request):
     template = loader.get_template('teacher/course_index.html')
 
     context = RequestContext(request, {
-        'title': 'Courses',
+        'title': 'Select a Course',
         'course_list': course_list,
     })
 

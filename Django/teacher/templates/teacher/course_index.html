@@ -26,7 +26,7 @@
 </div>
 {% endblock %}
 
-
+{% block coltype %}flex{% endblock %}
 {{ title }}
 {% block content %}
     <div id="content-main">
@@ -42,6 +42,14 @@
             </ul>
         {% endblock object-tools %}
         
+        <div class="module" id="changelist">
+        <form id="changelist-form" action="" method="post">
+
+        <div class="actions"><label>
+                Menu:
+                <select name="action">
+                </select>
+        </label></div>
         {% if course_list %}
         {% block result_list %}
         <div class="results">
@@ -75,10 +83,12 @@
                 </tbody>
             </table>
         </div>
+        
         {% endblock result_list %}
         {% else %}
             <p>No courses are available.</p>
         {% endif %}
-        
+        </form>
+        </div>
     </div>
 {% endblock %}
