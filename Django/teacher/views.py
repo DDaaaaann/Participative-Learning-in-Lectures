@@ -24,6 +24,7 @@ def course_index(request):
     template = loader.get_template('teacher/course_index.html')
 
     context = RequestContext(request, {
+        'title': 'Courses',
         'course_list': course_list,
     })
 
@@ -37,6 +38,7 @@ def lecture_index(request, course_id):
     template = loader.get_template('teacher/lecture_index.html')
 
     context = RequestContext(request, {
+        'title': 'Lectures',
         'lecture_list': lecture_list,
         'course_id' : course_id
     })
@@ -53,6 +55,7 @@ def question_index(request, course_id, lecture_id):
     print question_list
 
     context = RequestContext(request, {
+        'title': 'Questions',
         'question_list': question_list,
         'course_id': course_id,
         'lecture_id': lecture_id,
@@ -68,6 +71,7 @@ def answer_index(request, question_id, course_id, lecture_id):
     template = loader.get_template('teacher/answer_index.html')
 
     context = RequestContext(request, {
+        'title': 'Answers',
         'answer_list': answer_list,
         'course_id': course_id,
         'lecture_id': lecture_id,
