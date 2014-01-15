@@ -2,8 +2,57 @@ li a {
 	color: green;
 }
 
-/*
-body {
-	background: white url("images/background.gif") no-repeat right bottom;
+#header {
+    background-color: #666;
+    background: #666 url(images/pils_logo3.jpg) left center no-repeat;
+    background-size: 200px 40px;
+    height:40px;
+    width:100%;
 }
-*/
+
+#user-tools {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1.2em 10px;
+    font-size: 11px;
+    text-align: right;
+    color: #FF9231;
+}
+
+a:link {color: red;}    /* unvisited link */
+a:visited {color: red;} /* visited link */
+a:hover {color: red;}   /* mouse over link */
+a:active {color: red;}  /* selected link */
+
+
+div.menu2
+{
+    width:500px;margin:0 auto;/*Uncomment this line to make the menu center-aligned.*/
+    text-align:center;
+    background-image: url(images/overtop.png);
+    border:1px solid black;
+    font-size:0;
+}
+
+div.menu2 a
+{
+    display: inline-block;
+    padding: 0 20px;
+    background-image: url(images/overtop.png);
+    color: orange;
+    text-decoration:none;
+    font: bold 12px Arial;
+    line-height: 32px;
+}
+
+div.menu2 a:hover, div.menu2 a.current
+{
+    background-position:0 -60px;
+}
+
+div.menu2 a.dummy
+{
+    width:2px;
+    padding:0 0;
+}

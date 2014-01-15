@@ -4,7 +4,7 @@
 {% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
 
 {% block branding %}
-<h1 id="site-name">{% trans 'Project Software Engineering' %}</h1>
+<h1 id="site-name">{% trans ' ' %}</h1>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
@@ -12,6 +12,14 @@
 {% load staticfiles %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+<div class="menu2">
+    <a href="#1">CSS</a>
+    <a href="#2" class="current">CSS Menus</a>
+    <a href="#3">Menu</a>
+    <a href="#4">Single Level</a>
+    <a href="#5">CSS Menu</a>
+    <a class="dummy"> </a>
+</div>
 <h1>Questions:</h1>
 {% if latest_poll_list %}
     <ul>
