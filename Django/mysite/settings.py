@@ -44,7 +44,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'polls',
-    'courses', 
+    'courses',
+    'teacher',
 )
 
 MIDDLEWARE_CLASSES = (

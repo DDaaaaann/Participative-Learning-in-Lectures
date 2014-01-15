@@ -1,0 +1,84 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_urls admin_static admin_list %}
+{% load cycle from future %}
+{% block title %}{{ title }} Courses {{ site_title }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'PILS' %}</h1>
+
+{% endblock %}
+{% block nav-global %}{% endblock %}
+
+{% if action_form %}{% if actions_on_top or actions_on_bottom %}
+<script type="text/javascript">
+(function($) {
+    $(document).ready(function($) {
+        $("tr input.action-select").actions();
+    });
+})(django.jQuery);
+</script>
+{% endif %}{% endif %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'teacher:course_index' %}">{% trans 'Courses' %}</a>
+</div>
+{% endblock %}
+
+
+{% block content %}
+    {% block content_title %}<h1>Courses</h1> {% endblock %}
+    <div id="content-main">
+        {% block object-tools %}
+            <ul class="object-tools">
+                {% block object-tools-items %}
+                    <li>
+                        <a href="/admin/courses/course/add/" class="addlink">
+                            {% blocktrans %}Add Course{% endblocktrans %}
+                        </a>
+                    </li>
+                {% endblock object-tools-items %}
+            </ul>
+        {% endblock object-tools %}
+        
+        {% if course_list %}
+        {% block result_list %}
+        <div class="results">
+            <table id="result_list">
+                <thead>
+                    <tr>
+                        <th scope="col" class="action-checkbox-column">
+                            <div class="text"><span>
+                                <input type="checkbox" id="action-toggle" style="display: inline-block;">
+                            </span></div>
+                            <div class="clear"></div>
+                        </th>
+                        <th scope="col" class="sortable column-course_text">
+                            <div class="text"><a href="?o=1">Courses</a></div>
+                            <div class="clear"></div>
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in course_list %}
+                        <tr class="{% cycle 'row1' 'row2' %}">
+                            <td class="action-checkbox">
+                                <input class="action-select" name="_selected_action" type="checkbox" value="{{ course.id }}">
+                            </td>
+                            <th>
+                                <a href="/teacher/{{ course.id }}/">{{ course.course_text }}</a>
+                            </th>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endblock result_list %}
+        {% else %}
+            <p>No courses are available.</p>
+        {% endif %}
+        
+    </div>
+{% endblock %}

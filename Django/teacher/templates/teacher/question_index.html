@@ -1,0 +1,35 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+{% block title %}{{ title }} Questions {{ site_title }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'PILS' %}</h1>
+
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'teacher:course_index' %}">{% trans 'Courses' %}</a>
+&rsaquo; <a href="/teacher/{{ course_id }}/">{% trans 'Lectures' %}</a>
+&rsaquo; <a href="/teacher/{{ course_id }}/{{ lecture_id }}/">{% trans 'Questions' %}</a>
+
+</div>
+{% endblock %}
+
+{% block content %}
+
+{% if question_list %}
+
+    <ul>
+    {% for question in question_list %}
+    <li><a href="/teacher/{{ course_id }}/{{ lecture_id }}/{{ question.id }}/">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+
+{% else %}
+    <p>No questions are available.</p>
+{% endif %}
+
+{% endblock %}
