@@ -12,15 +12,40 @@
 {% load staticfiles %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'polls/jquery/timer/jquery.pietimer.js' %}"></script>
+
+<script type="text/javascript">
+    $(function() {
+      $('#timer').pietimer({
+          timerSeconds: 20,
+          color: '#234',
+          fill: false,
+          showPercentage: true,
+          callback: function() {
+              alert("yahoo, timer is done!");
+              $('#timer').pietimer('reset');
+          }
+      });
+    });
+  </script>
 
 <h1>{{ poll.question }}</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'polls:answer' poll.id %}" method="post">
-	{% csrf_token %}
-	<textarea name="answer" cols=40 rows=6></textarea>
-	<p>
-	<input type="submit" value="Answer" />
-</form>
+<div class="answerwrapper">
+
+    <div class="answerform">
+        <form action="{% url 'polls:answer' poll.id %}" method="post">
+            {% csrf_token %}
+            <textarea name="answer" cols=40 rows=6 class="answerarea"></textarea>
+            <p>
+            <input type="submit" value="Answer" />
+        </form>
+    </div>
+
+    <div id="timer"></div>
+
+</div>
 {% endblock %}
