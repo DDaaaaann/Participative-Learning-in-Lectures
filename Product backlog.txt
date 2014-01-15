@@ -21,16 +21,23 @@ Online
 - Database moet werken
 
 
+Mobiele versie
+- Html layout voor mobiel
+- duidelijke simpele interface
+
+
 Blackboard/Sakai
 - De app moet kunnen werken in blackboard
 - Een gebruiker logt in en gaat vervolgens naar de app
 - Blackboard geeft nodige informatie (variabelen) aan de app
+
 
 Analytics
 - Verkregen data moet verwerkt worden om nuttig gebruikt te kunnen worden
 - Dit houdt in dat de docent kan zien welke studenten goed mee doen en welke extra aandacht nodig hebben
 - Door met studentnummers te werken, krijgt de docent een persoon gebonden overzicht 
 - Als een student vote of antwoord telt dit ook mee bij de uiteindelijke 'rank' die een student heeft
+
 
 Pattern recognition
 - Er moet een patroon in vragen herkent worden
