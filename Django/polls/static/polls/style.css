@@ -2,6 +2,7 @@ li a {
 	color: green;
 }
 
+<<<<<<< HEAD
 #header {
     background-color: #666;
     background: #666 url(images/pils_logo3.jpg) left center no-repeat;
@@ -56,3 +57,81 @@ div.menu2 a.dummy
     width:2px;
     padding:0 0;
 }
+=======
+.answerarea {
+    border: 1px solid black;
+    resize: none;
+    width: 100%;
+}
+
+div.answerwrapper {
+    margin: auto;
+}
+
+div.answerform {
+    float: left;
+}
+
+#timer {
+    margin: 5px 5px 5px 15px;
+    width: 80px;
+}
+
+.pietimer {
+    position:relative;
+    font-size: 200px;
+    width:1em;
+    height:1em;
+    float: left;
+}
+.pietimer > .percent {
+    position: absolute;
+    top: 1.05em;
+    left: 0;
+    width: 3.33em;
+    font-size: 0.3em;
+    text-align:center;
+    display: none;
+}
+.pietimer > .slice {
+    position:absolute;
+    width:1em;
+    height:1em;
+    clip:rect(0px,1em,1em,0.5em);
+}
+.pietimer > .slice.gt50 {
+    clip:rect(auto, auto, auto, auto);
+}
+.pietimer > .slice > .pie {
+    border: 0.1em solid #c0c0c0;
+    position:absolute;
+    width:0.8em; /* 1 - (2 * border width) */
+    height:0.8em; /* 1 - (2 * border width) */
+    clip:rect(0em,0.5em,1em,0em);
+    -moz-border-radius:0.5em;
+    -webkit-border-radius:0.5em;
+    border-radius:0.5em;
+}
+.pietimer > .slice > .pie.fill {
+    -moz-transform:rotate(180deg) !important;
+    -webkit-transform:rotate(180deg) !important;
+    -o-transform:rotate(180deg) !important;
+    transform:rotate(180deg) !important;
+}
+.pietimer.fill > .percent {
+    display: none;
+}
+.pietimer.fill > .slice > .pie {
+    border: transparent;
+    background-color: #c0c0c0;
+    width:1em;
+    height:1em;
+}
+
+
+/*
+body {
+	background: white url("images/background.gif") no-repeat right bottom;
+}
+*/\
+>>>>>>> 0f7575c0cdfaaef312ca861a6ffa4dcdc6ccf0db

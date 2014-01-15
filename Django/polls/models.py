@@ -27,6 +27,8 @@ class Poll(models.Model):
     # Answerable is the boolean to decide if the poll / question is still
     # vulnerable for new votes.
     answerable = models.BooleanField('Open for voting',default=True)
+    # Tags are the keywords the teacher wants to see in the student's answers.
+    tags = models.CharField(max_length=200)
     
     closing = models.BooleanField();
 
@@ -44,28 +46,14 @@ class Choice(models.Model):
     choice_text = models.CharField(max_length=200)
     # Votes is the number of votes for the specific choice.
     votes = models.IntegerField(default=0)
-    # Tags are the keywords the teacher wants to see in the student's answers.
-    tags = models.CharField(max_length=200)
+    # OpenForVoting determines the fact if the answer can be voted on.
+    openForVoting = models.BooleanField(default=True)
     
-    def random_choice(x):
-        """
-        Returns a random choice
-        """
-        print "test"
-        choice = Choice.objects.all().order_by('?')[:x]
-        print choice
-        return choice
-
 class Sessionlink(models.Model):
 	def __unicode__(self):
 		return self.choice_text
 		
 	poll_id = models.ForeignKey(Poll)
-	
 	session_id = models.IntegerField(default=1)
-	
 	open = models.IntegerField(default=0)
-	
 	close = models.IntegerField()
-	
-

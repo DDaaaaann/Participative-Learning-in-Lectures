@@ -9,6 +9,17 @@
 
 {% block nav-global %}{% endblock %}
 
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'courses:course_index' %}">{% trans 'Courses' %}</a>
+&rsaquo; <a href="/courses/{{ course_id }}/">{% trans 'Lectures' %}</a>
+
+</div>
+{% endblock %}
+
+
 {% block content %}
 {% if lecture_list %}
     <ul>
