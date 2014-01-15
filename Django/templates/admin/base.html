@@ -8,7 +8,8 @@
 {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
 <script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
 {% block extrahead %}{% endblock %}
-{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />{% endblock %}
 </head>
 {% load i18n %}
 
@@ -21,7 +22,10 @@
     <!-- Header -->
     <div id="header">
         <div id="branding">
-        {% block branding %}{% endblock %}
+        {% block branding %}
+        <div id="logo" href="/admin" onclick="window.location = '/admin';">
+        </div>
+        {% endblock %}
         </div>
         {% if user.is_active and user.is_staff %}
         <div id="user-tools">
