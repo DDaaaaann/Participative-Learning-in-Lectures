@@ -27,22 +27,23 @@ def filterAnswers1(modeladmin, request, queryset):
     """
     # Get all the answers out of the database, with their 'openForVoting'-
     # boolean as True. Immediately ordered by the amount of votes.
-    list_of_answers = Choice.objects.all().order_by('-votes')
+    list_of_answers = Choice.objects.filter(poll_id=queryset).order_by('-votes')
     print list_of_answers
     counter = 0
     # For every answer, a check should be done to identify the ones with a
     # position below a certain threshold.
     for answer in list_of_answers:
         if counter > round(0.5 * len(list_of_answers)):
+            print answer, answer.openForVoting
             # If the answer is indeed ranked below a certain position, set the
             # 'openForVoting'-boolean to False.
             # It's either this:
-            #openForVoting = False
-            # Or this:
-            queryset.update(openForVoting=False)
+            answer.openForVoting = False
+            answer.save()
+            print answer, answer.openForVoting
 filterAnswers1.short_description = "Simply filter the most unlikely answers from the selected polls"
 
-def filterAnswers2(modeladmin,request, queryset):
+def filterAnswers2(modeladmin, request, queryset):
     # I'm not sure if this function should be here, or in another file. Second,
     # the boolean-field 'openForVoting' needs to be added to the database.
     """
@@ -52,27 +53,26 @@ def filterAnswers2(modeladmin,request, queryset):
     # Get all the answers out of the database, with their 'openForVoting'-
     # boolean as True. Immediately order the entries by the amount of votes,
     # this makes it easier to calculate the median in the next step.
-    list_of_answers = Choice.objects.filter().order_by('-votes')
+    list_of_answers = Choice.objects.filter(poll_id=queryset, openForVoting=True).order_by('-votes')
     print list_of_answers
     # Determine median. If the number of answers is even, the median is the
     # value of the entry just above the halfway point. For example, with twenty
     # answers the median should use the value of entry number eleven.
-    #length = len(list_of
-    median = list_of_answers[math.ceil(0.5 * (len(list_of_answers) + 1))]
-    print len(list_of_answers), "<", median
+    element = int(math.ceil(0.5 * len(list_of_answers)))
+    print "Element of median:", list_of_answers[element]
+    median = list_of_answers[element].votes
     # For every answer, a check should be done to identify the ones with less
     # votes than the calculated median.
     for answer in list_of_answers:
         if answer.votes < median:
             # If the number of votes is indeed less than the calculated median,
             # set the 'openForVoting'-boolean to False.
-            # It's either this:
-            #openForVoting = False
-            # Or this:
-            queryset.update(openForVoting=False)
+            answer.openForVoting = False
+            answer.save()
+            print answer, answer.openForVoting
 filterAnswers2.short_description = "Filter the most unlikely answers from the selected polls, scientifically"
 
-class ChoiceInline(admin.TabularInline):            
+class ChoiceInline(admin.TabularInline):
     model = Choice
     extra = 3
 
