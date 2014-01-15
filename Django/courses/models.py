@@ -15,8 +15,9 @@ class Course(models.Model):
 
 class Lecture(models.Model):
     lecture_text = models.CharField(max_length=50, default='')
-    teacher_id = models.IntegerField(max_length=10)
+    teacher = models.ForeignKey(User, related_name='lectures')
     course = models.ForeignKey(Course, related_name='lectures')
+    
 
     def __str__(self):
         return self.lecture_text

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Question, Course, Lecture, Answer
+from courses.models import Question, Course, Lecture, Answer
 
 class LectureInline(admin.TabularInline):
     model = Lecture
@@ -51,7 +51,7 @@ class AnswerAdmin(admin.ModelAdmin):
 
 
 
-admin.site.register(Question, QuestionAdmin)
-admin.site.register(Course, CourseAdmin)
-admin.site.register(Lecture, LectureAdmin)
-admin.site.register(Answer, AnswerAdmin)
+# admin.site.register(Question, QuestionAdmin)
+# admin.site.register(Course, CourseAdmin)
+# admin.site.register(Lecture, LectureAdmin)
+# admin.site.register(Answer, AnswerAdmin)
