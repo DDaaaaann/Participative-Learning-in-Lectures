@@ -1,24 +1,87 @@
 {% extends "admin/base.html" %}
-{% load i18n %}
-{% block title %}{{ title }} Answers {{ site_title }}{% endblock %}
+{% load i18n admin_urls admin_static admin_list %}
+{% load cycle from future %}
+{% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
 
 {% block branding %}
 <h1 id="site-name">{% trans 'PILS' %}</h1>
 
 {% endblock %}
-
 {% block nav-global %}{% endblock %}
 
-{% block content %}
-{% if answer_list %}
-    <ul>
-    {% for answer in answer_list %}
-        <li><a href="/teacher/{{ course_id }}/{{ lecture_id }}/{{ question_id
-            }}/{{ answer.id }}/">{{ answer.answer_text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No answers are available.</p>
-{% endif %}
+{% if action_form %}{% if actions_on_top or actions_on_bottom %}
+<script type="text/javascript">
+(function($) {
+    $(document).ready(function($) {
+        $("tr input.action-select").actions();
+    });
+})(django.jQuery);
+</script>
+{% endif %}{% endif %}
 
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'teacher:course_index' %}">{% trans 'Courses' %}</a>
+&rsaquo; <a href="/teacher/{{ course_id }}/">{% trans 'Lectures' %}</a>
+&rsaquo; <a href="/teacher/{{ course_id }}/{{ lecture_id }}/">{% trans 'Questions' %}</a>
+&rsaquo; <a href="/teacher/{{ course_id }}/{{ lecture_id }}/{{ question_id }}/">{% trans 'Answers' %}</a>
+</div>
+{% endblock %}
+
+
+{{ title }}
+{% block content %}
+    <div id="content-main">
+        {% block object-tools %}
+            <ul class="object-tools">
+                {% block object-tools-items %}
+                    <li>
+                        <a href="/admin/courses/answer/add/" class="addlink">
+                            {% blocktrans %}Add Answer{% endblocktrans %}
+                        </a>
+                    </li>
+                {% endblock object-tools-items %}
+            </ul>
+        {% endblock object-tools %}
+        
+        {% if answer_list %}
+        {% block result_list %}
+        <div class="results">
+            <table id="result_list">
+                <thead>
+                    <tr>
+                        <th scope="col" class="action-checkbox-column">
+                            <div class="text"><span>
+                                <input type="checkbox" id="action-toggle" style="display: inline-block;">
+                            </span></div>
+                            <div class="clear"></div>
+                        </th>
+                        <th scope="col" class="sortable column-answer_text">
+                            <div class="text"><a href="?o=1">Answers</a></div>
+                            <div class="clear"></div>
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for answer in answer_list %}
+                        <tr class="{% cycle 'row1' 'row2' %}">
+                            <td class="action-checkbox">
+                                <input class="action-select" name="_selected_action" type="checkbox" value="{{ answer.id }}">
+                            </td>
+                            <th>
+                                <a href="/teacher/{{ course_id }}/{{ lecture_id }}/{{ question_id }}/{{ answer.id }}">{{ answer.answer_text }}</a>
+                            </th>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endblock result_list %}
+        {% else %}
+            <p>No answers are available.</p>
+        {% endif %}
+        
+    </div>
 {% endblock %}
