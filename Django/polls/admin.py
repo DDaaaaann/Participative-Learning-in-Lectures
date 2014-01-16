@@ -5,8 +5,6 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
 from django.utils import timezone
-
-
 from polls.models import Choice, Poll, Sessionlink 
 import math
 
@@ -29,8 +27,8 @@ def filterAnswers(modeladmin, request, queryset):
     list_of_answers = Choice.objects.filter(poll_id=queryset, openForVoting=True).order_by('-votes')
     print list_of_answers, len(list_of_answers)
     # Determine median. If the number of answers is even, the median is the
-    # value of the entry just above the halfway point. For example, with twenty
-    # answers the median should use the value of entry number eleven.
+    # value of the entry just under the halfway point. For example, with twenty
+    # answers the median should use the value of entry number ten.
     element = int(math.ceil(0.5 * len(list_of_answers)))
     print "Element of median:", element, list_of_answers[element - 1]
     median = list_of_answers[element - 1].votes
@@ -43,7 +41,7 @@ def filterAnswers(modeladmin, request, queryset):
             answer.openForVoting = False
             answer.save()
             print answer, answer.openForVoting
-filterAnswers.short_description = "Filter the most unlikely answers from the selected polls, scientifically"
+filterAnswers.short_description = "Filter the most unlikely answers from the selected polls"
 
 def resetAnswers(modeladmin, request, queryset):
     """
@@ -59,7 +57,7 @@ resetAnswers.short_description = "Reset all the 'openForVoting'-booleans"
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
-    extra = 3
+    extra = 1
 
 class PollAdmin(admin.ModelAdmin):
     fieldsets = [
