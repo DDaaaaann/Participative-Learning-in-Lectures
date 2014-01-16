@@ -1,6 +1,7 @@
 {% extends "admin/base.html" %}
 {% load i18n admin_urls admin_static admin_list %}
 {% load cycle from future %}
+
 {% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
 
 {% block branding %}
@@ -8,7 +9,12 @@
 {% endblock %}
 {% block nav-global %}{% endblock %}
 
-{% if action_form %}{% if actions_on_top or actions_on_bottom %}
+{% block extrahead %}
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
 <script type="text/javascript">
 (function($) {
     $(document).ready(function($) {
@@ -16,7 +22,8 @@
     });
 })(django.jQuery);
 </script>
-{% endif %}{% endif %}
+{% endblock %}
+
 
 {% block breadcrumbs %}
 <div class="breadcrumbs">
