@@ -14,7 +14,8 @@ def voteFilter(value):
 @register.filter
 def rankFilter(value):
         """
-        Ranks the filtered results.
+        Ranks the filtered results, at this point only the answers that are
+        still open for voting are ranked.
         """
 	answers = value.filter(openForVoting=True).order_by('-votes')
 	return answers

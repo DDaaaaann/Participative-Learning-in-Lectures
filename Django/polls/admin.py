@@ -51,7 +51,6 @@ def resetAnswers(modeladmin, request, queryset):
     """
     # Get all the answers out of the database.
     list_of_answers = Choice.objects.filter(poll_id=queryset)
-    print list_of_answers
     # For every answer set the 'openForVoting'-boolean to True.
     for answer in list_of_answers:
         answer.openForVoting = True
