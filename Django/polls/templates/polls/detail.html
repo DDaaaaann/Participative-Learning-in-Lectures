@@ -38,6 +38,10 @@
 
 	</tr>
 </table>
-<br/><input type="submit" value="skip" />
+
+<form action="{% url 'polls:results' poll.id %}" method="post">
+<br/><button type="submit" value="skip" >skip</button>
 </form>
+</form>
+
 {% endblock %}
