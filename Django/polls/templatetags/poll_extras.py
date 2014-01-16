@@ -10,3 +10,12 @@ def voteFilter(value):
 	"""
 	answers = value.filter(openForVoting=True).order_by('?')
 	return answers
+
+@register.filter
+def rankFilter(value):
+        """
+        Ranks the filtered results.
+        """
+	answers = value.filter(openForVoting=True).order_by('-votes')
+	return answers
+
