@@ -23,7 +23,7 @@
           fill: false,
           showPercentage: true,
           callback: function() {
-              alert("yahoo, timer is done!");
+              $('form#formAnswer').submit();
               $('#timer').pietimer('reset');
           }
       });
@@ -37,7 +37,7 @@
 <div class="answerwrapper">
 
     <div class="answerform">
-        <form action="{% url 'polls:answer' poll.id %}" method="post">
+        <form action="{% url 'polls:answer' poll.id %}" method="post" id="formAnswer">
             {% csrf_token %}
             <textarea name="answer" cols=40 rows=6 class="answerarea"></textarea>
             <p>
