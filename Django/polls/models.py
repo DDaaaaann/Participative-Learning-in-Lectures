@@ -35,7 +35,7 @@ class Poll(models.Model):
 
 class Choice(models.Model):
     class Meta:
-        ordering = ['?']
+        ordering = ['choice_text']
 
     def __unicode__(self):
         return self.choice_text
