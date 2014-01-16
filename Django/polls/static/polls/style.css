@@ -94,6 +94,43 @@ div.answerform {
 }
 
 /************************
+==== Detail.html ====
+*************************/
+
+div.votewrapper {
+    width: 100%;
+}
+
+div.voteButton {
+    width: 25%;
+}
+
+div.voteButton:nth-child(1) {
+    float: left;
+    display: inline-block;
+}
+
+div.voteButton:nth-child(2) {
+    float: right;
+    display: inline-block;
+}
+
+button.voteButton {
+    width: 100%;
+    height: 200px;
+}
+
+div.voteTimer {
+    float: none;
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    margin-top: -200px;
+    display: inline-block;
+    height: 200px;
+}
+
+/************************
 ==== Results.html ====
 *************************/
 
@@ -114,7 +151,7 @@ div.resultsRowWrapper:nth-child(1) {
 }
 
 div.resultsText {
-    width: 5%;
+    width: 20%;
     min-width: 200px;
     font-size: 1em;
     display: inline-block;
