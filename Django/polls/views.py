@@ -26,7 +26,7 @@ class DetailView(generic.DetailView):
 
     def get_queryset(self):
         """
-        Randomly orders all the choices and picks two of them.
+        Excludes any polls that aren't published yet.
         """
         return Poll.objects.filter(pub_date__lte=timezone.now())
 

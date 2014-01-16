@@ -153,6 +153,10 @@ div.menu2 a.dummy
     padding:0 0;
 }
 
+/************************
+==== Answer.html ====
+*************************/
+
 .answerarea {
     border: 1px solid black;
     resize: none;
@@ -171,6 +175,78 @@ div.answerform {
     margin: 5px 5px 5px 15px;
     width: 80px;
 }
+
+/************************
+==== Detail.html ====
+*************************/
+
+div.voteWrapper {
+    width: 100%;
+}
+
+div.voteButton {
+    width: 25%;
+}
+
+div.voteButton:nth-child(1) {
+    float: left;
+    display: inline-block;
+}
+
+div.voteButton:nth-child(2) {
+    float: right;
+    display: inline-block;
+}
+
+button.voteButton {
+    width: 100%;
+    height: 200px;
+}
+
+div.voteTimer {
+    float: none;
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    margin-top: -200px;
+    display: inline-block;
+    height: 200px;
+}
+
+/************************
+==== Results.html ====
+*************************/
+
+div.resultsRowWrapper {
+    font-size: 1em;
+    padding: 3px;
+}
+
+div.resultsRowWrapper:nth-child(odd) {
+    background-color: lightgrey;
+}
+
+div.resultsRowWrapper:nth-child(1) {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+div.resultsText {
+    width: 20%;
+    min-width: 200px;
+    font-size: 1em;
+    display: inline-block;
+}
+
+div.resultsVotes {
+    display: inline-block;
+}
+
+/************************
+==== Pie timer ====
+*************************/
 
 .pietimer {
     position:relative;

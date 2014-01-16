@@ -5,8 +5,6 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
 from django.utils import timezone
-
-
 from polls.models import Choice, Poll, Sessionlink 
 import math
 
@@ -18,33 +16,12 @@ def closeVoting(modeladmin, request, queryset):
     queryset.update(answerable=False)
 closeVoting.short_description = "Mark selected polls as closed for voting"
 
-def filterAnswers1(modeladmin, request, queryset):
+def filterAnswers(modeladmin, request, queryset):
     """
     Filter the answers with less votes than the median number, by changing
-    the boolean 'openForVoting' to false
-    """
-    # Get all the answers out of the database, with their 'openForVoting'-
-    # boolean as True. Immediately ordered by the amount of votes.
-    list_of_answers = Choice.objects.filter(poll_id=queryset).order_by('-votes')
-    print list_of_answers
-    counter = 0
-    # For every answer, a check should be done to identify the ones with a
-    # position below a certain threshold.
-    for answer in list_of_answers:
-        if counter > round(0.5 * len(list_of_answers)):
-            print answer, answer.openForVoting
-            # If the answer is indeed ranked below a certain position, set the
-            # 'openForVoting'-boolean to False.
-            # It's either this:
-            answer.openForVoting = False
-            answer.save()
-            print answer, answer.openForVoting
-filterAnswers1.short_description = "Simply filter the most unlikely answers from the selected polls"
-
-def filterAnswers2(modeladmin, request, queryset):
-    """
-    Filter the answers with less votes than the median number, by changing
-    the boolean 'openForVoting' to false
+    the boolean 'openForVoting' to false. The minimum of answers is five, this
+    is to make sure that there'll never be less than two answers (that way
+    voting becomes pointless).
     """
     # Get all the answers out of the database, with their 'openForVoting'-
     # boolean as True. Immediately order the entries by the amount of votes,
@@ -52,10 +29,14 @@ def filterAnswers2(modeladmin, request, queryset):
     list_of_answers = Choice.objects.filter(poll_id=queryset, openForVoting=True).order_by('-votes')
     print list_of_answers, len(list_of_answers)
     # Determine median. If the number of answers is even, the median is the
-    # value of the entry just above the halfway point. For example, with twenty
-    # answers the median should use the value of entry number eleven.
+    # value of the entry just under the halfway point. For example, with twenty
+    # answers the median should use the value of entry number ten.
     element = int(math.ceil(0.5 * len(list_of_answers)))
     print "Element of median:", element, list_of_answers[element - 1]
+    # A small check to make sure the minimum number of answers, open for voting,
+    # is five.
+    if element < 5:
+        element = 5
     median = list_of_answers[element - 1].votes
     # For every answer, a check should be done to identify the ones with less
     # votes than the calculated median.
@@ -66,7 +47,7 @@ def filterAnswers2(modeladmin, request, queryset):
             answer.openForVoting = False
             answer.save()
             print answer, answer.openForVoting
-filterAnswers2.short_description = "Filter the most unlikely answers from the selected polls, scientifically"
+filterAnswers.short_description = "Filter the most unlikely answers from the selected polls"
 
 def resetAnswers(modeladmin, request, queryset):
     """
@@ -74,7 +55,6 @@ def resetAnswers(modeladmin, request, queryset):
     """
     # Get all the answers out of the database.
     list_of_answers = Choice.objects.filter(poll_id=queryset)
-    print list_of_answers
     # For every answer set the 'openForVoting'-boolean to True.
     for answer in list_of_answers:
         answer.openForVoting = True
@@ -83,7 +63,7 @@ resetAnswers.short_description = "Reset all the 'openForVoting'-booleans"
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
-    extra = 3
+    extra = 1
 
 class PollAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -94,6 +74,6 @@ class PollAdmin(admin.ModelAdmin):
     list_display = ('question', 'pub_date',
                     'has_been_published', 'receiving_answers')
     list_filter = ['pub_date']
-    actions = [openVoting, closeVoting, filterAnswers1, filterAnswers2, resetAnswers]
+    actions = [openVoting, closeVoting, filterAnswers, resetAnswers]
 
 admin.site.register(Poll, PollAdmin)

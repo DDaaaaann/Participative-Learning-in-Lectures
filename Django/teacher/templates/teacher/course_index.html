@@ -4,8 +4,7 @@
 {% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
 
 {% block branding %}
-<h1 id="site-name">{% trans 'PILS' %}</h1>
-
+<div id="logo" href="/admin" onclick="window.location = '/admin';"></div>
 {% endblock %}
 {% block nav-global %}{% endblock %}
 
@@ -48,6 +47,8 @@
         <div class="actions"><label>
                 Menu:
                 <select name="action">
+                <option value selected="selected">------------</option>
+                
                 </select>
         </label></div>
         {% if course_list %}
@@ -91,4 +92,5 @@
         </form>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}
+

@@ -12,16 +12,23 @@
 {% block nav-global %}{% endblock %}
 {% block content %}
 {% load staticfiles %}
+{% load poll_extras %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
 
 <h1>{{ poll.question }}</h1>
 
-<ul>
-{% for choice in poll.choice_set.all %}
-    <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+<div class="resultWrapper">
+    <div class="resultsRowWrapper">
+        <div class="resultsText">Antwoord</div>     <div class="resultsVotes"># votes</div>
+    </div>
+
+{% for choice in poll.choice_set.filter|rankFilter %}
+    <div class="resultsRowWrapper">
+        <div class="resultsText">{{ choice.choice_text }}</div>     <div class="resultsVotes">{{ choice.votes }} vote{{ choice.votes|pluralize }}</div>
+    </div>
 {% endfor %}
-</ul>
+</div>
 
 <a href="{% url 'polls:detail' poll.id %}">Vote again?</a>
 {% endblock %}

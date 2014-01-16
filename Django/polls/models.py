@@ -6,13 +6,21 @@ class Poll(models.Model):
     def __unicode__(self):
         return self.question
 
+    """
+    The function that shows if the Poll is open for voting, and thus visible
+    for the students.
+    """
     def receiving_answers(self):
         return self.answerable
 
     receiving_answers.admin_order_field = 'answerable'
     receiving_answers.boolean = True
     receiving_answers.short_description = 'Voting in progress'
-    
+
+    """
+    The functions that shows if the Poll has been published already, and thus
+    visible for the students.
+    """
     def has_been_published(self):
         return self.pub_date < timezone.now()
     
@@ -20,6 +28,11 @@ class Poll(models.Model):
     has_been_published.boolean = True
     has_been_published.short_description = 'Published'
 
+    """
+    All the variables and their explanations related to the class and database
+    of Poll.
+    """
+    
     # Question is the string that holds the question.
     question = models.CharField(max_length=200)
     # Pub_Date is the date the poll was created.
@@ -35,11 +48,18 @@ class Poll(models.Model):
 
 class Choice(models.Model):
     class Meta:
-        ordering = ['?']
+        """
+        Orders all the choices alphabetically.
+        """
+        ordering = ['choice_text']
 
     def __unicode__(self):
         return self.choice_text
 
+    """
+    All the variables and their explanations related to the class and database
+    of Choice.
+    """
     # Poll is the class that holds the question, answers and votes.
     poll = models.ForeignKey(Poll)
     # Choice_Text is the string that holds the possible choice.

@@ -12,8 +12,25 @@
 {% block nav-global %}{% endblock %}
 {% block content %}
 {% load staticfiles %}
+{% load poll_extras %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'polls/jquery/timer/jquery.pietimer.js' %}"></script>
+
+<script type="text/javascript">
+    $(function() {
+      $('#voteTimer').pietimer({
+          timerSeconds: 30,
+          color: '#234',
+          fill: false,
+          showPercentage: true,
+          callback: function() {
+            window.location = "{% url 'polls:results' poll.id %}";
+          }
+      });
+    });
+  </script>
 
 <h1>{{ poll.question }}</h1>
 <h1>Choose the best possible answer</h1>
@@ -21,22 +38,26 @@
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 <form action="{% url 'polls:vote' poll.id %}" method="post">
-<table border="0" width="100%" height="100%"> 
-	<tr align="center" valign="center" height="100%">
+<div class="voteWrapper">
 
 	{% csrf_token %}
-	{% for choice in poll.choice_set.filter|slice:":2" %}
-		<td width="50%" height="100%">
-		<button type="submit" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" style="height: 200px; width: 80%">{{ choice.choice_text }}</button> 
-		</td>
+	{% for choice in poll.choice_set.filter|voteFilter|slice:":2" %}
+		<div class="voteButton">
+            <button type="submit" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" class="voteButton">{{ choice.choice_text }}</button> 
+		</div>
 	    <!--
 	    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
 	    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
 		-->
 	{% endfor %}
-
-	</tr>
-</table>
-<br/><input type="submit" value="skip" />
+    
+    <div id="voteTimer" class="voteTimer"></div>
+    
+</div>
 </form>
+
+<form action="{% url 'polls:results' poll.id %}" method="post">
+<br/><button type="submit" value="skip" >skip</button>
+</form>
+
 {% endblock %}
