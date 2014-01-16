@@ -1,6 +1,8 @@
 {% extends "admin/base.html" %}
 {% load i18n admin_urls admin_static admin_list %}
 {% load cycle from future %}
+
+
 {% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
 
 {% block branding %}
@@ -47,6 +49,8 @@
         <div class="actions"><label>
                 Menu:
                 <select name="action">
+                <option value selected="selected">------------</option>
+                
                 </select>
         </label></div>
         {% if course_list %}
@@ -90,4 +94,5 @@
         </form>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}
+
