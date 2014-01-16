@@ -54,6 +54,10 @@
     <div id="voteTimer" class="voteTimer"></div>
     
 </div>
-<br/><input type="submit" value="skip" />
 </form>
+
+<form action="{% url 'polls:results' poll.id %}" method="post">
+<br/><button type="submit" value="skip" >skip</button>
+</form>
+
 {% endblock %}

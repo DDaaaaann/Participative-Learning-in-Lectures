@@ -25,6 +25,7 @@ def course_index(request):
 
     context = RequestContext(request, {
         'course_list': course_list,
+        'title': "",
     })
 
     return HttpResponse(template.render(context))

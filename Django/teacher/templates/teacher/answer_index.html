@@ -44,6 +44,17 @@
                 {% endblock object-tools-items %}
             </ul>
         {% endblock object-tools %}
+                
+        <div class="module" id="changelist">
+        <form id="changelist-form" action="" method="post">
+
+        <div class="actions"><label>
+                Menu:
+                <select name="action">
+                <option value selected="selected">------------</option>
+                
+                </select>
+        </label></div>
         
         {% if answer_list %}
         {% block result_list %}
@@ -82,6 +93,7 @@
         {% else %}
             <p>No answers are available.</p>
         {% endif %}
-        
+        </form>
+        </div>
     </div>
 {% endblock %}
