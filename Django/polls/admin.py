@@ -31,6 +31,10 @@ def filterAnswers(modeladmin, request, queryset):
     # answers the median should use the value of entry number ten.
     element = int(math.ceil(0.5 * len(list_of_answers)))
     print "Element of median:", element, list_of_answers[element - 1]
+    # A small check to make sure the minimum number of answers, open for voting,
+    # is five.
+    if element < 5:
+        element = 5
     median = list_of_answers[element - 1].votes
     # For every answer, a check should be done to identify the ones with less
     # votes than the calculated median.
