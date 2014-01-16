@@ -19,7 +19,9 @@ closeVoting.short_description = "Mark selected polls as closed for voting"
 def filterAnswers(modeladmin, request, queryset):
     """
     Filter the answers with less votes than the median number, by changing
-    the boolean 'openForVoting' to false
+    the boolean 'openForVoting' to false. The minimum of answers is five, this
+    is to make sure that there'll never be less than two answers (that way
+    voting becomes pointless).
     """
     # Get all the answers out of the database, with their 'openForVoting'-
     # boolean as True. Immediately order the entries by the amount of votes,
