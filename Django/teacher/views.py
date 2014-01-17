@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 from courses.models import Course
 from courses.models import Lecture
@@ -18,6 +19,11 @@ def vote(request, question_id):
 def course_detail(request, course_id):
     return HttpResponse("You're looking at course %s." % course_id)
 
+def course_change(request, course_id):
+    course = Course.objects.get(id=course_id)
+    return HttpResponse("You're looking at change_course for %s." % course_id)
+    
+@login_required
 def course_index(request):
     course_list = Course.objects.filter(teachers_id=request.user.id).order_by('-course_text')
 
@@ -29,7 +35,8 @@ def course_index(request):
     })
 
     return HttpResponse(template.render(context))
-
+    
+@login_required
 def lecture_index(request, course_id):
     course = Course.objects.get(id=course_id)
     #course = course.lectures.get(teacher_id=request.user.id)
@@ -45,7 +52,7 @@ def lecture_index(request, course_id):
 
     return HttpResponse(template.render(context))
 
-
+@login_required
 def question_index(request, course_id, lecture_id):
     lecture = Lecture.objects.get(id=lecture_id)
     question_list = lecture.questions.order_by('-pub_date')
@@ -63,7 +70,7 @@ def question_index(request, course_id, lecture_id):
 
     return HttpResponse(template.render(context))
 
-
+@login_required
 def answer_index(request, question_id, course_id, lecture_id):
     question = Question.objects.get(id=question_id)
     answer_list = question.answers.order_by('-answer_text')
