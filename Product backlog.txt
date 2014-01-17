@@ -15,6 +15,18 @@ Vraag, Antwoord en Raten
 - Na de stemronden komt er een top 3 of top 5 van de hoogst gerate antwoorden
 - Vervolgens moet de docent deze sessie kunnen sluiten
 
+Startpagina docent
+- Een docent heeft op de startpagina zijn sessions staan, hier staan actieve sessies en sessies die gaan komen. 
+- Een tabblad met vakken die de docent geeft, ook zodat studenten een vak via een docent kunnen vinden
+- Verder staat er informatie over de docent zelf (profiel)
+- Een docent moet vakken toevoegen mbv studiegids nummer
+
+Startpagina student
+- Een studet heeft op de startpagina zijn sessions staan, hier staan actieve sessies en sessies die gaan komen
+- Een tabblad waar de student vakken of docenten kan zoeken
+- Resultaten van de student
+- Profiel aanpassen
+- Inschrijven voor vakken (valt onder het zoeken naar vakken of docenten)
 
 Online
 - De app/site moet online op een server komen en dag en nacht bereikbaar zijn
