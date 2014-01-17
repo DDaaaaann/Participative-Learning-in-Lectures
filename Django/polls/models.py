@@ -63,7 +63,7 @@ class Choice(models.Model):
     # Poll is the class that holds the question, answers and votes.
     poll = models.ForeignKey(Poll)
     # Choice_Text is the string that holds the possible choice.
-    choice_text = models.CharField(max_length=200)
+    choice_text = models.TextField()
     # Votes is the number of votes for the specific choice.
     votes = models.IntegerField(default=0)
     # OpenForVoting determines the fact if the answer can be voted on.

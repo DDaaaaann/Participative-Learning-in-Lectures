@@ -130,6 +130,17 @@ div.voteTimer {
     height: 200px;
 }
 
+div.voteSkip {
+    position: absolute;
+    left: 50%;
+    margin-top: 25px;
+    margin-left: -75px;
+}
+
+div.voteSkip button {
+    min-width: 150px;
+}
+
 /************************
 ==== Results.html ====
 *************************/
