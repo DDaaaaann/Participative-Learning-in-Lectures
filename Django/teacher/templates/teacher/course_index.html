@@ -4,9 +4,7 @@
 
 {% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
 
-{% block branding %}
-<div id="logo" href="/admin" onclick="window.location = '/admin';"></div>
-{% endblock %}
+
 {% block nav-global %}{% endblock %}
 
 
@@ -59,6 +57,10 @@
                             <div class="text"><a href="?o=1">Courses</a></div>
                             <div class="clear"></div>
                         </th>
+                        <th scope="col">
+                            <div class="text"><a>Edit</a></div>
+                            <div class="clear"></div>
+                        </th>
 
                     </tr>
                 </thead>
@@ -68,9 +70,10 @@
                             <td class="action-checkbox">
                                 <input class="action-select" name="_selected_action" type="checkbox" value="{{ course.id }}">
                             </td>
-                            <th>
+                            <th scope="row">
                                 <a href="/teacher/{{ course.id }}/">{{ course.course_text }}</a>
                             </th>
+                            <td><a href="/teacher/{{ course.id }}/change/" class="changelink">{% trans 'Change' %}</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
