@@ -22,6 +22,7 @@ li a {
 #logo:hover {
     background: #666 url(images/logo_pils_met_groen_vinkje.png) left center no-repeat;
     background-size: 200px 40px;
+    cursor: pointer;
 }
 
 #user-tools {
@@ -38,6 +39,88 @@ a:link {color: #003439;}    /* unvisited link */
 a:visited {color: #295357;} /* visited link */
 a:hover {color: #FF9231;}   /* mouse over link */
 a:active {color: #003439;}  /* selected link */
+
+.row1 {
+    background-color: #DFDFDF;
+}
+
+   padding-right: 26px;
+}
+
+/* OBJECT TOOLS */
+
+.object-tools {
+    font-size: 10px;
+    font-weight: bold;
+    font-family: Arial,Helvetica,sans-serif;
+    padding-left: 0;
+    float: right;
+    position: relative;
+    margin-top: -2.4em;
+    margin-bottom: -2em;
+}
+
+.form-row .object-tools {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    float: none;
+    height: 2em;
+    padding-left: 3.5em;
+}
+
+.object-tools li {
+    display: block;
+    float: left;
+    background: url(images/tool-left.gif) 0 0 no-repeat;
+    padding: 0 0 0 8px;
+    margin-left: 2px;
+    height: 16px;
+}
+
+.object-tools li:hover {
+    background: url(images/tool-left_over.gif) 0 0 no-repeat;
+}
+
+.object-tools a:link, .object-tools a:visited {
+    display: block;
+    float: left;
+    color: white;
+    padding: .1em 14px .1em 8px;
+    height: 14px;
+    background: #666 url(images/tool-right.gif) 100% 0 no-repeat;
+}
+
+.object-tools a:hover, .object-tools li:hover a {
+    background: #FF9231 url(images/tool-right_over.gif) 100% 0 no-repeat;
+}
+
+.object-tools a.viewsitelink, .object-tools a.golink {
+    background: #666 url(images/tooltag-arrowright.gif) top right no-repeat;
+    padding-right: 28px;
+}
+
+.object-tools a.viewsitelink:hover, .object-tools a.golink:hover {
+    background: #FF9231 url(images/tooltag-arrowright_over.gif) top right no-repeat;
+}
+
+.object-tools a.addlink {
+    background: #666 url(images/tooltag-add.gif) top right no-repeat;
+    padding-right: 28px;
+}
+
+.object-tools a.addlink:hover {
+    background: #FF9231 url(images/tooltag-add_over.gif) top right no-repeat;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    margin: 0;
+    padding: 2px 5px 3px 5px;
+    font-size: 11px;
+    text-align: left;
+    font-weight: bold;
+    background: #666 top left repeat-x;
+    color: white;
+}
 
 div.menu2
 {
