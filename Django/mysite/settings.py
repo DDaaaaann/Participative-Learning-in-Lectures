@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+ROOT_PATH = os.path.join(os.path.dirname(__file__), "..")
+
+MEDIA_ROOT = os.path.join(ROOT_PATH, 'templates', 'polls', 'media')
+MEDIA_URL = 'http://127.0.0.1:8000/media/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
