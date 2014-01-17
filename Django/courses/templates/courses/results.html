@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}
+	{{ title }} | {% trans 'Django site admin' %}
+{% endblock %}
+
+{% block branding %}
+	<div id="logo" href="/admin" onclick="window.location = '/admin';">
+	</div>
+	<h1 id="site-name">{% trans ' ' %}</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+{% block content %}
+	{% load staticfiles %}
+	{% load poll_extras %}
+	
+	<h1>
+		{{ question.question }}
+	</h1>
+
+	<div class="resultWrapper">
+		<div class="resultsRowWrapper">
+			<div class="resultsText">
+				Antwoord
+			</div>
+			<div class="resultsVotes">
+				# votes
+			</div>
+		</div>
+		{% for answer in question.answers.filter|rankFilter %}
+			<div class="resultsRowWrapper">
+				<div class="resultsText">
+					{{ answer.answer_text }}
+				</div>
+				<div class="resultsVotes">
+					{{ answer.votes }} vote{{ answer.votes|pluralize }}
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+	<a href="{% url 'courses:vote' lecture.course_id lecture.id question.id %}">Vote again?</a>
+{% endblock %}
