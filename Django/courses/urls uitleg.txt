@@ -1,3 +1,5 @@
+# Geïmplementeerd:
+
 ./courses/ -> Een lijst van alle courses.
 ./courses/<course_id>/ -> Een lijst van alle lectures van de gekozen course.
 ./courses/<course_id>/<lecture_id>/ -> Een lijst van alle vragen van de gekozen lecture.
@@ -6,3 +8,9 @@
 ./courses/<course_id>/<lecture_id>/<question_id>/answers/ -> Het antwoordscherm van de gekozen vraag.
 ./courses/<course_id>/<lecture_id>/<question_id>/vote/ -> Het vote-scherm van de gekozen vraag.
 ./courses/<course_id>/<lecture_id>/<question_id>/results/ -> Het resultaatscherm van de gekozen vraag.
+
+# Nog te implementeren, denk ik:
+
+./courses/course/ -> Het toevoegen van een course door een docent.
+./courses/<course_id>/lecture/ -> Het toevoegen van een lecture door een docent.
+./courses/<course_id>/<lecture_id>/question/ -> Het toevoegen van een vraag door een docent.
