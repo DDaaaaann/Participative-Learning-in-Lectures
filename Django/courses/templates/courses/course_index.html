@@ -1,55 +1,65 @@
 {% extends "admin/base.html" %}
 {% load i18n %}
-{% block title %}{{ title }} Courses {{ site_title }}{% endblock %}
+{% block title %}
+	{{ title }} Courses {{ site_title }}
+{% endblock %}
 
 {% block branding %}
-<div id="logo" href="/courses" onclick="window.location = '/courses';"></div>
-{% endblock %}
-{% block nav-global %}
+	<div id="logo" href="/courses" onclick="window.location = '/courses';">
+	</div>
 {% endblock %}
 
+{% block nav-global %}{% endblock %}
+
 {% block breadcrumbs %}
-<div class="breadcrumbs">
-    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
-    &rsaquo; <a href="{% url 'courses:course_index' %}">{% trans 'Courses' %}</a>
-</div>
+	<div class="breadcrumbs">
+		<a href="{% url 'admin:index' %}">
+			{% trans 'Home' %}
+		</a>
+		&rsaquo;
+		<a href="{% url 'courses:course_index' %}">
+			{% trans 'Courses' %}
+		</a>
+	</div>
 {% endblock %}
 
 
 {{ title }}
 {% block content %}
-<div id="content-main">
-    <div class="module" id="changelist">
-
-    {% if course_list %}
-    {% block result_list %}
-    <div class="results">
-        <table id="result_list">
-            <thead>
-                <tr>
-                    <th scope="col">
-                        <!--<div class="text"><a href="?o=1">Courses</a></div>
-                        <div class="clear"></div>-->
-                        <span class="text"><a href="?o=1">Courses</a></span>
-                        <!-- met die span heb je geen div.clear nodig -->
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for course in course_list %}
-                <tr class="{% cycle 'row1' 'row2' %}">
-                    <td>
-                        <a href="/courses/{{ course.id }}/">{{ course.course_text }}</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% endblock result_list %}
-    {% else %}
-    <p>No courses are available.</p>
-    {% endif %}
-    </div>
-</div>
+	<div id="content-main">
+		<div class="module" id="changelist">
+			{% if course_list %}
+				{% block result_list %}
+					<div class="results">
+						<table id="result_list">
+							<thead>
+								<tr>
+									<th scope="col">
+										<span class="text">
+											<a href="?o=1">
+												Courses
+											</a>
+										</span>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for course in course_list %}
+									<tr class="{% cycle 'row1' 'row2' %}">
+										<td>
+											<a href="/courses/{{ course.id }}/">
+												{{ course.course_text }}
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				{% endblock result_list %}
+			{% else %}
+				<p>No courses are available.</p>
+			{% endif %}
+		</div>
+	</div>
 {% endblock %}
