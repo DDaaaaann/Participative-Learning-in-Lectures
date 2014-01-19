@@ -17,46 +17,72 @@
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
 <script type="text/javascript" src="{% static 'polls/jquery/timer/jquery.pietimer.js' %}"></script>
 
-<script type="text/javascript">
-    $(function() {
-      $('#voteTimer').pietimer({
-          timerSeconds: 30,
-          color: '#234',
-          fill: false,
-          showPercentage: true,
-          callback: function() {
-            window.location = "{% url 'polls:results' poll.id %}";
-          }
-      });
-    });
-  </script>
-
 <h1>{{ poll.question }}</h1>
 <h1>Choose the best possible answer</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'polls:vote' poll.id %}" method="post">
 <div class="voteWrapper">
 
-	{% csrf_token %}
 	{% for choice in poll.choice_set.filter|voteFilter|slice:":2" %}
 		<div class="voteButton">
-            <button type="submit" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" class="voteButton">{{ choice.choice_text }}</button> 
+            <button type="submit" name="choice" id="choice" value="{{ choice.id }}" class="voteButton">{{ choice.choice_text }}</button>
 		</div>
-	    <!--
-	    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
-	    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
-		-->
 	{% endfor %}
     
     <div id="voteTimer" class="voteTimer"></div>
     
 </div>
-</form>
 
-<form action="{% url 'polls:results' poll.id %}" method="post">
 <div class="voteSkip"><button type="submit" value="skip" >skip</button></div>
-</form>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        var roundEndTime;
+        var roundDuration = 250;
+
+        var create_vote = function() {
+
+            alert("HELLO THERE");
+
+            if (value != "")
+            {
+                var data = { choice:value };
+                var args = { type:"POST", url:"/polls/{{ poll.id }}/ajaxvote/", data:data, complete:create_vote_complete };
+                $.ajax(args);
+            }
+            else
+            {
+                // We should display a helpful error message
+            }
+            return false;
+        };
+
+        //$("#choice").click(create_vote);
+
+        $("button").click(function(){
+            var update = $(this).attr("value");
+
+            var t1 = Math.round(new Date().getTime() / 1000);
+            var t2 = Math.round(new Date().getTime() / 1000) + 300;
+            var dif = t2-t1;
+
+            alert(dif);
+
+            //ajax stuff
+        });
+
+        $('#voteTimer').pietimer({
+            timerSeconds: roundDuration,
+            color: '#234',
+            fill: false,
+            showPercentage: true,
+            callback: function() {
+                window.location = "{% url 'polls:results' poll.id %}";
+            }
+        });
+    });
+</script>
 
 {% endblock %}

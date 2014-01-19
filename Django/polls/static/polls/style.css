@@ -208,7 +208,7 @@ div.voteTimer {
     position: absolute;
     left: 50%;
     margin-left: -100px;
-    margin-top: -200px;
+    margin-top: 0px;
     display: inline-block;
     height: 200px;
 }
@@ -216,7 +216,7 @@ div.voteTimer {
 div.voteSkip {
     position: absolute;
     left: 50%;
-    margin-top: 25px;
+    margin-top: 210px;
     margin-left: -75px;
 }
 

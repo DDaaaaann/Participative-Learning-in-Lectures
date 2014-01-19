@@ -13,6 +13,9 @@ class Poll(models.Model):
     def receiving_answers(self):
         return self.answerable
 
+    def get_absolute_url(self):
+        return u"/polls/%s/" % self.pk
+
     receiving_answers.admin_order_field = 'answerable'
     receiving_answers.boolean = True
     receiving_answers.short_description = 'Voting in progress'
