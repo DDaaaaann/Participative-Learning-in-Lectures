@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     url(r'^(?P<course_id>\d+)/results/$', views.course_results, name='course_results'),
     url(r'^(?P<question_id>\d+)/vote/$', views.vote, name='vote'),
     url(r'^$', views.course_index, name='course_index'),
+    url(r'^(?P<course_id>\d+)/change/$', views.course_change, name='course_change'),
     url(r'^(?P<course_id>\d+)/$', views.lecture_index,
         name='lecture_index'),
 
