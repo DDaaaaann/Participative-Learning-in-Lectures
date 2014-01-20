@@ -1,0 +1,91 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+{% block title %}
+	{{ title }} Answers {{ site_title }}
+{% endblock %}
+
+{% block branding %}
+	<div id="logo" href="/courses" onclick="window.location = '/courses';">
+	</div>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block breadcrumbs %}
+	<div class="breadcrumbs">
+		<a href="{% url 'admin:index' %}">
+			{% trans 'Home' %}
+		</a>
+		&rsaquo;
+		<a href="{% url 'courses:course_index' %}">
+			{% trans 'Courses' %}
+		</a>
+		&rsaquo;
+		<a href="/courses/{{ course_id }}/">
+			{% trans 'Lectures' %}
+		</a>
+		&rsaquo;
+		<a href="/courses/{{ course_id }}/{{ lecture_id }}/">
+			{% trans 'Questions' %}
+		</a>
+		&rsaquo;
+		<a href="/courses/{{ course_id }}/{{ lecture_id }}/{{ answer_id }}">
+			{% trans 'Answers' %}
+		</a>
+	</div>
+{% endblock %}
+
+{{ title }}
+{% block content %}
+	{% load staticfiles %}
+
+	<div id="content-main">
+		<div class="module" id="changelist">
+			<div class="results">
+				<table id="result_list">
+					<thead>
+						<tr>
+							<th scope="col"> 
+								<span class="text"><a href="?o=1">Answers</a></span>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+						<script type="text/javascript" src="{% static 'polls/jquery/timer/jquery.pietimer.js' %}"></script>
+						<script type="text/javascript">
+							$(function() {
+								$('#timer').pietimer({
+									timerSeconds: 1000,
+									color: '#234',
+									fill: false,
+									showPercentage: true,
+									callback: function() {
+										$('form#formAnswer').submit();
+										$('#timer').pietimer('reset');
+									}
+								});
+							});
+						</script>
+
+						<div class="answerwrapper">
+							<div class="answerform">
+								<h1>Add a lecture to the current course: {{ course.course_text }}</h1>
+								<form action="{% url 'courses:lecture' course.id %}" method="post" id="formLecture">
+									{% csrf_token %}
+									<textarea name="lecture" cols=40 rows=6 class="lectureArea">Enter the name of the lecture here...</textarea>
+									<!--
+									Misschien dat hier nog een lisjtje met teachers toegevoegd moet worden,
+									als niet automatisch wordt bepaald wie de teacher van de course is.
+									//-->
+									<p><input type="submit" value="Add lecture" />
+								</form>
+							</div>
+							<div id="timer"></div>
+						</div>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock %}

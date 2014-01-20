@@ -136,3 +136,36 @@ def question(request, course_id, lecture_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('courses:question_index', args=(course_id, lecture_id,)))
+
+def lecture(request, course_id):
+    c = get_object_or_404(Course, pk=course_id)
+    try:
+        givenLecture = request.POST['lecture']
+        print givenLecture
+    except (KeyError, Lecture.DoesNotExist):
+        # Redisplay the Set-The-Lecture screen.
+        return render(request, 'courses/lecture.html', {
+            'course': c,
+        })
+    else:
+        c.lectures.create(lecture_text=givenLecture, teacher_id=11)
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse('courses:lecture_index', args=(course_id,)))
+
+def course(request):
+    try:
+        givenCourse = request.POST['course']
+        print givenCourse
+    except (KeyError, Course.DoesNotExist):
+        # Redisplay the Set-The-Course screen.
+        return render(request, 'courses/course.html', {
+        })
+    else:
+        c = Course.objects.create(course_text=givenCourse, teachers_id=11)
+        c.save()
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse('courses:course_index',))
