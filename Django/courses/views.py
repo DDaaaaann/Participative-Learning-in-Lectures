@@ -163,8 +163,7 @@ def course(request):
         return render(request, 'courses/course.html', {
         })
     else:
-        c = Course.objects.create(course_text=givenCourse, teachers_id=11)
-        c.save()
+        Course.objects.create(course_text=givenCourse, teachers_id=11)
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
