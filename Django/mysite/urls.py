@@ -15,3 +15,7 @@ urlpatterns = patterns('',
 	url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
 )
+
+urlpatterns += patterns('',
+(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT }),
+)

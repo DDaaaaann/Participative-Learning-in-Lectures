@@ -32,7 +32,9 @@
 {% endblock %}
 
 {{ title }}
+
 {% block content %}
+
 	{% load poll_extras %}
 	
 	<div id="content-main">
@@ -40,40 +42,72 @@
 
 			{% block answer %}
 			<div class="results">
-				<table id="result_list">
-					<thead>
-						<tr>
-							<th scope="col"> 
-								<span class="text"><a href="?o=1">Questions</a></span>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<h1>{{ question.question_text }}</h1>
-						<h1>Choose the best possible answer</h1>
-						<form action="{% url 'courses:vote' lecture.course_id lecture.id question.id %}" method="post">
-							<table border="0" width="100%" height="100%"> 
-								<tr align="center" valign="center" height="100%">
-								{% csrf_token %}
-								{% for answer in question.answers.filter|voteFilter|slice:":2" %}
-									<td width="50%" height="100%">
-										<button type="submit" name="answer" id="answer{{ forloop.counter }}" value="{{ answer.id }}" style="height: 200px; width: 80%">
-											{{ answer.answer_text }}
-										</button> 
-									</td>
-								{% endfor %}
-								</tr>
-							</table>
-							<form action="{% url 'courses:results' lecture.course_id lecture.id question.id %}" method="post">
-								<br/><button type="submit" value="skip" >
-									Skip
-								</button>
-							</form>
-						</form>
-					</tbody>
-				</table>
+                <h1>{{ question.question_text }}</h1>
+                <h1>Choose the best possible answer</h1>
+                <div class="voteWrapper">
+
+                    {% for answer in question.answers.filter|voteFilter|slice:":2" %}
+                        <div class="voteButton">
+                            <button type="submit" name="answer" id="answer" value="{{ answer.id }}" class="voteButton">{{ answer.answer_text }}</button>
+                        </div>
+                    {% endfor %}
+
+                    <div id="voteTimer" class="voteTimer"></div>
+
+                </div>
+
+                <div class="voteSkip"><button type="submit" value="skip" >skip</button></div>
+
 			</div>
 			{% endblock answer %}
 		</div>
 	</div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            // Calculate round end time for the first voting round
+            var roundEndTime = {{ question.vote_start|date:"U" }} + {{ question.vote_duration }};
+            var roundDuration = {{ question.vote_duration }};
+
+            alert(roundEndTime);
+
+            var create_vote = function() {
+
+                if (value != "")
+                {
+                    var data = { choice:value };
+                    var args = { type:"POST", url:"/polls/{{ poll.id }}/ajaxvote/", data:data, complete:create_vote_complete };
+                    $.ajax(args);
+                }
+                else
+                {
+                    // We should display a helpful error message
+                }
+                return false;
+            };
+
+            //$("#choice").click(create_vote);
+
+            $("button").click(function(){
+                var update = $(this).attr("value");
+
+                var currentTime = Math.round(new Date().getTime() / 1000);
+                var roundEndTime = Math.round(new Date().getTime() / 1000) + 300;
+                var dif = t2-t1;
+
+                //ajax stuff
+            });
+
+            $('#voteTimer').pietimer({
+                timerSeconds: roundDuration,
+                color: '#234',
+                fill: false,
+                showPercentage: true,
+                callback: function() {
+                    window.location = "";
+                }
+            });
+        });
+    </script>
 {% endblock %}

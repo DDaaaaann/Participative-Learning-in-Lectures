@@ -59,6 +59,15 @@ class Question(models.Model):
     tags = models.CharField(max_length=200)
     # Lecture is the Foreign Key of the lecture of which the question is part.
     lecture = models.ForeignKey(Lecture, related_name='questions')
+    # AnswerTime is the time available for the students to answer the question
+    answer_time = models.IntegerField()
+    # voting is a boolean, if 1 there is a voting round, if zero there is no voting
+    voting = models.BooleanField()
+    # vote_duration is the time for one voting round
+    vote_duration = models.IntegerField()
+    # vote_start, the start time of the first voting round
+    vote_start = models.DateTimeField()
+
 
 class Answer(models.Model):
     class Meta:
