@@ -118,8 +118,7 @@ def answer(request, course_id, lecture_id, question_id):
         # user hits the Back button.
         return HttpResponseRedirect(reverse('courses:vote', args=(course_id, lecture_id, question_id,)))
 
-def add_question(request, course_id, lecture_id, question_id):
-    q = get_object_or_404(Question, pk=question_id)
+def question(request, course_id, lecture_id):
     l = get_object_or_404(Lecture, pk=lecture_id)
     try:
         givenQuestion = request.POST['question']
@@ -128,8 +127,7 @@ def add_question(request, course_id, lecture_id, question_id):
         print tags
     except (KeyError, Question.DoesNotExist):
         # Redisplay the Set-The-Question screen.
-        return render(request, 'courses/add_question.html', {
-            'question': q,
+        return render(request, 'courses/question.html', {
             'lecture': l,
         })
     else:
