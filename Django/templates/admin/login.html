@@ -6,6 +6,8 @@
 {% block bodyclass %}login{% endblock %}
 
 {% block nav-global %}{% endblock %}
+{% block branding %} {{ block.super }} {% endblock %}
+
 
 {% block content_title %}{% endblock %}
 
@@ -47,9 +49,9 @@
   <div class="submit-row">
     <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}" />
   </div>
-  <div><label>
-  <a href="/admin">Click here to log in as admin</a>
-  </label></div>
+  <div class="submit-row">
+    <label>&nbsp;</label><a class="button" href="/admin">Click here to log in as admin</a>    
+  </div>
 </form>
 
 <script type="text/javascript">

@@ -44,8 +44,10 @@
             <div id="logo" href="/admin" onclick="window.location = '/admin';"></div>
         {% elif user.is_active and user.is_staff %}
             <div id="logo" href="/teacher" onclick="window.location = '/teacher';"></div>
-        {% else %}
+        {% elif user.is_active %}
             <div id="logo" href="/courses" onclick="window.location = '/courses';"></div>
+        {% else %}
+            <div id="logo" href="/" onclick="window.location = '/';"></div>
         {% endif %}
 
             
@@ -60,14 +62,16 @@
                 {% if docsroot %}
                     <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
                 {% endif %}
-                {% if user.has_usable_password %}
+                {% if user.has_usable_password and user.is_superuser %}
                 <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+                {% elif user.has_usable_password %}
+                <a href="/password_change">{% trans 'Change password' %}</a> /
                 {% endif %}
-                {% if user.is_staff %}
-                    <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
-                {% else %}
-                    <a href="/accounts/logout">{% trans 'Log out' %}</a>
-                {% endif %}
+               
+                <a href="/logout">{% trans 'Log out' %}</a>
+                
+      
+
             {% endblock %}
         </div>
         {% endif %}
@@ -76,7 +80,10 @@
     <!-- END Header -->
     {% block breadcrumbs %}
     <div class="breadcrumbs">
-    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+    <a href="{% if user.is_superuser %}{% url 'admin:index' %} 
+             {% elif user.is_staff %}{% trans '/teacher/' %} 
+             {% else %}{% trans '/courses/' %}
+             {% endif %}">{% trans 'Home' %}</a>
     {% if title %} &rsaquo; {{ title }}{% endif %}
     </div>
     {% endblock %}
