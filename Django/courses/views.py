@@ -117,3 +117,24 @@ def answer(request, course_id, lecture_id, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('courses:vote', args=(course_id, lecture_id, question_id,)))
+
+def add_question(request, course_id, lecture_id, question_id):
+    q = get_object_or_404(Question, pk=question_id)
+    l = get_object_or_404(Lecture, pk=lecture_id)
+    try:
+        givenQuestion = request.POST['question']
+        print givenQuestion
+        tags = request.POST['tags']
+        print tags
+    except (KeyError, Question.DoesNotExist):
+        # Redisplay the Set-The-Question screen.
+        return render(request, 'courses/add_question.html', {
+            'question': q,
+            'lecture': l,
+        })
+    else:
+        l.questions.create(question_text=givenQuestion, tags=tags)
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse('courses:question_index', args=(course_id, lecture_id,)))

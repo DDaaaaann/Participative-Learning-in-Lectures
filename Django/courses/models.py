@@ -48,17 +48,17 @@ class Question(models.Model):
     All the variables and their explanations related to the class and database of Question.
     """
     
+    # Lecture is the Foreign Key of the lecture of which the question is part.
+    lecture = models.ForeignKey(Lecture, related_name='questions')
     # Question_text is the string that holds the question.
-    question_text = models.CharField(max_length=200)
+    question_text = models.CharField(max_length=200, default='')
     # Pub_Date is the date the poll was created.
-    pub_date = models.DateTimeField('date published')
+    pub_date = models.DateTimeField('date published', default=timezone.now())
     # Answerable is the boolean to decide if the poll / question is still
     # vulnerable for new votes.
     answerable = models.BooleanField('Open for voting',default=True)
     # Tags are the keywords the teacher wants to see in the student's answers.
-    tags = models.CharField(max_length=200)
-    # Lecture is the Foreign Key of the lecture of which the question is part.
-    lecture = models.ForeignKey(Lecture, related_name='questions')
+    tags = models.CharField(max_length=200, default='')
 
 class Answer(models.Model):
     class Meta:
