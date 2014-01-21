@@ -88,7 +88,7 @@
                     $('.description').html("Voting done. Please continue to result screen.");
                     goToResult();
                 } else {
-                    setTimer(time);
+                    setTimer(time, "");
                     $('.description').html("Choose the best possible answer - voting round = " + round);
                 }
             }
@@ -103,7 +103,7 @@
             }
 
             function drawCountdown(time) {
-                setTimer(time, "{% url 'courses:results' lecture.course_id lecture.id question.id %}");
+                setTimer(time, "");
                 clearVotingScreen();
                 $('.description').html("Please wait until the voting starts");
             }
