@@ -65,6 +65,8 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+        
+        //alert("{% url 'courses:results' lecture.course_id lecture.id question.id %}");
 
             // Calculate round end time for the first voting round
             var voteStart = {{ question.vote_start|date:"U" }};
@@ -81,31 +83,45 @@
             }
 
             function drawStartRound(time, round) {
-                setTimer(time);
-                $('.description').html("Choose the best possible answer - voting round = " + round);
+                if (round > 3) {
+                    clearVotingScreen();
+                    $('.description').html("Voting done. Please continue to result screen.");
+                    goToResult();
+                } else {
+                    setTimer(time);
+                    $('.description').html("Choose the best possible answer - voting round = " + round);
+                }
+            }
+            
+            function goToResult() {
+                window.location = "{% url 'courses:results' lecture.course_id lecture.id question.id %}";
+            }
+            
+            function clearVotingScreen() {
+                $('.voteButton').empty();
+                $('.voteSkip').empty();
             }
 
             function drawCountdown(time) {
-                setTimer(time);
-                $('.voteButton').empty();
-                $('.voteSkip').empty();
+                setTimer(time, "{% url 'courses:results' lecture.course_id lecture.id question.id %}");
+                clearVotingScreen();
                 $('.description').html("Please wait until the voting starts");
             }
 
-            var create_vote = function() {
-
-                if (value != "")
-                {
-                    var data = { choice:value };
-                    var args = { type:"POST", url:"/polls/{{ poll.id }}/ajaxvote/", data:data, complete:create_vote_complete };
-                    $.ajax(args);
-                }
-                else
-                {
-                    // We should display a helpful error message
-                }
-                return false;
-            };
+{#            var create_vote = function() {#}
+{##}
+{#                if (value != "")#}
+{#                {#}
+{#                    var data = { choice:value };#}
+{#                    var args = { type:"POST", urlexit:"/polls/{{ poll.id }}/ajaxvote/", data:data, complete:create_vote_complete };#}
+{#                    $.ajax(args);#}
+{#                }#}
+{#                else#}
+{#                {#}
+{#                    // We should display a helpful error message#}
+{#                }#}
+{#                return false;#}
+{#            };#}
 
             //$("#choice").click(create_vote);
 
@@ -119,14 +135,14 @@
                 //ajax stuff
             });
 
-            function setTimer(duration) {
+            function setTimer(duration, url) {
                 $('#voteTimer').pietimer({
                     timerSeconds: duration,
                     color: '#234',
                     fill: false,
                     showPercentage: true,
                     callback: function() {
-                        window.location = "";
+                        window.location = url;
                     }
                 });
             }
