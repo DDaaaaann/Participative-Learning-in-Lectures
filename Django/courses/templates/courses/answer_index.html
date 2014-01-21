@@ -1,13 +1,8 @@
 {% extends "admin/base.html" %}
 {% load i18n %}
-{% block title %}
-	{{ title }} Answers {{ site_title }}
-{% endblock %}
+{% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
 
-{% block branding %}
-	<div id="logo" href="/courses" onclick="window.location = '/courses';">
-	</div>
-{% endblock %}
+{% block branding %} {{ block.super }} {% endblock %}
 
 {% block nav-global %}{% endblock %}
 
@@ -15,9 +10,10 @@
 
 {% block breadcrumbs %}
 	<div class="breadcrumbs">
-		<a href="{% url 'admin:index' %}">
-			{% trans 'Home' %}
-		</a>
+        <a href="{% if user.is_superuser %}{% url 'admin:index' %} 
+                 {% elif user.is_staff %}{% trans '/teacher/' %} 
+                 {% else %}{% trans '/courses/' %}
+                 {% endif %}">{% trans 'Home' %}</a>
 		&rsaquo;
 		<a href="{% url 'courses:course_index' %}">
 			{% trans 'Courses' %}
