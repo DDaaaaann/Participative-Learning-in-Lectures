@@ -298,3 +298,14 @@ div.resultsVotes {
     width:1em;
     height:1em;
 }
+
+
+/* userLogin.html */
+
+.login .admin-login {
+    clear: both;
+    padding-left: 4em;
+    padding-top: 1em;
+    position: relative;
+    
+}

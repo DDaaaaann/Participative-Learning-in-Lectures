@@ -33,7 +33,7 @@ from courses.models import Answer
 @sensitive_post_parameters()
 @csrf_protect
 @never_cache
-def login(request, template_name='registration/login.html',
+def login(request, template_name='registration/userLogin.html',
           redirect_field_name=REDIRECT_FIELD_NAME,
           authentication_form=AuthenticationForm,
           current_app=None, extra_context=None):

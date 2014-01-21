@@ -7,6 +7,7 @@ class UserAdmin(AdminSite):
     # Anything we wish to add or override
     
     login_form = UserAdminAuthenticationForm
+    login_template = 'admin/userLogin.html'
     
     def has_permission(self, request):
         """
