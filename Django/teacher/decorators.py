@@ -29,3 +29,4 @@ def user_login_required(view_func):
         }
         return login(request, **defaults)
     return _checklogin
+
