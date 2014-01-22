@@ -12,25 +12,13 @@
 {% block nav-global %}{% endblock %}
 
 {% block breadcrumbs %}
-	<div class="breadcrumb">
+	<div class="breadcrumbs">
 		<a href="{% url 'admin:index' %}">
 			{% trans 'Home' %}
 		</a>
 		&rsaquo;
 		<a href="{% url 'courses:course_index' %}">
 			{% trans 'Courses' %}
-		</a>
-		&rsaquo;
-		<a href="/courses/{{ course_id }}/">
-			{% trans 'Lectures' %}
-		</a>
-		&rsaquo;
-		<a href="/courses/{{ course_id }}/{{ lecture_id }}/">
-			{% trans 'Questions' %}
-		</a>
-		&rsaquo;
-		<a href="/courses/{{ course_id }}/{{ lecture_id }}/{{ answer_id }}">
-			{% trans 'Answers' %}
 		</a>
 	</div>
 {% endblock %}
@@ -43,31 +31,7 @@
 		<div class="module" id="changelist">
 			<div class="results">
 				<table id="result_list">
-					<thead>
-						<tr>
-							<th scope="col"> 
-								<span class="text"><a href="?o=1">Add a course</a></span>
-							</th>
-						</tr>
-					</thead>
 					<tbody>
-						<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-						<script type="text/javascript" src="{% static 'polls/jquery/timer/jquery.pietimer.js' %}"></script>
-						<script type="text/javascript">
-							$(function() {
-								$('#timer').pietimer({
-									timerSeconds: 1000,
-									color: '#234',
-									fill: false,
-									showPercentage: true,
-									callback: function() {
-										$('form#formAnswer').submit();
-										$('#timer').pietimer('reset');
-									}
-								});
-							});
-						</script>
-
 						<div class="answerwrapper">
 							<div class="answerform">
 								<h1>Add a course:</h1>
@@ -81,7 +45,6 @@
 									<p><input type="submit" value="Add course" />
 								</form>
 							</div>
-							<div id="timer"></div>
 						</div>
 					</tbody>
 				</table>
