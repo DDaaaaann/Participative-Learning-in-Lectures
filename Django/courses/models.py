@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 
 class Course(models.Model):
     course_text = models.CharField(max_length=50, default='')
-    teachers = models.ForeignKey(User, related_name='courses')
-    #teachers = models.IntegerField(max_length=10)
-    #teachers = models.ManyToManyField(User)
+    #teachers = models.ForeignKey(User, related_name='courses')
+
+    teachers = models.ManyToManyField(User)
     
     def __str__(self):
         return self.course_text
