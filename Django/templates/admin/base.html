@@ -21,6 +21,7 @@
         $("tr input.action-select").actions();
     });
 })(django.jQuery);
+django.jQuery;
 </script>
 {% endblock %}
 {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />
@@ -98,8 +99,8 @@
     {% endblock %}
     {% endif %}
 
-
     {% bootstrap_messages %}
+
     {% block messages %}
         {% if messages %}
         <ul class="messagelist">{% for message in messages %}

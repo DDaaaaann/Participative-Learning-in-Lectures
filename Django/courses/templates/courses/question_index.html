@@ -7,58 +7,58 @@
 {% block nav-global %}{% endblock %}
 
 {% block breadcrumbs %}
-	<div class="breadcrumbs">
-		<a href="{% if user.is_superuser %}{% url 'admin:index' %} 
+    <div class="breadcrumb">
+        <a href="{% if user.is_superuser %}{% url 'admin:index' %} 
              {% elif user.is_staff %}{% trans '/teacher/' %} 
              {% else %}{% trans '/courses/' %}
              {% endif %}">{% trans 'Home' %}</a>
-		&rsaquo;
-		<a href="{% url 'courses:course_index' %}">
-			{% trans 'Courses' %}
-		</a>
-		&rsaquo;
-		<a href="/courses/{{ course_id }}/">
-			{% trans 'Lectures' %}
-		</a>
-		&rsaquo;
-		<a href="/courses/{{ course_id }}/{{ lecture_id }}/">
-			{% trans 'Questions' %}
-		</a>
-	</div>
+        &rsaquo;
+        <a href="{% url 'courses:course_index' %}">
+            {% trans 'Courses' %}
+        </a>
+        &rsaquo;
+        <a href="/courses/{{ course_id }}/">
+            {% trans 'Lectures' %}
+        </a>
+        &rsaquo;
+        <a href="/courses/{{ course_id }}/{{ lecture_id }}/">
+            {% trans 'Questions' %}
+        </a>
+    </div>
 {% endblock %}
 
 {{ title }}
 {% block content %}
-	<div id="content-main">
-		<div class="module" id="changelist">
-		{% if question_list %}
-			{% block result_list %}
-			<div class="results">
-				<table id="result_list">
-					<thead>
-						<tr>
-							<th scope="col"> 
-								<span class="text"><a href="?o=1">Questions</a></span>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for question in question_list %}
-						<tr class="{% cycle 'row1' 'row2' %}">
-							<td>
-								<a href="/courses/{{ course_id }}/{{ lecture_id }}/{{ question.id }}/">
-									{{ question.question_text }}
-								</a>
-							</td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-			{% endblock result_list %}
-		{% else %}
-			<p>No questions are available.</p>
-		{% endif %}
-		</div>
-	</div>
+    <div id="content-main">
+        <div class="module" id="changelist">
+        {% if question_list %}
+            {% block result_list %}
+            <div class="results">
+                <table id="result_list">
+                    <thead>
+                        <tr>
+                            <th scope="col"> 
+                                <span class="text"><a href="?o=1">Questions</a></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for question in question_list %}
+                        <tr class="{% cycle 'row1' 'row2' %}">
+                            <td>
+                                <a href="/courses/{{ course_id }}/{{ lecture_id }}/{{ question.id }}/">
+                                    {{ question.question_text }}
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endblock result_list %}
+        {% else %}
+            <p>No questions are available.</p>
+        {% endif %}
+        </div>
+    </div>
 {% endblock %}
