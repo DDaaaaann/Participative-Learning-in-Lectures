@@ -10,7 +10,7 @@
 
 
 {% block breadcrumbs %}
-<div class="breadcrumbs">
+<div class="breadcrumb">
 <a href="{% if user.is_superuser %}{% url 'admin:index' %} 
          {% elif user.is_staff %}{% trans '/teacher/' %} 
          {% else %}{% trans '/courses/' %}

@@ -1,72 +1,54 @@
 {% extends "admin/base.html" %}
 {% load i18n %}
 {% block title %}
-	{{ title }} Answers {{ site_title }}
+	{{ title }} | {% trans 'PILS' %} 
 {% endblock %}
 
 {% block branding %}
-	<div id="logo" href="/courses" onclick="window.location = '/courses';">
-	</div>
+{{ block.super }}
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
 
 {% block breadcrumbs %}
 	<div class="breadcrumb">
-		<a href="{% url 'admin:index' %}">
-			{% trans 'Home' %}
-		</a>
+        <a href="{% if user.is_superuser %}{% url 'admin:index' %} 
+                 {% elif user.is_staff %}{% trans '/teacher/' %} 
+                 {% else %}{% trans '/courses/' %}
+                 {% endif %}">{% trans 'Home' %}</a>
 		&rsaquo;
 		<a href="{% url 'courses:course_index' %}">
 			{% trans 'Courses' %}
 		</a>
 		&rsaquo;
-		<a href="/courses/{{ course_id }}/">
-			{% trans 'Lectures' %}
+		<a href="/courses/course/">
+			{% trans 'Add Course' %}
 		</a>
-		&rsaquo;
-		<a href="/courses/{{ course_id }}/{{ lecture_id }}/">
-			{% trans 'Questions' %}
-		</a>
-		&rsaquo;
-		<a href="/courses/{{ course_id }}/{{ lecture_id }}/{{ answer_id }}">
-			{% trans 'Answers' %}
-		</a>
+		
 	</div>
 {% endblock %}
 
+{% block coltype %}flex{% endblock %}
 {{ title }}
 {% block content %}
 	{% load staticfiles %}
 
 	<div id="content-main">
-		<div class="module" id="changelist">
+		
+        <form id="changelist-form" action="" method="post">
+            {% block result_list %}
 			<div class="results">
 				<table id="result_list">
 					<thead>
 						<tr>
-							<th scope="col"> 
-								<span class="text"><a href="?o=1">Add a course</a></span>
+							<th scope="col" class="sortable"> 
+								<div class="text"><a href="?o=1">Add course</a></div>
+                                <div class="clear"></div>
 							</th>
 						</tr>
 					</thead>
 					<tbody>
-						<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-						<script type="text/javascript" src="{% static 'polls/jquery/timer/jquery.pietimer.js' %}"></script>
-						<script type="text/javascript">
-							$(function() {
-								$('#timer').pietimer({
-									timerSeconds: 1000,
-									color: '#234',
-									fill: false,
-									showPercentage: true,
-									callback: function() {
-										$('form#formAnswer').submit();
-										$('#timer').pietimer('reset');
-									}
-								});
-							});
-						</script>
+						
 
 						<div class="answerwrapper">
 							<div class="answerform">
@@ -81,11 +63,12 @@
 									<p><input type="submit" value="Add course" />
 								</form>
 							</div>
-							<div id="timer"></div>
 						</div>
 					</tbody>
 				</table>
 			</div>
-		</div>
+            {% endblock result_list %}
+        </form>    
+		
 	</div>
 {% endblock %}
