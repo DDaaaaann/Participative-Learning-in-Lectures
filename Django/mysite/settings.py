@@ -46,7 +46,8 @@ INSTALLED_APPS = (
     'polls',
     'courses',
     'teacher',
-)
+    'bootstrap3',
+    )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
