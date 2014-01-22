@@ -1,8 +1,9 @@
-{% load admin_static %}{% load firstof from future %}<!DOCTYPE html>
+{% load bootstrap3 %}{% load admin_static %}{% load firstof from future %}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
 <title>PILS | {{title}}</title>
 <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}" />
+{% bootstrap_css %}
 {% block extrastyle %}{% endblock %}
 <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="{% block stylesheet_ie %}{% static "admin/css/ie.css" %}{% endblock %}" /><![endif]-->
 {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
@@ -20,6 +21,7 @@
         $("tr input.action-select").actions();
     });
 })(django.jQuery);
+django.jQuery;
 </script>
 {% endblock %}
 {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />
@@ -27,6 +29,7 @@
 <link rel="shortcut icon" href="{% static 'polls/images/favicon.ico' %}" type="image/x-icon" /> 
 <link rel="icon" href="{% static 'polls/images/favicon.ico' %}" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="{% static 'admin/css/changelists.css' %}" />{% endblock %}
+{% bootstrap_javascript %}
 </head>
 {% load i18n %}
 
@@ -82,7 +85,7 @@
     </div>
     <!-- END Header -->
     {% block breadcrumbs %}
-    <div class="breadcrumbs">
+    <div class="breadcrumb">
     <a href="{% if user.is_superuser %}{% url 'admin:index' %} 
              {% elif user.is_staff %}{% trans '/teacher/' %} 
              {% else %}{% trans '/courses/' %}
@@ -91,6 +94,8 @@
     </div>
     {% endblock %}
     {% endif %}
+
+    {% bootstrap_messages %}
 
     {% block messages %}
         {% if messages %}
