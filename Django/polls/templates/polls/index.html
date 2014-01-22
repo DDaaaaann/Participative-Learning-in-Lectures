@@ -24,9 +24,11 @@
     <a class="dummy"> </a>
 </div>
 
+{% include "menu.html" %}
+
 <h1>Questions:</h1>
 {% if latest_poll_list %}
-    <ul>
+    <ul class= "questions">
     {% for poll in latest_poll_list %}
 		{% if poll.receiving_answers == True %}
 			<li><a href="{% url 'polls:answer' poll.id %}"> {{ poll.question }}</a></li>
