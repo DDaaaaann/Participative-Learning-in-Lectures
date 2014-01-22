@@ -83,7 +83,7 @@
             }
 
             function drawStartRound(time, round) {
-                if (round > 3) {
+                if (round > 3000) {
                     clearVotingScreen();
                     $('.description').html("Voting done. Please continue to result screen.");
                     goToResult();
@@ -108,36 +108,49 @@
                 $('.description').html("Please wait until the voting starts");
             }
 
-{#            var create_vote = function() {#}
-{##}
-{#                if (value != "")#}
-{#                {#}
-{#                    var data = { choice:value };#}
-{#                    var args = { type:"POST", urlexit:"/polls/{{ poll.id }}/ajaxvote/", data:data, complete:create_vote_complete };#}
-{#                    $.ajax(args);#}
-{#                }#}
-{#                else#}
-{#                {#}
-{#                    // We should display a helpful error message#}
-{#                }#}
-{#                return false;#}
-{#            };#}
+            function test(value) {
 
-            //$("#choice").click(create_vote);
+                if (value != "") {
+
+                    var data = { choice:value };
+                    var args = { type:"POST", url:"/courses/{{ lecture.course_id }}/{{ lecture.id }}/{{ question.id }}/ajaxvote/", data:data, complete:create_vote_complete };
+                    $.ajax(args);
+                
+                } else {
+                    
+                }
+                return false;
+            };
+            
+            var create_vote_complete = function(res, status) {
+                alert(status + ' + ' +res.responseText)
+                if (status == "success") {
+                    alert('saved');
+                    //window.location.href = "/polls/{{ poll.id }}/results/";
+                }
+                else
+                {
+                    alert('there was a problem');
+                    //display_message(res.responseText, $(".message"));
+                }
+            }
 
             $("button").click(function(){
                 var update = $(this).attr("value");
 
                 var currentTime = Math.round(new Date().getTime() / 1000);
                 var roundEndTime = Math.round(new Date().getTime() / 1000) + 300;
-                var dif = t2-t1;
+                
+                //alert('You clicked the button with value = ' + update);
+                
+                test(update);
 
                 //ajax stuff
             });
 
             function setTimer(duration, url) {
                 $('#voteTimer').pietimer({
-                    timerSeconds: duration,
+                    timerSeconds: 5000,
                     color: '#234',
                     fill: false,
                     showPercentage: true,
@@ -146,6 +159,36 @@
                     }
                 });
             }
+            
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            var csrftoken = getCookie('csrftoken');
+
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+            $.ajaxSetup({
+                crossDomain: false, // obviates need for sameOrigin test
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type)) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
         });
     </script>
 {% endblock %}

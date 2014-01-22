@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseServerError
 from django.template import RequestContext, loader
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -117,3 +117,16 @@ def answer(request, course_id, lecture_id, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('courses:vote', args=(course_id, lecture_id, question_id,)))
+
+def ajax_vote(request, course_id, lecture_id, question_id):
+    q = get_object_or_404(Question, pk=question_id)
+    l = get_object_or_404(Lecture, pk=lecture_id)
+
+    try:
+        selected_choice = q.answers.get(pk=request.POST['choice'])
+    except (KeyError, Answer.DoesNotExist):
+        return HttpResponseServerError("You didn't select a choice.")
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+        return HttpResponseRedirect(reverse('courses:results', args=(course_id, lecture_id, question_id,)))
