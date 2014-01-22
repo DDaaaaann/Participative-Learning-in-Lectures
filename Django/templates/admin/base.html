@@ -21,6 +21,7 @@
         $("tr input.action-select").actions();
     });
 })(django.jQuery);
+django.jQuery;
 </script>
 {% endblock %}
 {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />
@@ -55,8 +56,10 @@
             
         {% endblock %}
         </div>
+        
         {% if user.is_active %}
         <div id="user-tools">
+            {% block user-tools %}
             {% trans 'Welcome,' %}
             <strong>{% firstof user.get_short_name user.get_username %}</strong>.
             {% block userlinks %}
@@ -78,6 +81,7 @@
       
 
             {% endblock %}
+            {% endblock user-tools %}
         </div>
         {% endif %}
         {% block nav-global %}{% endblock %}
@@ -95,8 +99,8 @@
     {% endblock %}
     {% endif %}
 
-
     {% bootstrap_messages %}
+
     {% block messages %}
         {% if messages %}
         <ul class="messagelist">{% for message in messages %}
