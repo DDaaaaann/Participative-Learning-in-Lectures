@@ -71,19 +71,19 @@
             // Calculate round end time for the first voting round
             var voteStart = {{ question.vote_start|date:"U" }};
             var roundDuration = {{ question.vote_duration }};
-            var round = Math.floor(((new Date().getTime()/1000) - {{ question.vote_start|date:"U" }}) / roundDuration);
+            var round = Math.floor(((new Date().getTime()/1000) - {{ question.vote_start|date:"U" }}) / roundDuration) + 1;
 
             //If the voting has already started, check which round we have to start. Else start countdown
             if ({{ question.vote_start|date:"U" }} < (new Date().getTime()/1000)) {
                 //Calculate remaining round time
-                time = (voteStart + (round + 1) * roundDuration) - Math.round((new Date().getTime()/1000));
+                time = (voteStart + (round) * roundDuration) - Math.round((new Date().getTime()/1000));
                 drawStartRound(time, round);
             } else {
                 drawCountdown({{ question.vote_start|date:"U" }} - Math.round((new Date().getTime()/1000)));
             }
 
             function drawStartRound(time, round) {
-                if (round > 3000) {
+                if (round > 3) {
                     clearVotingScreen();
                     $('.description').html("Voting done. Please continue to result screen.");
                     goToResult();
@@ -108,7 +108,7 @@
                 $('.description').html("Please wait until the voting starts");
             }
 
-            function test(value) {
+            function saveVote(value) {
 
                 if (value != "") {
 
@@ -123,15 +123,15 @@
             };
             
             var create_vote_complete = function(res, status) {
-                alert(status + ' + ' +res.responseText)
                 if (status == "success") {
-                    alert('saved');
-                    //window.location.href = "/polls/{{ poll.id }}/results/";
+                    clearVotingScreen();
+                    $('.description').html("Vote saved! Please wait for the next round!");
+                    $('.description').effect("highlight", {}, 3000);
                 }
                 else
                 {
-                    alert('there was a problem');
-                    //display_message(res.responseText, $(".message"));
+                    clearVotingScreen();
+                    $('.description').html("Error! The vote wasn't saved, please contact us if you keep seeing this message.");
                 }
             }
 
@@ -143,14 +143,14 @@
                 
                 //alert('You clicked the button with value = ' + update);
                 
-                test(update);
+                saveVote(update);
 
                 //ajax stuff
             });
 
             function setTimer(duration, url) {
                 $('#voteTimer').pietimer({
-                    timerSeconds: 5000,
+                    timerSeconds: duration,
                     color: '#234',
                     fill: false,
                     showPercentage: true,
