@@ -1,13 +1,15 @@
 {% extends "admin/base.html" %}
 {% load i18n %}
-{% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
+{% block title %}
+	{{ title }} | {% trans 'PILS' %}
+{% endblock %}
 
 {% block branding %} {{ block.super }} {% endblock %}
 
 {% block nav-global %}{% endblock %}
 
 {% block breadcrumbs %}
-<div class="breadcrumbs">
+<div class="breadcrumb">
     <a href="{% if user.is_superuser %}{% url 'admin:index' %} 
          {% elif user.is_staff %}{% trans '/teacher/' %} 
          {% else %}{% trans '/courses/' %}

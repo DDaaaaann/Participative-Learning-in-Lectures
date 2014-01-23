@@ -10,7 +10,7 @@
 
 
 {% block breadcrumbs %}
-<div class="breadcrumbs">
+<div class="breadcrumb">
 <a href="{% if user.is_superuser %}{% url 'admin:index' %} 
          {% elif user.is_staff %}{% trans '/teacher/' %} 
          {% else %}{% trans '/courses/' %}
@@ -36,7 +36,6 @@
         {% endblock object-tools %}
         
         <div class="module" id="changelist">
-        <form id="changelist-form" action="" method="post">
 
         <div class="actions"><label>
                 Menu:
@@ -88,7 +87,6 @@
         {% else %}
             <p>No courses are available.</p>
         {% endif %}
-        </form>
         </div>
     </div>
 {% endblock content %}

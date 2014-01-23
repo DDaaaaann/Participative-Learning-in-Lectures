@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 
 class Course(models.Model):
     course_text = models.CharField(max_length=50, default='')
-    teachers = models.ForeignKey(User, related_name='courses')
-    #teachers = models.IntegerField(max_length=10)
-    #teachers = models.ManyToManyField(User)
+    #teachers = models.ForeignKey(User, related_name='courses')
+
+    teachers = models.ManyToManyField(User)
     
     def __str__(self):
         return self.course_text
@@ -16,6 +16,9 @@ class Lecture(models.Model):
     lecture_text = models.CharField(max_length=50, default='')
     teacher = models.ForeignKey(User, related_name='lectures')
     course = models.ForeignKey(Course, related_name='lectures')
+    # Editable is the boolean that says if the edit row, with setAnswerTime and
+    # setVoteTime, is visible.
+    editable = models.BooleanField(default=False)
 
     def __str__(self):
         return self.lecture_text
@@ -59,6 +62,15 @@ class Question(models.Model):
     answerable = models.BooleanField('Open for voting',default=True)
     # Tags are the keywords the teacher wants to see in the student's answers.
     tags = models.CharField(max_length=200, default='')
+    # Voting is an unknown boolean.
+    voting = models.BooleanField(default=False)
+    # Vote_duration is the time the students have to vote for an answer.
+    vote_duration = models.IntegerField(default=30)
+    # Answer_time is the time the students have to answer the question.
+    answer_time = models.IntegerField('Close voting', default=90)
+    # Editable is the boolean that says if the edit row, with setAnswerTime and
+    # setVoteTime, is visible.
+    editable = models.BooleanField(default=False)
 
 class Answer(models.Model):
     class Meta:
@@ -81,3 +93,5 @@ class Answer(models.Model):
     votes = models.IntegerField(default=0)
     # OpenForVoting determines the fact if the answer can be voted on.
     openForVoting = models.BooleanField(default=True)
+   
+    

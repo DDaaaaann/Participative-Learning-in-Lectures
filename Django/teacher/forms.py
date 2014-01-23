@@ -19,6 +19,9 @@ from django.contrib.auth.hashers import UNUSABLE_PASSWORD_PREFIX, identify_hashe
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.models import get_current_site
 from django.contrib.auth.forms import AuthenticationForm
+
+ERROR_MESSAGE = ugettext_lazy("Please enter the correct %(username)s and password"
+        ". Note that both fields may be case-sensitive.")
  
 class UserAdminAuthenticationForm(AuthenticationForm):
     """
@@ -34,7 +37,8 @@ class UserAdminAuthenticationForm(AuthenticationForm):
     def clean(self):
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
-        
+        message = ERROR_MESSAGE
+        params = {'username': self.username_field.verbose_name}
          
         if username and password:
             self.user_cache = authenticate(username=username,
@@ -53,9 +57,9 @@ class UserAdminAuthenticationForm(AuthenticationForm):
                             message = _("Your e-mail address is not your "
                                         "username."
                                         " Try '%s' instead.") % user.username
-                raise forms.ValidationError(message)
+                raise forms.ValidationError(message, params=params)
             # Removed check for is_staff here!
             elif not self.user_cache.is_active:
-                raise forms.ValidationError(message)
+                raise forms.ValidationError(message, params=params)
         self.check_for_test_cookie()
         return self.cleaned_data

@@ -1,13 +1,15 @@
 {% extends "admin/base.html" %}
 {% load i18n %}
-{% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
+{% block title %}
+	{{ title }} | {% trans 'PILS' %}
+{% endblock %}
 
 {% block branding %} {{ block.super }} {% endblock %}
 
 {% block nav-global %}{% endblock %}
 
 {% block breadcrumbs %}
-	<div class="breadcrumbs">
+	<div class="breadcrumb">
 		<a href="{% if user.is_superuser %}{% url 'admin:index' %} 
              {% elif user.is_staff %}{% trans '/teacher/' %} 
              {% else %}{% trans '/courses/' %}
@@ -29,6 +31,7 @@
 
 {{ title }}
 {% block content %}
+	{% load staticfiles %}
 	<div id="content-main">
 		<div class="module" id="changelist">
 		{% if question_list %}
@@ -44,13 +47,15 @@
 					</thead>
 					<tbody>
 						{% for question in question_list %}
-						<tr class="{% cycle 'row1' 'row2' %}">
-							<td>
-								<a href="/courses/{{ course_id }}/{{ lecture_id }}/{{ question.id }}/">
-									{{ question.question_text }}
-								</a>
-							</td>
-						</tr>
+							{% if question.answerable %}
+								<tr class="{% cycle 'row1' 'row2' %}">
+									<td>
+										<a href="/courses/{{ course_id }}/{{ lecture_id }}/{{ question.id }}/answer/">
+											{{ question.question_text }}
+										</a>
+									</td>
+								</tr>
+							{% endif %}
 						{% endfor %}
 					</tbody>
 				</table>

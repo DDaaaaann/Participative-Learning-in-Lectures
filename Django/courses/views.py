@@ -29,7 +29,7 @@ def course_index(request):
 
     context = RequestContext(request, {
         'course_list': course_list,
-        'title': "Courses",
+        'title': "",
     })
 
     return HttpResponse(template.render(context))
@@ -46,7 +46,6 @@ def lecture_index(request, course_id):
     context = RequestContext(request, {
         'lecture_list': lecture_list,
         'course_id' : course_id,
-        'title': "Lectures",
     })
 
     return HttpResponse(template.render(context))
@@ -61,7 +60,6 @@ def question_index(request, course_id, lecture_id):
         'question_list': question_list,
         'course_id': course_id,
         'lecture_id': lecture_id,
-        'title': "Questions",
     })
 
     return HttpResponse(template.render(context))
@@ -76,7 +74,6 @@ def answer_index(request, course_id, lecture_id, question_id):
         'course_id': course_id,
         'lecture_id': lecture_id,
         'question_id': question_id,
-        'title': "Answers",
     })
 
     return HttpResponse(template.render(context))
