@@ -1,13 +1,4 @@
 {% extends "admin/base.html" %}
-{# load bootstrap3 is dus niet nodig hier want je doet dat al in base.html.
-   verder zit hier een fout: http://smvv.io:8140/courses/15/7/10/
-   als je daar op de link klikt gaat het fout want er staat een spatie in de
-   url. en je bedoelt class="form" zoals in die github example?
-   Ja, of http://getbootstrap.com/components/#breadcrumbs voor breadcrumbs. 
-   ok en al die block extrahead, waar al dat javascript instaat? en block
-   styles enzo? Je hoeft iig niets meer toe te voegen aan javascript voor
-   bootstrap zelf. Als je zelf iets wil scripten dan doe je inderdaad aan
-   extrahead toevoegen. #}
 
 {% load i18n %}
 {% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
@@ -26,6 +17,8 @@
         <a href="{% url 'courses:course_index' %}">
             {% trans 'Courses' %}
         </a>
+        &rsaquo;
+        <a href="courses/enroll/">{% trans 'Enroll' %}</a>
     </div>
 {% endblock %}
 
@@ -33,17 +26,6 @@
 {{ title }}
 {% block content %}
     <div id="content-main">
-        {% block object-tools %}
-            <ul class="object-tools">
-                {% block object-tools-items %}
-                    <li>
-                        <a href="/courses/enroll/" class="addlink">
-                            {% blocktrans %}Enroll for course{% endblocktrans %}
-                        </a>
-                    </li>
-                {% endblock object-tools-items %}
-            </ul>
-        {% endblock object-tools %}
         
         <div class="module" id="changelist">
             {% if course_list %}

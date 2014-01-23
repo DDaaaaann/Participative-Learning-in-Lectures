@@ -12,6 +12,17 @@ from models import Lecture
 from models import Question
 from models import Answer
 
+@user_login_required
+def course_enroll(request):
+    course_list = Course.objects.order_by('course_text')
+    template = loader.get_template('courses/course_enroll.html')
+    
+    context = RequestContext(request, {
+        'course_list': course_list,
+        'title': 'Select a course you want to enroll',
+    })
+    
+    return HttpResponse(template.render(context))
 
 def course_results(request, course_id):
     response = "You're looking at the results of course %s."
@@ -22,14 +33,15 @@ def course_detail(request, course_id):
 
 @user_login_required
 def course_index(request):
-    course_list = Course.objects.order_by('course_text')
+    #course_list = Course.objects.order_by('course_text')
     #course_list = Course.objects.filter(teachers_id=request.user.id).order_by('course_text')
-
+    course_list = request.user.course_set.all()
+    
     template = loader.get_template('courses/course_index.html')
 
     context = RequestContext(request, {
         'course_list': course_list,
-        'title': "",
+        'title': 'Courses',
     })
 
     return HttpResponse(template.render(context))
@@ -46,6 +58,7 @@ def lecture_index(request, course_id):
     context = RequestContext(request, {
         'lecture_list': lecture_list,
         'course_id' : course_id,
+        'title': 'Lectures',
     })
 
     return HttpResponse(template.render(context))
@@ -60,6 +73,7 @@ def question_index(request, course_id, lecture_id):
         'question_list': question_list,
         'course_id': course_id,
         'lecture_id': lecture_id,
+        'title': 'Questions',
     })
 
     return HttpResponse(template.render(context))
@@ -74,6 +88,7 @@ def answer_index(request, course_id, lecture_id, question_id):
         'course_id': course_id,
         'lecture_id': lecture_id,
         'question_id': question_id,
+        'title': 'Answers',
     })
 
     return HttpResponse(template.render(context))
