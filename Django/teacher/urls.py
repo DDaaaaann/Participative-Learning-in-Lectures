@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^(?P<course_id>\d+)/(?P<lecture_id>\d+)/$',
         views.question_index, name='question_index'),
     url(r'^(?P<course_id>\d+)/(?P<lecture_id>\d+)/(?P<question_id>\d+)/$',
+<<<<<<< HEAD
         views.answer_index, name='answer_index'),
     url(r'^(?P<course_id>\d+)/(?P<lecture_id>\d+)/closeVoting$',
         views.closeVoting, name='closeVoting'),
@@ -31,5 +32,11 @@ urlpatterns = patterns('',
     url(r'^(?P<course_id>\d+)/(?P<lecture_id>\d+)/editToggleQuestion$',
         views.editToggleQuestion, name='editToggleQuestion'),
 
+=======
+        views.answer_index, 
+        name='answer_index'),
+    url(r'^my_profile/$', views.profile_page,
+        name='profile_page'),
+>>>>>>> git profielpagina in juiste map
 )
 
