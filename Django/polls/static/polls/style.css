@@ -31,6 +31,15 @@
     color: #FF9231;
 }
 
+#user-tools strong {
+    color: #FF9231;
+}
+
+#header a:hover {
+    text-decoration: none;
+    border-bottom: 1px solid #FF9231;
+}
+
 a:link {color: #003439;}    /* unvisited link */
 a:visited {color: #295357;} /* visited link */
 a:hover {color: #FF9231;}   /* mouse over link */
@@ -475,7 +484,7 @@ border: 1px solid brown;
     height: 200px;
 
 /* For visibility. Delete me */
-border: 1px solid green;
+/* border: 1px solid green; */
 }
 
 #PhotoOptions
@@ -484,7 +493,7 @@ border: 1px solid green;
     width: 200px;
 
 /* For visibility. Delete me */
-border: 1px solid brown;
+/* border: 1px solid brown; */
 }
 
 #Info
@@ -496,7 +505,17 @@ border: 1px solid brown;
     float: right;
 
 /* For visibility. Delete me */
-border: 1px solid blue;
+/* border: 1px solid blue; */
+}
+
+#Info h2
+{
+    display: inline-block;
+    width: 400px;
+    text-align: center;
+
+/* For visibility. Delete me */
+/* border: 1px solid blue; */
 }
 
 #Info strong
@@ -504,9 +523,10 @@ border: 1px solid blue;
     /* Give it a width */
     display: inline-block;
     width: 100px;
+    text-align: left;
 
 /* For visibility. Delete me */
-border: 1px solid orange;
+/* border: 1px solid orange; */
 }
 
 #Info span
@@ -514,8 +534,9 @@ border: 1px solid orange;
     /* Give it a width */
     display: inline-block;
     width: 250px;
+    text-align: left;
 
 /* For visibility. Delete me */
-border: 1px solid purple;
+/* border: 1px solid purple; */
 
 }
