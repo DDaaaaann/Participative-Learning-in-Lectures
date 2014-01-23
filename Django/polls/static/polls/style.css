@@ -431,8 +431,6 @@ div.resultsVotes {
     text-align: center;
     padding-top: 1em;
     position: relative;
-<<<<<<< HEAD
-=======
 }
 
 .login .submit-row {
@@ -519,5 +517,5 @@ border: 1px solid orange;
 
 /* For visibility. Delete me */
 border: 1px solid purple;
->>>>>>> Login buttons bootstrapped
+
 }
