@@ -375,7 +375,6 @@ def answer_index(request, question_id, course_id, lecture_id):
 
     return HttpResponse(template.render(context))
 
-<<<<<<< HEAD
 def openVoting(request, course_id, lecture_id):
     l = get_object_or_404(Lecture, pk=lecture_id)
     try:
@@ -494,7 +493,7 @@ def saveChangesQuestion(request, course_id, lecture_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('teacher:question_index', args=(course_id, lecture_id,)))
-=======
+
 def profile_page(request):
     a=User.objects.get(pk=request.user.id)
     # profile = a.get_profile().username
@@ -509,4 +508,3 @@ def profile_page(request):
     })
 
     return HttpResponse(template.render(context))
->>>>>>> git profielpagina in juiste map
