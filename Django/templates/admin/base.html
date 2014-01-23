@@ -16,6 +16,8 @@
 <script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
 <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
 <script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/media/sound-mouseover.js"></script>
+<script type="text/javascript" src="/media/jquery.hoverIntent.js"></script>
 <script type="text/javascript">
 (function($) {
     $(document).ready(function($) {
@@ -44,16 +46,16 @@ django.jQuery;
     {% if not is_popup %}
     <!-- Header -->
     <div id="header">
-        <div id="branding">
+        <div id="branding" class="hoi">
         {% block branding %}
         {% if user.is_active and user.is_superuser %}
-            <div id="logo" href="/admin" onclick="window.location = '/admin';"></div>
+            <div id="logo" href="/admin" onclick="window.location = '/admin';" onmouseover="playclip();" class="logo"></div>
         {% elif user.is_active and user.is_staff %}
-            <div id="logo" href="/teacher" onclick="window.location = '/teacher';"></div>
+            <div id="logo" href="/teacher" onclick="window.location = '/teacher';" onmouseover="playclip();"></div>
         {% elif user.is_active %}
-            <div id="logo" href="/courses" onclick="window.location = '/courses';"></div>
+            <div id="logo" href="/courses" onclick="window.location = '/courses';" onmouseover="playclip();"></div>
         {% else %}
-            <div id="logo" href="/" onclick="window.location = '/';"></div>
+            <div id="logo" href="/" onclick="window.location = '/';" onmouseover="playclip();"></div>
         {% endif %}
 
             
@@ -128,6 +130,21 @@ django.jQuery;
     {% block footer %}<div id="footer"></div>{% endblock %}
 </div>
 <!-- END Container -->
+
+<audio>
+<source src="/media/audio/PILS.mp3"></source>
+<source src="/media/audio/PILS.ogg"></source>
+</audio>
+<div id="sounddiv"><bgsound id="sound"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    if (typeof jQuery != 'undefined') {  
+        // jQuery is loaded => print the version
+        alert(jQuery.fn.jquery);
+}
+});
+</script>
 
 </body>
 </html>
