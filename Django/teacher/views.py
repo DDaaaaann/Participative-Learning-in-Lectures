@@ -349,8 +349,6 @@ def question_index(request, course_id, lecture_id):
 
     template = loader.get_template('teacher/question_index.html')
 
-    print question_list
-
     context = RequestContext(request, {
         'title': 'Questions',
         'question_list': question_list,
@@ -421,9 +419,7 @@ def editToggleLecture(request, course_id):
         })
     else:
         m = c.lectures.get(id=givenLectureID)
-        print m.editable
         m.editable = not m.editable
-        print m.editable
         m.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
@@ -451,7 +447,6 @@ def editToggleQuestion(request, course_id, lecture_id):
 
 def saveChangesLecture(request, course_id):
     c = get_object_or_404(Course, pk=course_id)
-    print c
     try:
         givenLectureID = request.POST['lecture_id']
         givenLectureText = request.POST['lectureText']
