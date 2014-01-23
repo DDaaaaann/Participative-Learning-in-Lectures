@@ -63,7 +63,7 @@ django.jQuery;
         <div id="user-tools">
             {% block user-tools %}
             {% trans 'Welcome,' %}
-            <a href="/teacher/my_profile"><strong>{% firstof user.get_short_name user.get_username %}</strong></a>
+            <a href="/"><strong>{% firstof user.get_short_name user.get_username %}</strong></a>
             {% block userlinks %}
                 {% url 'django-admindocs-docroot' as docsroot %}
                 {% if docsroot %}
