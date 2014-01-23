@@ -33,6 +33,18 @@
 {{ title }}
 {% block content %}
     <div id="content-main">
+        {% block object-tools %}
+            <ul class="object-tools">
+                {% block object-tools-items %}
+                    <li>
+                        <a href="/enroll/" class="addlink">
+                            {% blocktrans %}Enroll for course{% endblocktrans %}
+                        </a>
+                    </li>
+                {% endblock object-tools-items %}
+            </ul>
+        {% endblock object-tools %}
+        
         <div class="module" id="changelist">
             {% if course_list %}
                 {% block result_list %}

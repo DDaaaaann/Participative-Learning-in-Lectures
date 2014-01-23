@@ -428,11 +428,19 @@ div.resultsVotes {
 
 .login .admin-login {
     clear: both;
-    padding-left: 4em;
+    text-align: center;
     padding-top: 1em;
     position: relative;
 }
 
+.login .submit-row {
+    clear: both;
+    text-align: center;
+    padding-left: 0em;
+    padding-top: 1em;
+    position: relative;
+}
+    
 /*Profile Page */
 
 #ProfilePage
@@ -509,4 +517,5 @@ border: 1px solid orange;
 
 /* For visibility. Delete me */
 border: 1px solid purple;
+
 }

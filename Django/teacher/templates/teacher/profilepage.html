@@ -21,17 +21,18 @@
 
 {% block coltype %}flex{% endblock %}
 {{ title }}
+
 {% block content %}
+{{ profile.email }}
 {% if user.is_authenticated %}
     <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
 {% else %}
     <p>Welcome, new user. Please log in.</p>
 {% endif %}
-<p>PIEMEL</p>
 <div id="ProfilePage">
     {% trans 'teach_id' %}
     <div id="LeftCol">
-        <div id="Photo"></div>
+        <div id="Photo"><img src="{{ STATIC_URL }}polls/images/dummypic.jpg" alt="dummypic" title="dummypic" width="200" height="200" /></div>
         <div id="ProfileOptions">
         
         </div>

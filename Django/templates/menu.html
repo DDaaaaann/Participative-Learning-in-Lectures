@@ -1,9 +1,6 @@
 <div id='cssmenu'>
   <ul>
-    {% if user.is_superuser %} <li class='active'><a href="{% url 'admin:index' %}">
-    {% elif user.is_staff %}<li class='active'><a href="/teacher/"> 
-    {% else %}<li class='active'><a href="/courses">
-    {% endif %}Home</a></li>
+     <li class='active'><a href='index.html'>Home</a></li>
      <li class='has-sub'><a href='#'>Products</a>
         <ul>
            <li class='has-sub'><a href='#'>Product 1</a>
