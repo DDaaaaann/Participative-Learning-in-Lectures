@@ -378,3 +378,15 @@ def answer_index(request, question_id, course_id, lecture_id):
 
     return HttpResponse(template.render(context))
 
+def profile_page(request, teacher_id):
+    course_list = Course.objects.filter(teachers_id=request.user.id).order_by('-course_text')
+    tid = request.user.id
+    template = loader.get_template('profilepage.html')
+
+    context = RequestContext(request, {
+        'title': 'My profile',
+        'course_list': course_list,
+        'teach_id': tid,
+    })
+
+    return HttpResponse(template.render(context))

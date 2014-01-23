@@ -1,3 +1,101 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_urls admin_static admin_list %}
+{% load cycle from future %}
+
+{% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
+
+
+{% block nav-global %}{% endblock %}
+{% block branding %} {{ block.super }} {% endblock %}
+
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% if user.is_superuser %}{% url 'admin:index' %} 
+         {% elif user.is_staff %}{% trans '/teacher/' %} 
+         {% else %}{% trans '/courses/' %}
+         {% endif %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'teacher:course_index' %}">{% trans 'Courses' %}</a>
+</div>
+{% endblock %}
+
+{% block coltype %}flex{% endblock %}
+{{ title }}
+{% block content %}
+    <div id="content-main">
+        {% block object-tools %}
+            <ul class="object-tools">
+                {% block object-tools-items %}
+                    <li>
+                        <a href="/admin/courses/course/add/" class="addlink">
+                            {% blocktrans %}Add Course{% endblocktrans %}
+                        </a>
+                    </li>
+                {% endblock object-tools-items %}
+            </ul>
+        {% endblock object-tools %}
+        
+        <div class="module" id="changelist">
+        <form id="changelist-form" action="" method="post">
+
+        <div class="actions"><label>
+                Menu:
+                <select name="action">
+                <option value selected="selected">------------</option>
+                
+                </select>
+        </label></div>
+        {% if course_list %}
+        {% block result_list %}
+        <div class="results">
+            <table id="result_list">
+                <thead>
+                    <tr>
+                        <th scope="col" class="action-checkbox-column">
+                            <div class="text"><span>
+                                <input type="checkbox" id="action-toggle" style="display: inline-block;">
+                            </span></div>
+                            <div class="clear"></div>
+                        </th>
+                        <th scope="col" class="sortable column-course_text">
+                            <div class="text"><a href="?o=1">Courses</a></div>
+                            <div class="clear"></div>
+                        </th>
+                        <th scope="col">
+                            <div class="text"><a>Edit</a></div>
+                            <div class="clear"></div>
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in course_list %}
+                        <tr class="{% cycle 'row1' 'row2' %}">
+                            <td class="action-checkbox">
+                                <input class="action-select" name="_selected_action" type="checkbox" value="{{ course.id }}">
+                            </td>
+                            <th scope="row">
+                                <a href="/teacher/{{ course.id }}/">{{ course.course_text }}</a>
+                            </th>
+                            <td><a href="/teacher/{{ course.id }}/change/" class="changelink">{% trans 'Change' %}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        {% endblock result_list %}
+        {% else %}
+            <p>No courses are available.</p>
+        {% endif %}
+        </form>
+        </div>
+    </div>
+{% endblock content %}
+
+
+
+
 <div id="ProfilePage">
     <div id="LeftCol">
         <div id="Photo"></div>

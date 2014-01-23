@@ -1,0 +1,66 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_urls admin_static admin_list %}
+{% load cycle from future %}
+
+{% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
+
+
+{% block nav-global %}{% endblock %}
+{% block branding %} {{ block.super }} {% endblock %}
+
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% if user.is_superuser %}{% url 'admin:index' %} 
+         {% elif user.is_staff %}{% trans '/teacher/' %} 
+         {% else %}{% trans '/courses/' %}
+         {% endif %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'teacher:course_index' %}">{% trans 'Courses' %}</a>
+</div>
+{% endblock %}
+
+{% block coltype %}flex{% endblock %}
+{{ title }}
+{% block content %}
+{% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
+{% else %}
+    <p>Welcome, new user. Please log in.</p>
+{% endif %}
+<p>PIEMEL</p>
+<div id="ProfilePage">
+    {% trans 'teach_id' %}
+    <div id="LeftCol">
+        <div id="Photo"></div>
+        <div id="ProfileOptions">
+        
+        </div>
+    </div>
+
+    <div id="Info">
+        <p>
+            <strong>Name:</strong>
+            <span>Sirjon</span>
+        </p>
+        <p>
+            <strong>Name:</strong>
+            <span>Sirjon</span>
+        </p>
+        <p>
+            <strong>Name:</strong>
+            <span>Sirjon</span>
+        </p>
+        <p>
+            <strong>Name:</strong>
+            <span>Sirjon</span>
+        </p>
+        <p>
+            <strong>Name:</strong>
+            <span>Sirjon</span>
+        </p>
+    </div>
+
+    <!-- Needed because other elements inside ProfilePage have floats -->
+    <div style="clear:both"></div>
+</div>
+{% endblock content %}

@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^(?P<course_id>\d+)/(?P<lecture_id>\d+)/(?P<question_id>\d+)/$',
         views.answer_index, 
         name='answer_index'),
-   
+    url(r'^my_profile/(?P<teacher_id>\d+)/$', views.profile_page,
+        name='profile_page'),
 )
 
