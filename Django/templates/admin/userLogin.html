@@ -30,28 +30,30 @@
 
 <div id="content-main">
 <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
-  <div class="form-row">
-    {% if not form.this_is_the_login_form.errors %}{{ form.username.errors }}{% endif %}
-    <label for="id_username" class="required">{{ form.username.label }}:</label> {{ form.username }}
-  </div>
-  <div class="form-row">
-    {% if not form.this_is_the_login_form.errors %}{{ form.password.errors }}{% endif %}
-    <label for="id_password" class="required">{% trans 'Password:' %}</label> {{ form.password }}
-    <input type="hidden" name="this_is_the_login_form" value="1" />
-    <input type="hidden" name="next" value="{{ next }}" />
-  </div>
-  {% url 'admin_password_reset' as password_reset_url %}
-  {% if password_reset_url %}
-  <div class="password-reset-link">
-    <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
-  </div>
-  {% endif %}
-  <div class="submit-row">
-    <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}" />
-  </div>
-  <div class="admin-login">
-    <label>&nbsp;</label><a class="button" href="/admin">Click here to log in as admin</a>    
-  </div>
+    <div class="form-row">
+        {% if not form.this_is_the_login_form.errors %}{{ form.username.errors }}{% endif %}
+        <label for="id_username" class="required">{{ form.username.label }}:</label> {{ form.username }}
+    </div>
+    <div class="form-row">
+        {% if not form.this_is_the_login_form.errors %}{{ form.password.errors }}{% endif %}
+        <label for="id_password" class="required">{% trans 'Password:' %}</label> {{ form.password }}
+        <input type="hidden" name="this_is_the_login_form" value="1" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </div>
+    {% url 'admin_password_reset' as password_reset_url %}
+    {% if password_reset_url %}
+    <div class="password-reset-link">
+        <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
+    </div>
+    {% endif %}
+    <div class="submit-row">
+        <button class="btn btn-primary" type="submit" >{% trans 'Log in' %}</button>
+    </div>
+</form>
+<form action="/admin">
+    <div class="admin-login">
+        <button class="btn btn-primary" type="submit">Click here to log in as admin</button>        
+    </div>
 </form>
 
 <script type="text/javascript">
