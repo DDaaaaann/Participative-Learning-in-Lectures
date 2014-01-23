@@ -8,6 +8,7 @@ class UserAdmin(AdminSite):
     
     login_form = UserAdminAuthenticationForm
     login_template = 'admin/userLogin.html'
+    index_template = 'teacher/profilepage.html'
     
     def has_permission(self, request):
         """
