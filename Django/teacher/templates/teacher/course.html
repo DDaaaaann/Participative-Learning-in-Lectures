@@ -1,0 +1,47 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+{% block title %}
+	{{ title }} | {% trans 'PILS' %} 
+{% endblock %}
+
+{% block branding %}
+{{ block.super }}
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block breadcrumbs %}
+	<div class="breadcrumb">
+        <a href="{% if user.is_superuser %}{% url 'admin:index' %} 
+                 {% elif user.is_staff %}{% trans '/teacher/' %} 
+                 {% else %}{% trans '/teacher/' %}
+                 {% endif %}">{% trans 'Home' %}</a>
+		&rsaquo;
+		<a href="{% url 'teacher:course_index' %}">
+			{% trans 'Courses' %}
+		</a>
+		&rsaquo;
+		<a href="/teacher/course/">
+			{% trans 'Add Course' %}
+		</a>
+		
+	</div>
+{% endblock %}
+
+{% block coltype %}flex{% endblock %}
+{{ title }}
+{% block content %}
+	{% load staticfiles %}
+	{% block result_list %}
+		<h1>Add a course:</h1>
+		<form action="{% url 'teacher:course' %}" method="post" id="formCourse">
+			{% csrf_token %}
+			<textarea name="course" cols=40 rows=6 class="courseArea">Enter the name of the course here...</textarea>
+			<!--
+			Misschien dat hier nog een lisjtje met teachers toegevoegd moet worden,
+			als niet automatisch wordt bepaald wie de teacher van de course is.
+			//-->
+			<p><input type="submit" value="Add course" />
+		</form>
+	{% endblock result_list %}
+{% endblock %}

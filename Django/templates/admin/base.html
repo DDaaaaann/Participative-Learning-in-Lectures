@@ -1,11 +1,10 @@
-{% load bootstrap3 %}{% load admin_static %}{% load firstof from future %}<!DOCTYPE html>
+{% load admin_static %}{% load firstof from future %}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="/media/jquery.js"></script>
 <title>{% block bootstrap3 %} PILS | {{title}}{% endblock %}</title>
 <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}" />
-{% bootstrap_css %}
 {% block extrastyle %}{% endblock %}
 <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="{% block stylesheet_ie %}{% static "admin/css/ie.css" %}{% endblock %}" /><![endif]-->
 {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
@@ -34,7 +33,9 @@ django.jQuery;
 <link rel="shortcut icon" href="{% static 'polls/images/favicon.ico' %}" type="image/x-icon" /> 
 <link rel="icon" href="{% static 'polls/images/favicon.ico' %}" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="{% static 'admin/css/changelists.css' %}" />{% endblock %}
+{% load bootstrap3 %}
 {% bootstrap_javascript %}
+{% bootstrap_css %}
 </head>
 {% load i18n %}
 
@@ -66,7 +67,7 @@ django.jQuery;
         <div id="user-tools">
             {% block user-tools %}
             {% trans 'Welcome,' %}
-            <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+            <a href="/"><strong>{% firstof user.get_short_name user.get_username %}</strong></a>
             {% block userlinks %}
                 {% url 'django-admindocs-docroot' as docsroot %}
                 {% if docsroot %}
