@@ -85,11 +85,11 @@
             function drawStartRound(time, round) {
                 if (round > 3) {
                     clearVotingScreen();
-                    $('.description').html("Voting done. Please continue to result screen.");
+                    setDescription("Voting done. Please continue to result screen.", 1);
                     goToResult();
                 } else {
                     setTimer(time, "");
-                    $('.description').html("Choose the best possible answer - voting round = " + round);
+                    setDescription("Choose the best possible answer - voting round = " + round, 1);
                 }
             }
             
@@ -101,11 +101,18 @@
                 $('.voteButton').empty();
                 $('.voteSkip').empty();
             }
+            
+            function setDescription(description, highlight) {
+                $('.description').html(description);
+                if (highlight) {
+                    $('.description').effect("highlight", {}, 3000);
+                }
+            }
 
             function drawCountdown(time) {
                 setTimer(time, "");
                 clearVotingScreen();
-                $('.description').html("Please wait until the voting starts");
+                setDescription("Please wait until the voting starts", 1);
             }
 
             function saveVote(value) {
@@ -125,13 +132,12 @@
             var create_vote_complete = function(res, status) {
                 if (status == "success") {
                     clearVotingScreen();
-                    $('.description').html("Vote saved! Please wait for the next round!");
-                    $('.description').effect("highlight", {}, 3000);
+                    setDescription("Vote saved! Please wait for the next round!", 1);
                 }
                 else
                 {
                     clearVotingScreen();
-                    $('.description').html("Error! The vote wasn't saved, please contact us if you keep seeing this message.");
+                    setDescription("Error! The vote wasn't saved, please contact us if you keep seeing this message.", 1);
                 }
             }
 
