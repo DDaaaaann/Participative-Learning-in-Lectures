@@ -40,26 +40,26 @@ django.jQuery;
 
 <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
 
+<div class="mask"></div>
+
 <!-- Container -->
 <div id="container">
 
     {% if not is_popup %}
     <!-- Header -->
-    <div id="header">
-        <div id="branding" class="hoi">
-        {% block branding %}
-        {% if user.is_active and user.is_superuser %}
-            <div id="logo" href="/admin" onclick="window.location = '/admin';" onmouseover="playclip();" class="logo"></div>
-        {% elif user.is_active and user.is_staff %}
-            <div id="logo" href="/teacher" onclick="window.location = '/teacher';" onmouseover="playclip();"></div>
-        {% elif user.is_active %}
-            <div id="logo" href="/courses" onclick="window.location = '/courses';" onmouseover="playclip();"></div>
-        {% else %}
-            <div id="logo" href="/" onclick="window.location = '/';" onmouseover="playclip();"></div>
-        {% endif %}
-
-            
-        {% endblock %}
+    <div id="header" onclick="findTheEgg();">
+        <div id="branding" class="logowrapper" onmouseover="playclip();" onmouseout="pauseclip()">
+            {% block branding %}
+                {% if user.is_active and user.is_superuser %}
+                    <div id="logo" href="/admin" class="logo"onclick="window.location = '/admin';" ></div>
+                {% elif user.is_active and user.is_staff %}
+                    <div id="logo" href="/teacher" class="logo" onclick="window.location = '/teacher';"></div>
+                {% elif user.is_active %}
+                    <div id="logo" href="/courses" class="logo" onclick="window.location = '/courses';"></div>
+                {% else %}
+                    <div id="logo" href="/" class="logo" onclick="window.location = '/';"></div>
+                {% endif %}
+            {% endblock %}
         </div>
         
         {% if user.is_active %}
@@ -131,17 +131,16 @@ django.jQuery;
 </div>
 <!-- END Container -->
 
-<audio>
-<source src="/media/audio/PILS.mp3"></source>
-<source src="/media/audio/PILS.ogg"></source>
+<audio onended="donePlaying()">
+    <source id="wav" src="/media/audio/PILS.wav"></source>
+    <source src="/media/audio/PILS.ogg"></source>
 </audio>
-<div id="sounddiv"><bgsound id="sound"></div>
 
 <script type="text/javascript">
 $(document).ready(function() {
     if (typeof jQuery != 'undefined') {  
         // jQuery is loaded => print the version
-        alert(jQuery.fn.jquery);
+        //alert(jQuery.fn.jquery);
 }
 });
 </script>
