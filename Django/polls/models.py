@@ -43,7 +43,7 @@ class Poll(models.Model):
     # Tags are the keywords the teacher wants to see in the student's answers.
     tags = models.CharField(max_length=200)
     
-    closing = models.BooleanField();
+    closing = models.BooleanField('Closing?', default=False)
 
 
 class Choice(models.Model):
