@@ -93,5 +93,3 @@ class Answer(models.Model):
     votes = models.IntegerField(default=0)
     # OpenForVoting determines the fact if the answer can be voted on.
     openForVoting = models.BooleanField(default=True)
-   
-    

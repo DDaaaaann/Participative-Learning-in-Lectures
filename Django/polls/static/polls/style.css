@@ -6,8 +6,12 @@
     width:100%;
 } 
 
-#logo {
-    background-color: #666;
+div.logowrapper {
+    width: 200px;
+    height: 40px;
+}
+
+div.logo {
     background: #666 url(images/logo_pils_niet_groen_vinkje.png) left center no-repeat;
     background-size: 200px 40px;
     height:40px;
@@ -15,10 +19,18 @@
     overflow: hidden;
 }
 
-#logo:hover {
+div.logo:hover {
     background: #666 url(images/logo_pils_met_groen_vinkje.png) left center no-repeat;
     background-size: 200px 40px;
     cursor: pointer;
+}
+
+div.greenlogo {
+    background: #666 url(images/logo_pils_met_groen_vinkje.png) left center no-repeat;
+    background-size: 200px 40px;
+    height:40px;
+    width:200px;
+    overflow: hidden;
 }
 
 #user-tools {
@@ -31,12 +43,37 @@
     color: #FF9231;
 }
 
+#user-tools strong {
+    color: #FF9231;
+}
+
+#header a:hover {
+    text-decoration: none;
+    border-bottom: 1px solid #FF9231;
+}
+
 a:link {color: #003439;}    /* unvisited link */
 a:visited {color: #295357;} /* visited link */
 a:hover {color: #FF9231;}   /* mouse over link */
 a:active {color: #003439;}  /* selected link */
 
-/* OBJECT TOOLS */
+/************************
+==== MASK ====
+*************************/
+
+.mask {
+    position:fixed;
+    z-index:9000;
+    background-color:#000;
+    display:none;
+    background-image: url(images/beer.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/************************
+==== Object tools ====
+*************************/
 
 .object-tools {
     font-size: 10px;
@@ -333,9 +370,20 @@ div.voteTimer {
     position: absolute;
     left: 50%;
     margin-left: -100px;
-    margin-top: -200px;
+    margin-top: 0px;
     display: inline-block;
     height: 200px;
+}
+
+div.voteSkip {
+    position: absolute;
+    left: 50%;
+    margin-top: 210px;
+    margin-left: -75px;
+}
+
+div.voteSkip button {
+    min-width: 150px;
 }
 
 /************************
@@ -475,7 +523,7 @@ border: 1px solid brown;
     height: 200px;
 
 /* For visibility. Delete me */
-border: 1px solid green;
+/* border: 1px solid green; */
 }
 
 #PhotoOptions
@@ -484,7 +532,7 @@ border: 1px solid green;
     width: 200px;
 
 /* For visibility. Delete me */
-border: 1px solid brown;
+/* border: 1px solid brown; */
 }
 
 #Info
@@ -496,7 +544,17 @@ border: 1px solid brown;
     float: right;
 
 /* For visibility. Delete me */
-border: 1px solid blue;
+/* border: 1px solid blue; */
+}
+
+#Info h2
+{
+    display: inline-block;
+    width: 400px;
+    text-align: center;
+
+/* For visibility. Delete me */
+/* border: 1px solid blue; */
 }
 
 #Info strong
@@ -504,9 +562,10 @@ border: 1px solid blue;
     /* Give it a width */
     display: inline-block;
     width: 100px;
+    text-align: left;
 
 /* For visibility. Delete me */
-border: 1px solid orange;
+/* border: 1px solid orange; */
 }
 
 #Info span
@@ -514,8 +573,9 @@ border: 1px solid orange;
     /* Give it a width */
     display: inline-block;
     width: 250px;
+    text-align: left;
 
 /* For visibility. Delete me */
-border: 1px solid purple;
+/* border: 1px solid purple; */
 
 }

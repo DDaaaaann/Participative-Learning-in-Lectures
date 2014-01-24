@@ -1,9 +1,10 @@
-{% load bootstrap3 %}{% load admin_static %}{% load firstof from future %}<!DOCTYPE html>
+{% load admin_static %}{% load firstof from future %}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/media/jquery.js"></script>
 <title>{% block bootstrap3 %} PILS | {{title}}{% endblock %}</title>
 <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}" />
-{% bootstrap_css %}
 {% block extrastyle %}{% endblock %}
 <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="{% block stylesheet_ie %}{% static "admin/css/ie.css" %}{% endblock %}" /><![endif]-->
 {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
@@ -12,9 +13,10 @@
 {% block extrahead %}
 <script type="text/javascript" src="/static/admin/js/core.js"></script>
 <script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
-<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
 <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
 <script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/media/sound-mouseover.js"></script>
+<script type="text/javascript" src="/media/jquery.hoverIntent.js"></script>
 <script type="text/javascript">
 (function($) {
     $(document).ready(function($) {
@@ -24,44 +26,48 @@
 django.jQuery;
 </script>
 {% endblock %}
-{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />
+
+{% block blockbots %}
+<meta name="robots" content="NONE,NOARCHIVE" />
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
 <link rel="shortcut icon" href="{% static 'polls/images/favicon.ico' %}" type="image/x-icon" /> 
 <link rel="icon" href="{% static 'polls/images/favicon.ico' %}" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="{% static 'admin/css/changelists.css' %}" />{% endblock %}
+{% load bootstrap3 %}
 {% bootstrap_javascript %}
+{% bootstrap_css %}
 </head>
 {% load i18n %}
 
 <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
+
+<div class="mask"></div>
 
 <!-- Container -->
 <div id="container">
 
     {% if not is_popup %}
     <!-- Header -->
-    <div id="header">
-        <div id="branding">
-        {% block branding %}
-        {% if user.is_active and user.is_superuser %}
-            <div id="logo" href="/admin" onclick="window.location = '/admin';"></div>
-        {% elif user.is_active and user.is_staff %}
-            <div id="logo" href="/teacher" onclick="window.location = '/teacher';"></div>
-        {% elif user.is_active %}
-            <div id="logo" href="/courses" onclick="window.location = '/courses';"></div>
-        {% else %}
-            <div id="logo" href="/" onclick="window.location = '/';"></div>
-        {% endif %}
-
-            
-        {% endblock %}
+    <div id="header" onclick="findTheEgg();">
+        <div id="branding" class="logowrapper" onmouseover="playclip();" onmouseout="pauseclip()">
+            {% block branding %}
+                {% if user.is_active and user.is_superuser %}
+                    <div id="logo" href="/admin" class="logo"onclick="window.location = '/admin';" ></div>
+                {% elif user.is_active and user.is_staff %}
+                    <div id="logo" href="/teacher" class="logo" onclick="window.location = '/teacher';"></div>
+                {% elif user.is_active %}
+                    <div id="logo" href="/courses" class="logo" onclick="window.location = '/courses';"></div>
+                {% else %}
+                    <div id="logo" href="/" class="logo" onclick="window.location = '/';"></div>
+                {% endif %}
+            {% endblock %}
         </div>
         
         {% if user.is_active %}
         <div id="user-tools">
             {% block user-tools %}
             {% trans 'Welcome,' %}
-            <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+            <a href="/"><strong>{% firstof user.get_short_name user.get_username %}</strong></a>
             {% block userlinks %}
                 {% url 'django-admindocs-docroot' as docsroot %}
                 {% if docsroot %}
@@ -125,6 +131,20 @@ django.jQuery;
     {% block footer %}<div id="footer"></div>{% endblock %}
 </div>
 <!-- END Container -->
+
+<audio onended="donePlaying()">
+    <source id="wav" src="/media/audio/PILS.wav"></source>
+    <source src="/media/audio/PILS.ogg"></source>
+</audio>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    if (typeof jQuery != 'undefined') {  
+        // jQuery is loaded => print the version
+        //alert(jQuery.fn.jquery);
+}
+});
+</script>
 
 </body>
 </html>

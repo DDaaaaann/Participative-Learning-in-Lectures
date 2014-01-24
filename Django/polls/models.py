@@ -13,6 +13,9 @@ class Poll(models.Model):
     def receiving_answers(self):
         return self.answerable
 
+    def get_absolute_url(self):
+        return u"/polls/%s/" % self.pk
+
     receiving_answers.admin_order_field = 'answerable'
     receiving_answers.boolean = True
     receiving_answers.short_description = 'Voting in progress'
@@ -43,7 +46,7 @@ class Poll(models.Model):
     # Tags are the keywords the teacher wants to see in the student's answers.
     tags = models.CharField(max_length=200)
     
-    closing = models.BooleanField();
+    closing = models.BooleanField('Closing?', default=False)
 
 
 class Choice(models.Model):
@@ -63,7 +66,7 @@ class Choice(models.Model):
     # Poll is the class that holds the question, answers and votes.
     poll = models.ForeignKey(Poll)
     # Choice_Text is the string that holds the possible choice.
-    choice_text = models.CharField(max_length=200)
+    choice_text = models.TextField()
     # Votes is the number of votes for the specific choice.
     votes = models.IntegerField(default=0)
     # OpenForVoting determines the fact if the answer can be voted on.

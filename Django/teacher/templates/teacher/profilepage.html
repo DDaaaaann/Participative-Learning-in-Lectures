@@ -23,14 +23,13 @@
 {{ title }}
 
 {% block content %}
-{{ profile.email }}
+
 {% if user.is_authenticated %}
     <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
 {% else %}
     <p>Welcome, new user. Please log in.</p>
 {% endif %}
 <div id="ProfilePage">
-    {% trans 'teach_id' %}
     <div id="LeftCol">
         <div id="Photo"><img src="{{ STATIC_URL }}polls/images/dummypic.jpg" alt="dummypic" title="dummypic" width="200" height="200" /></div>
         <div id="ProfileOptions">
@@ -39,25 +38,28 @@
     </div>
 
     <div id="Info">
+        <h2>
+            Information
+        </h2>
         <p>
-            <strong>Name:</strong>
-            <span>Sirjon</span>
+            <strong>Username:</strong>
+            <span>{{ profile.username }}</span>
         </p>
         <p>
-            <strong>Name:</strong>
-            <span>Sirjon</span>
+            <strong>Full name:</strong>
+            <span>{{ profile.last_name }}, {{ profile.first_name }}</span>
         </p>
         <p>
-            <strong>Name:</strong>
-            <span>Sirjon</span>
+            <strong>Date joined:</strong>
+            <span>{{ profile.date_joined }}</span>
         </p>
         <p>
-            <strong>Name:</strong>
-            <span>Sirjon</span>
+            <strong>Email:</strong>
+            <span>{{ profile.email }}</span>
         </p>
         <p>
-            <strong>Name:</strong>
-            <span>Sirjon</span>
+            <strong>Last login:</strong>
+            <span>{{ profile.last_login }}</span>
         </p>
     </div>
 
