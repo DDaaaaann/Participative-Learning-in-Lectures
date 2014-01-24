@@ -10,13 +10,7 @@
 
 
 {% block breadcrumbs %}
-<div class="breadcrumbs">
-<a href="{% if user.is_superuser %}{% url 'admin:index' %} 
-         {% elif user.is_staff %}{% trans '/teacher/' %} 
-         {% else %}{% trans '/courses/' %}
-         {% endif %}">{% trans 'Home' %}</a>
-&rsaquo; <a href="{% url 'teacher:course_index' %}">{% trans 'Courses' %}</a>
-</div>
+{{ block.super }}
 {% endblock %}
 
 {% block coltype %}flex{% endblock %}

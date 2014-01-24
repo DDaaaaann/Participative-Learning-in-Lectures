@@ -48,7 +48,8 @@ def course_index(request):
     
 @user_login_required
 def lecture_index(request, course_id):
-    course = Course.objects.get(id=course_id)
+    course_list = request.user.course_set.all()
+    course = get_object_or_404(course_list, id=course_id)
     #course = course.lectures.get(teacher_id=request.user.id)
     lecture_list = course.lectures.order_by('lecture_text')
     #lecture_list = course.lectures.filter(teacher_id=request.user.id).order_by('-lecture_text')
