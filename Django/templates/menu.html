@@ -1,23 +1,35 @@
 <div id='cssmenu'>
-  <ul>
-     <li class='active'><a href='index.html'>Home</a></li>
-     <li class='has-sub'><a href='#'>Products</a>
-        <ul>
-           <li class='has-sub'><a href='#'>Product 1</a>
-              <ul>
-                 <li><a href='#'>Sub Item</a></li>
-                 <li><a href='#'>Sub Item</a></li>
-              </ul>
-           </li>
-           <li class='has-sub'><a href='#'>Product 2</a>
-              <ul>
-                 <li><a href='#'>Sub Item</a></li>
-                 <li><a href='#'>Sub Item</a></li>
-              </ul>
-           </li>
-        </ul>
-     </li>
-     <li><a href='#'>About</a></li>
-     <li><a href='#'>Contact</a></li>
-  </ul>
+    <ul>
+        {% if user.is_active and user.is_superuser %}
+        <li class='active'><a href='/admin'>Home</a></li>
+        {% elif user.is_active and user.is_staff %}
+        <li class='active'><a href='/teacher'>Home</a></li>
+        {% elif user.is_active %}
+        <li class='active'><a href='/courses'>Home</a></li>
+        {% else %}
+        <li class='active'><a href='/'>Home</a></li>
+        {% endif %}
+        {% if user.is_active and user.is_staff %}
+        <li class='has-sub'><a href='#'>Sessions</a>
+            <ul>
+                <li><a href='#'>Active Sessions</a></li>
+                <li><a href='#'>Upcoming Sessions</a></li>
+             
+            </ul>
+        </li>
+        <li><a href='#'>My Courses</a></li>
+        <li><a href='#'>Student Analytics</a></li>
+        {% elif user.is_active %}
+        <li class='has-sub'><a href='#'>Sessions</a>
+            <ul>
+                <li><a href='#'>Active Sessions</a></li>
+                <li><a href='#'>Upcoming Sessions</a></li>
+                <li><a href='#'>Attended Sessions</a></li>
+                <li><a href='#'>Missed Sessions</a></li>   
+            </ul>
+        </li>
+        <li><a href='#'>My Courses</a></li>
+        <li><a href='#'>Analytics</a></li>
+        {% endif %}
+    </ul>
 </div>
