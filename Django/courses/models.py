@@ -69,7 +69,7 @@ class Question(models.Model):
     # vote_duration is the time for one voting round
     vote_duration = models.IntegerField()
     # vote_start, the start time of the first voting round
-    vote_start = models.DateTimeField()]
+    vote_start = models.DateTimeField()
     # Editable is the boolean that says if the edit row, with setAnswerTime and
     # setVoteTime, is visible.
     editable = models.BooleanField(default=False)

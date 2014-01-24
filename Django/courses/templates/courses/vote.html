@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block branding %}
-	<div id="logo" href="/courses" onclick="window.location = '/courses';">
+	<div id="logo" class="logo" href="/courses" onclick="window.location = '/courses';">
 	</div>
 {% endblock %}
 
@@ -81,12 +81,12 @@
             }
 
             function drawStartRound(time, round) {
-                if (round > 3) {
+                if (round > 30000) {
                     clearVotingScreen();
                     setDescription("Voting done. Please continue to result screen.", 1);
                     goToResult();
                 } else {
-                    setTimer(time, "");
+                    setTimer("#voteTimer", time, "");
                     setDescription("Choose the best possible answer - voting round = " + round, 1);
                 }
             }
@@ -108,7 +108,7 @@
             }
 
             function drawCountdown(time) {
-                setTimer(time, "");
+                setTimer("#voteTimer", time, "");
                 clearVotingScreen();
                 setDescription("Please wait until the voting starts", 1);
             }
@@ -151,18 +151,6 @@
 
                 //ajax stuff
             });
-
-            function setTimer(duration, url) {
-                $('#voteTimer').pietimer({
-                    timerSeconds: duration,
-                    color: '#234',
-                    fill: false,
-                    showPercentage: true,
-                    callback: function() {
-                        window.location = url;
-                    }
-                });
-            }
             
             function getCookie(name) {
                 var cookieValue = null;

@@ -12,7 +12,7 @@
 <script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
 
 {% block extrahead %}
-    <script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
 <script type="text/javascript" src="/static/admin/js/core.js"></script>
 <script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
 <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
@@ -54,7 +54,7 @@ django.jQuery;
         <div id="branding" class="logowrapper" onmouseover="playclip();" onmouseout="pauseclip()">
             {% block branding %}
                 {% if user.is_active and user.is_superuser %}
-                    <div id="logo" href="/admin" class="logo"onclick="window.location = '/admin';" ></div>
+                    <div id="logo" href="/admin" class="logo" onclick="window.location = '/admin';" ></div>
                 {% elif user.is_active and user.is_staff %}
                     <div id="logo" href="/teacher" class="logo" onclick="window.location = '/teacher';"></div>
                 {% elif user.is_active %}

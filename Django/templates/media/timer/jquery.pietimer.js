@@ -109,3 +109,15 @@
     }
   };
 })(jQuery);
+
+function setTimer(div, duration, url) {
+    $(div).pietimer({
+        timerSeconds: duration,
+        color: '#234',
+        fill: false,
+        showPercentage: true,
+        callback: function() {
+            window.location = url;
+        }
+    });
+}
