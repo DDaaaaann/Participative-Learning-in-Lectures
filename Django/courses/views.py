@@ -50,9 +50,8 @@ def course_index(request):
 def lecture_index(request, course_id):
     course_list = request.user.course_set.all()
     course = get_object_or_404(course_list, id=course_id)
-    #course = course.lectures.get(teacher_id=request.user.id)
+    
     lecture_list = course.lectures.order_by('lecture_text')
-    #lecture_list = course.lectures.filter(teacher_id=request.user.id).order_by('-lecture_text')
 
     template = loader.get_template('courses/lecture_index.html')
 
@@ -66,6 +65,9 @@ def lecture_index(request, course_id):
 
 @user_login_required
 def question_index(request, course_id, lecture_id):
+    course_list = request.user.course_set.all()
+    get_object_or_404(course_list, id=course_id)
+    
     lecture = Lecture.objects.get(id=lecture_id)
     question_list = lecture.questions.order_by('-pub_date')
     template = loader.get_template('courses/question_index.html')
