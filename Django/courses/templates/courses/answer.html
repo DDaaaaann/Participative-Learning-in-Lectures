@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block branding %}
-	<div id="logo" href="/courses" onclick="window.location = '/courses';">
+	<div id="logo" class="logo" href="/courses" onclick="window.location = '/courses';">
 	</div>
 {% endblock %}
 
@@ -42,45 +42,29 @@
 	<div id="content-main">
 		<div class="module" id="changelist">
 			<div class="results">
-				<table id="result_list">
-					<thead>
-						<tr>
-							<th scope="col"> 
-								<span class="text"><a href="?o=1">Answers</a></span>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-						<script type="text/javascript" src="{% static 'polls/jquery/timer/jquery.pietimer.js' %}"></script>
-						<script type="text/javascript">
-							$(function() {
-								$('#timer').pietimer({
-									timerSeconds: 1000,
-									color: '#234',
-									fill: false,
-									showPercentage: true,
-									callback: function() {
-										$('form#formAnswer').submit();
-										$('#timer').pietimer('reset');
-									}
-								});
-							});
-						</script>
+                <script type="text/javascript">
+                    $(function() {                   
+                        voteStart = {{ question.vote_start|date:"U" }};
+                        if (Math.round((new Date().getTime()/1000)) > voteStart) {
+                            $(".answerwrapper").remove();
+                            window.location = "{% url 'courses:vote' lecture.course_id lecture.id question.id %}";
+                        }
+                        time = (voteStart - Math.round((new Date().getTime()/1000)));
+                        setTimer("#timer", time, "/courses/{{ lecture.course_id }}/{{ lecture.id }}/{{ question.id }}/vote/");
+                    });
+                </script>
 
-						<div class="answerwrapper">
-							<div class="answerform">
-								<h1>{{ question.question }}</h1>
-								<form action="{% url 'courses:answer' lecture.course_id lecture.id question.id %}" method="post" id="formAnswer">
-									{% csrf_token %}
-									<textarea name="answer" cols=40 rows=6 class="answerarea"></textarea>
-									<p><input type="submit" value="Answer" />
-								</form>
-							</div>
-							<div id="timer"></div>
-						</div>
-					</tbody>
-				</table>
+                <div class="answerwrapper">
+                    <div class="answerform">
+                        <h1>{{ question.question }}</h1>
+                        <form action="{% url 'courses:answer' lecture.course_id lecture.id question.id %}" method="post" id="formAnswer">
+                            {% csrf_token %}
+                            <textarea name="answer" cols=40 rows=6 class="answerarea"></textarea>
+                            <p><input type="submit" value="Answer" />
+                        </form>
+                    </div>
+                    <div id="timer"></div>
+                </div>
 			</div>
 		</div>
 	</div>

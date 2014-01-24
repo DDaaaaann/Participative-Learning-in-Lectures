@@ -39,12 +39,10 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        var roundEndTime;
+        var roundEndTime = ;
         var roundDuration = 250;
 
         var create_vote = function() {
-
-            alert("HELLO THERE");
 
             if (value != "")
             {
@@ -64,8 +62,8 @@
         $("button").click(function(){
             var update = $(this).attr("value");
 
-            var t1 = Math.round(new Date().getTime() / 1000);
-            var t2 = Math.round(new Date().getTime() / 1000) + 300;
+            var currentTime = Math.round(new Date().getTime() / 1000);
+            var endTime = Math.round(new Date().getTime() / 1000) + 300;
             var dif = t2-t1;
 
             alert(dif);

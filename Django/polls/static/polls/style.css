@@ -342,7 +342,23 @@ div.answerform {
 ==== Detail.html ====
 *************************/
 
+div.title {
+    width: 100%;
+    text-align: center;
+}
+
+div.question {
+    font-weight: bold;
+    font-size: 2em
+}
+
+div.description {
+    font-style: italic;
+    font-size: 1.5em;
+}
+
 div.voteWrapper {
+    padding-top: 50px;
     width: 100%;
 }
 
