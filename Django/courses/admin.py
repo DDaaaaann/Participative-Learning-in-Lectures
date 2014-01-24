@@ -56,39 +56,6 @@ def resetAnswers(modeladmin, request, queryset):
         answer.save()
 resetAnswers.short_description = "Reset all the 'openForVoting'-booleans"
 
-def patternRecognition(modeladmin, request, queryset):
-    # This function only works with one question at a time. The site completely
-    # blocks when multiple questions are selected at the question_index page. I
-    # think, however, this isn't a problem we should be worrying about, since
-    # this function should be automatically called at the teacher's answer_index
-    # page.
-    """
-    Search the answers of a question for commonalities. This might help the
-    teacher to get an overall impression of the students' knowledge on the
-    subject.
-    """
-    # Get the language from the question.
-    englishQuestion = Question.objects.filter(id=queryset)[0].english
-    # Set up a list of all the words that should be filtered.
-    if englishQuestion:
-        nonNouns = ['a', 'an', 'of', 'the']
-    else:
-        nonNouns = ['de', 'het', 'een', 'of']
-    # Get all the answers out of the database.
-    list_of_answers = Answer.objects.filter(question_id=queryset)
-    # Put all the words of the answers into an array, or a list.
-    words = []
-    for answer in list_of_answers:
-        words += answer.answer_text.lower().split()
-    # Remove the abundant words.
-    newList = [item for item in words if item not in nonNouns]
-    # Search for repeating words.
-    count = Counter(newList)
-    # Show the most repeating words, nicely.
-    print "Top 5:"
-    print count.most_common(5)
-patternRecognition.short_description = "Count the keywords"
-
 class LectureInline(admin.TabularInline):
     model = Lecture
     extra = 3
@@ -131,7 +98,7 @@ class QuestionAdmin(admin.ModelAdmin):
                     'has_been_published', 'receiving_answers')
     list_filter = ['pub_date']
     Search_fields = ['question_text']
-    actions = [openVoting, closeVoting, filterAnswers, resetAnswers, patternRecognition]
+    actions = [openVoting, closeVoting, filterAnswers, resetAnswers]
 
 
 class AnswerAdmin(admin.ModelAdmin):

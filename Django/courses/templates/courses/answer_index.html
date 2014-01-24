@@ -19,6 +19,7 @@
 
 {{ title }}
 {% block content %}
+	{% load poll_extras %}
     <div id="content-main">
         <div class="module" id="changelist">
             {% if answer_list %}
@@ -55,4 +56,10 @@
             {% endif %}
         </div>
     </div>
+	<div style="text-align:center;">
+		{% for word, number in count %}
+			<font size="{{ number }}"> {{ word }} </font>
+			{% if boolean|random %} <br> {% endif %}
+		{% endfor %}
+	</div>
 {% endblock %}
