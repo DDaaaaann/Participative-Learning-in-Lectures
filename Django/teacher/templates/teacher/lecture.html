@@ -1,0 +1,51 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+{% block title %}
+	{{ title }} Answers {{ site_title }}
+{% endblock %}
+
+{% block branding %}
+	<div id="logo" href="/teacher" onclick="window.location = '/teacher';">
+	</div>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block breadcrumbs %}
+	<div class="breadcrumb">
+		<a href="{% url 'admin:index' %}">
+			{% trans 'Home' %}
+		</a>
+		&rsaquo;
+		<a href="{% url 'teacher:course_index' %}">
+			{% trans 'Courses' %}
+		</a>
+		&rsaquo;
+		<a href="/teacher/{{ course_id }}/">
+			{% trans 'Lectures' %}
+		</a>
+		&rsaquo;
+		<a href="/teacher/{{ course_id }}/{{ lecture_id }}/">
+			{% trans 'Questions' %}
+		</a>
+		&rsaquo;
+		<a href="/teacher/{{ course_id }}/{{ lecture_id }}/{{ answer_id }}">
+			{% trans 'Answers' %}
+		</a>
+	</div>
+{% endblock %}
+
+{{ title }}
+{% block content %}
+	{% load staticfiles %}
+		<h1>Add a lecture to the current course: {{ course.course_text }}</h1>
+		<form action="{% url 'teacher:lecture' course.id %}" method="post" id="formLecture">
+			{% csrf_token %}
+			<textarea name="lecture" cols=40 rows=6 class="lectureArea">Enter the name of the lecture here...</textarea>
+			<!--
+			Misschien dat hier nog een lisjtje met teachers toegevoegd moet worden,
+			als niet automatisch wordt bepaald wie de teacher van de course is.
+			//-->
+			<p><input type="submit" value="Add lecture" /></p>
+		</form>
+{% endblock %}

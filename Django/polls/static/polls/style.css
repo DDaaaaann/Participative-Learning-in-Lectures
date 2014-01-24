@@ -1,7 +1,3 @@
-li a {
-	color: green;
-}
-
 #header {
     background-color: #666;
     /*background: #666 url(images/logo_pils_niet_groen_vinkje.png) left center no-repeat;
@@ -10,8 +6,12 @@ li a {
     width:100%;
 } 
 
-#logo {
-    background-color: #666;
+div.logowrapper {
+    width: 200px;
+    height: 40px;
+}
+
+div.logo {
     background: #666 url(images/logo_pils_niet_groen_vinkje.png) left center no-repeat;
     background-size: 200px 40px;
     height:40px;
@@ -19,10 +19,18 @@ li a {
     overflow: hidden;
 }
 
-#logo:hover {
+div.logo:hover {
     background: #666 url(images/logo_pils_met_groen_vinkje.png) left center no-repeat;
     background-size: 200px 40px;
     cursor: pointer;
+}
+
+div.greenlogo {
+    background: #666 url(images/logo_pils_met_groen_vinkje.png) left center no-repeat;
+    background-size: 200px 40px;
+    height:40px;
+    width:200px;
+    overflow: hidden;
 }
 
 #user-tools {
@@ -35,19 +43,37 @@ li a {
     color: #FF9231;
 }
 
+#user-tools strong {
+    color: #FF9231;
+}
+
+#header a:hover {
+    text-decoration: none;
+    border-bottom: 1px solid #FF9231;
+}
+
 a:link {color: #003439;}    /* unvisited link */
 a:visited {color: #295357;} /* visited link */
 a:hover {color: #FF9231;}   /* mouse over link */
 a:active {color: #003439;}  /* selected link */
 
-.row1 {
-    background-color: #DFDFDF;
+/************************
+==== MASK ====
+*************************/
+
+.mask {
+    position:fixed;
+    z-index:9000;
+    background-color:#000;
+    display:none;
+    background-image: url(images/beer.gif);
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-   padding-right: 26px;
-}
-
-/* OBJECT TOOLS */
+/************************
+==== Object tools ====
+*************************/
 
 .object-tools {
     font-size: 10px;
@@ -122,35 +148,171 @@ a:active {color: #003439;}  /* selected link */
     color: white;
 }
 
-div.menu2
-{
-    width:500px;margin:0 auto;/*Uncomment this line to make the menu center-aligned.*/
-    text-align:center;
-    background-image: url(images/overtop.png);
-    border:1px solid black;
-    font-size:0;
+/* MENU */
+
+#cssmenu {
+    padding: 0; 
+    margin: 0; 
+    border: 0;
+    background: #666;
+    border-bottom: 4px solid #1F919B;
+    font-weight: bold;
+    font-size: 12px; 
 }
 
-div.menu2 a
-{
-    display: inline-block;
-    padding: 0 20px;
-    background-image: url(images/overtop.png);
-    color: orange;
-    text-decoration:none;
-    font: bold 12px Arial;
-    line-height: 32px;
+#cssmenu ul {
+    position: relative;
+    z-index: 597; 
+    text-transform: uppercase;
 }
 
-div.menu2 a:hover, div.menu2 a.current
-{
-    background-position:0 -60px;
+#cssmenu ul, #cssmenu li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-div.menu2 a.dummy
-{
-    width:2px;
-    padding:0 0;
+#cssmenu > ul { 
+    *display: inline-block;
+}
+
+#cssmenu:after, #cssmenu ul:after {
+    content: '';
+    display: block;
+    clear: both; 
+}
+
+#cssmenu a {
+    display: block;
+    line-height: 1em;
+    text-decoration: none;
+    background: #666;
+    color: #FF9231;
+    padding: 0 20px;    
+}
+
+#cssmenu ul ul {
+    visibility: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 598;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    margin-top: 0;
+    border-top: 4px solid #FF9231;
+    text-transform: none;
+    min-width: 190px; 
+}
+
+#cssmenu ul ul a {
+    background: #666;
+    color: #FFF;
+    border: 2px solid #FF9231;
+    border-top: 0 none;
+    line-height: 100%;
+    padding: 16px 20px; 
+}
+
+#cssmenu ul ul ul {
+    top: 0;
+    left: auto;
+    right: -99.5%;
+    border-top: 0 none;
+}
+
+#cssmenu ul ul li {
+    font-weight: normal;
+    float: none;
+    position: relative;
+}
+
+#cssmenu > ul > li > a {
+    line-height: 38px;
+}
+
+#cssmenu ul ul li:first-child > a {
+    border-top: 1px solid #FF9231;
+}
+
+#cssmenu ul ul li:hover > a {
+    background: #FF9231;
+    content: '>';
+}
+
+#cssmenu ul ul li:last-child > a {
+      border-radius: 0 0 3px 3px;
+      box-shadow: 0 1px 0 #FF9231; 
+}
+
+#cssmenu ul ul li:last-child:hover > a {
+    border-radius: 0 0 0 3px;
+}
+
+#cssmenu ul ul li.has-sub > a:after {
+      content: '+';
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      margin-top: -8px;
+}
+
+#cssmenu ul li {
+    float: left;
+    min-height: 1px;
+    vertical-align: middle;
+}
+
+#cssmenu ul li.hover, #cssmenu ul li:hover {
+    position: relative;
+    z-index: 599;
+    cursor: default;
+}
+
+#cssmenu ul li:hover > ul {
+    visibility: visible;
+}
+
+#cssmenu ul li:hover > a, #cssmenu ul li.active > a {
+    background: #FF9231;
+    color: #003439;
+}
+
+#cssmenu ul li.has-sub > a:after {
+    content: '+';
+    margin-left: 5px; 
+}
+
+#cssmenu ul li.last ul {
+    left: auto;
+    right: 0; 
+}
+
+#cssmenu ul li.last ul ul {
+    left: auto;
+    right: 99.5%;
+}
+
+/* FOOTER */
+
+#footer {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 1em;
+    line-height: 1em;
+    padding-top: -10px;
+    border-top: 1px solid black;
+    background-color: #666;
+    text-indent: 10px;
+    text-align: left;
+    color: #FFF;
+}
+
+#content {
+    margin-bottom: 50px;
 }
 
 /************************
@@ -324,4 +486,112 @@ div.resultsVotes {
     background-color: #c0c0c0;
     width:1em;
     height:1em;
+}
+
+/* userLogin.html */
+
+.login .admin-login {
+    clear: both;
+    text-align: center;
+    padding-top: 1em;
+    position: relative;
+}
+
+.login .submit-row {
+    clear: both;
+    text-align: center;
+    padding-left: 0em;
+    padding-top: 1em;
+    position: relative;
+}
+    
+/*Profile Page */
+
+#ProfilePage
+{
+    /* Move it off the top of the page, then centre it horizontally */
+    margin: 50px auto;
+    width: 635px;
+
+/* For visibility. Delete me */
+/*border: 1px solid red;*/
+}
+
+#LeftCol
+{
+    /* Move it to the left */
+    float: left;
+
+    width: 200px;
+    text-align: center;
+
+    /* Move it away from the content */
+    margin-right: 20px;
+
+/* For visibility. Delete me */
+border: 1px solid brown;
+}
+
+#Photo
+{
+    /* Width and height of photo container */
+    width: 200px;
+    height: 200px;
+
+/* For visibility. Delete me */
+/* border: 1px solid green; */
+}
+
+#PhotoOptions
+{
+    text-align: center;
+    width: 200px;
+
+/* For visibility. Delete me */
+/* border: 1px solid brown; */
+}
+
+#Info
+{
+    width: 400px;
+    text-align: center;
+
+    /* Move it to the right */
+    float: right;
+
+/* For visibility. Delete me */
+/* border: 1px solid blue; */
+}
+
+#Info h2
+{
+    display: inline-block;
+    width: 400px;
+    text-align: center;
+
+/* For visibility. Delete me */
+/* border: 1px solid blue; */
+}
+
+#Info strong
+{
+    /* Give it a width */
+    display: inline-block;
+    width: 100px;
+    text-align: left;
+
+/* For visibility. Delete me */
+/* border: 1px solid orange; */
+}
+
+#Info span
+{
+    /* Give it a width */
+    display: inline-block;
+    width: 250px;
+    text-align: left;
+
+/* For visibility. Delete me */
+/* border: 1px solid purple; */
+
 }

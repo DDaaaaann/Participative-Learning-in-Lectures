@@ -1,8 +1,8 @@
 {% load admin_static %}{% load firstof from future %}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
-<title>PILS | {{title}}</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<title>{% block bootstrap3 %} PILS | {{title}}{% endblock %}</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script type="text/javascript" src="/media/timer/jquery.pietimer.js"></script>
 <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}" />
@@ -17,12 +17,15 @@
 <script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
 <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
 <script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/media/sound-mouseover.js"></script>
+<script type="text/javascript" src="/media/jquery.hoverIntent.js"></script>
 <script type="text/javascript">
 (function($) {
     $(document).ready(function($) {
         $("tr input.action-select").actions();
     });
 })(django.jQuery);
+django.jQuery;
 </script>
 {% endblock %}
 
@@ -32,60 +35,79 @@
 <link rel="shortcut icon" href="{% static 'polls/images/favicon.ico' %}" type="image/x-icon" /> 
 <link rel="icon" href="{% static 'polls/images/favicon.ico' %}" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="{% static 'admin/css/changelists.css' %}" />{% endblock %}
+{% load bootstrap3 %}
+{% bootstrap_javascript %}
+{% bootstrap_css %}
 </head>
 {% load i18n %}
 
 <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
+
+<div class="mask"></div>
 
 <!-- Container -->
 <div id="container">
 
     {% if not is_popup %}
     <!-- Header -->
-    <div id="header">
-        <div id="branding">
-        {% block branding %}
-        {% if user.is_active and user.is_superuser %}
-            <div id="logo" href="/admin" onclick="window.location = '/admin';"></div>
-        {% elif user.is_active and user.is_staff %}
-            <div id="logo" href="/teacher" onclick="window.location = '/teacher';"></div>
-        {% else %}
-            <div id="logo" href="/courses" onclick="window.location = '/courses';"></div>
-        {% endif %}
-
-            
-        {% endblock %}
+    <div id="header" onclick="findTheEgg();">
+        <div id="branding" class="logowrapper" onmouseover="playclip();" onmouseout="pauseclip()">
+            {% block branding %}
+                {% if user.is_active and user.is_superuser %}
+                    <div id="logo" href="/admin" class="logo"onclick="window.location = '/admin';" ></div>
+                {% elif user.is_active and user.is_staff %}
+                    <div id="logo" href="/teacher" class="logo" onclick="window.location = '/teacher';"></div>
+                {% elif user.is_active %}
+                    <div id="logo" href="/courses" class="logo" onclick="window.location = '/courses';"></div>
+                {% else %}
+                    <div id="logo" href="/" class="logo" onclick="window.location = '/';"></div>
+                {% endif %}
+            {% endblock %}
         </div>
+        
         {% if user.is_active %}
         <div id="user-tools">
+            {% block user-tools %}
             {% trans 'Welcome,' %}
-            <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+            <a href="/"><strong>{% firstof user.get_short_name user.get_username %}</strong></a>
             {% block userlinks %}
                 {% url 'django-admindocs-docroot' as docsroot %}
                 {% if docsroot %}
                     <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
                 {% endif %}
-                {% if user.has_usable_password %}
-                <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+                {% if user.has_usable_password and user.is_superuser %}
+                    <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+                {% elif user.has_usable_password %}
+                    <a href="/password_change">{% trans 'Change password' %}</a> /
                 {% endif %}
-                {% if user.is_staff %}
+               
+                {% if user.is_superuser %}
                     <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
                 {% else %}
-                    <a href="/accounts/logout">{% trans 'Log out' %}</a>
+                    <a href="/logout">{% trans 'Log out' %}</a>
                 {% endif %}
+      
+
             {% endblock %}
+            {% endblock user-tools %}
         </div>
         {% endif %}
         {% block nav-global %}{% endblock %}
     </div>
     <!-- END Header -->
     {% block breadcrumbs %}
-    <div class="breadcrumbs">
-    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+
+    <div class="breadcrumb">
+    <a href="{% if user.is_superuser %}{% url 'admin:index' %} 
+             {% elif user.is_staff %}{% trans '/teacher/' %} 
+             {% else %}{% trans '/courses/' %}
+             {% endif %}">{% trans 'Home' %}</a>
     {% if title %} &rsaquo; {{ title }}{% endif %}
     </div>
     {% endblock %}
     {% endif %}
+
+    {% bootstrap_messages %}
 
     {% block messages %}
         {% if messages %}
@@ -111,6 +133,20 @@
     {% block footer %}<div id="footer"></div>{% endblock %}
 </div>
 <!-- END Container -->
+
+<audio onended="donePlaying()">
+    <source id="wav" src="/media/audio/PILS.wav"></source>
+    <source src="/media/audio/PILS.ogg"></source>
+</audio>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    if (typeof jQuery != 'undefined') {  
+        // jQuery is loaded => print the version
+        //alert(jQuery.fn.jquery);
+}
+});
+</script>
 
 </body>
 </html>

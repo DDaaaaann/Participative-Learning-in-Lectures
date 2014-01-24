@@ -1,0 +1,13 @@
+*.dll
+*.exe
+*.sql
+*.sqlite
+*.db
+*.pyc
+.DS_Store
+.DS_Store?
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.sw[a-z]

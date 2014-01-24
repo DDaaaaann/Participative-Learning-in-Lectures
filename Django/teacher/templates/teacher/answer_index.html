@@ -4,12 +4,15 @@
 {% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
 
 {% block nav-global %}{% endblock %}
-
+{% block branding %} {{ block.super }} {% endblock %}
 
 
 {% block breadcrumbs %}
-<div class="breadcrumbs">
-<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+<div class="breadcrumb">
+<a href="{% if user.is_superuser %}{% url 'admin:index' %} 
+         {% elif user.is_staff %}{% trans '/teacher/' %} 
+         {% else %}{% trans '/courses/' %}
+         {% endif %}">{% trans 'Home' %}</a>
 &rsaquo; <a href="{% url 'teacher:course_index' %}">{% trans 'Courses' %}</a>
 &rsaquo; <a href="/teacher/{{ course_id }}/">{% trans 'Lectures' %}</a>
 &rsaquo; <a href="/teacher/{{ course_id }}/{{ lecture_id }}/">{% trans 'Questions' %}</a>

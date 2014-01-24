@@ -6,11 +6,15 @@
 
 
 {% block nav-global %}{% endblock %}
+{% block branding %} {{ block.super }} {% endblock %}
 
 
 {% block breadcrumbs %}
-<div class="breadcrumbs">
-<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+<div class="breadcrumb">
+<a href="{% if user.is_superuser %}{% url 'admin:index' %} 
+         {% elif user.is_staff %}{% trans '/teacher/' %} 
+         {% else %}{% trans '/courses/' %}
+         {% endif %}">{% trans 'Home' %}</a>
 &rsaquo; <a href="{% url 'teacher:course_index' %}">{% trans 'Courses' %}</a>
 </div>
 {% endblock %}
@@ -32,7 +36,6 @@
         {% endblock object-tools %}
         
         <div class="module" id="changelist">
-        <form id="changelist-form" action="" method="post">
 
         <div class="actions"><label>
                 Menu:
@@ -84,7 +87,6 @@
         {% else %}
             <p>No courses are available.</p>
         {% endif %}
-        </form>
         </div>
     </div>
 {% endblock content %}

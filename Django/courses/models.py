@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 
 class Course(models.Model):
     course_text = models.CharField(max_length=50, default='')
-    teachers = models.ForeignKey(User, related_name='courses')
-    #teachers = models.IntegerField(max_length=10)
-    #teachers = models.ManyToManyField(User)
+    #teachers = models.ForeignKey(User, related_name='courses')
+
+    teachers = models.ManyToManyField(User)
     
     def __str__(self):
         return self.course_text
@@ -16,6 +16,9 @@ class Lecture(models.Model):
     lecture_text = models.CharField(max_length=50, default='')
     teacher = models.ForeignKey(User, related_name='lectures')
     course = models.ForeignKey(Course, related_name='lectures')
+    # Editable is the boolean that says if the edit row, with setAnswerTime and
+    # setVoteTime, is visible.
+    editable = models.BooleanField(default=False)
 
     def __str__(self):
         return self.lecture_text
@@ -48,17 +51,17 @@ class Question(models.Model):
     All the variables and their explanations related to the class and database of Question.
     """
     
+    # Lecture is the Foreign Key of the lecture of which the question is part.
+    lecture = models.ForeignKey(Lecture, related_name='questions')
     # Question_text is the string that holds the question.
-    question_text = models.CharField(max_length=200)
+    question_text = models.CharField(max_length=200, default='')
     # Pub_Date is the date the poll was created.
-    pub_date = models.DateTimeField('date published')
+    pub_date = models.DateTimeField('date published', default=timezone.now())
     # Answerable is the boolean to decide if the poll / question is still
     # vulnerable for new votes.
     answerable = models.BooleanField('Open for voting',default=True)
     # Tags are the keywords the teacher wants to see in the student's answers.
-    tags = models.CharField(max_length=200)
-    # Lecture is the Foreign Key of the lecture of which the question is part.
-    lecture = models.ForeignKey(Lecture, related_name='questions')
+    tags = models.CharField(max_length=200, default='')
     # AnswerTime is the time available for the students to answer the question
     answer_time = models.IntegerField()
     # voting is a boolean, if 1 there is a voting round, if zero there is no voting
@@ -66,8 +69,10 @@ class Question(models.Model):
     # vote_duration is the time for one voting round
     vote_duration = models.IntegerField()
     # vote_start, the start time of the first voting round
-    vote_start = models.DateTimeField()
-
+    vote_start = models.DateTimeField()]
+    # Editable is the boolean that says if the edit row, with setAnswerTime and
+    # setVoteTime, is visible.
+    editable = models.BooleanField(default=False)
 
 class Answer(models.Model):
     class Meta:

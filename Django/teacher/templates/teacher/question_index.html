@@ -4,12 +4,15 @@
 {% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
 
 {% block nav-global %}{% endblock %}
-
+{% block branding %} {{ block.super }} {% endblock %}
 
 
 {% block breadcrumbs %}
-<div class="breadcrumbs">
-<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+<div class="breadcrumb">
+<a href="{% if user.is_superuser %}{% url 'admin:index' %} 
+		 {% elif user.is_staff %}{% trans '/teacher/' %} 
+		 {% else %}{% trans '/courses/' %}
+		 {% endif %}">{% trans 'Home' %}</a>
 &rsaquo; <a href="{% url 'teacher:course_index' %}">{% trans 'Courses' %}</a>
 &rsaquo; <a href="/teacher/{{ course_id }}/">{% trans 'Lectures' %}</a>
 &rsaquo; <a href="/teacher/{{ course_id }}/{{ lecture_id }}/">{% trans 'Questions' %}</a>
@@ -20,73 +23,132 @@
 
 {{ title }}
 {% block content %}
-    <div id="content-main">
-        {% block object-tools %}
-            <ul class="object-tools">
-                {% block object-tools-items %}
-                    <li>
-                        <a href="/admin/courses/question/add/" class="addlink">
-                            {% blocktrans %}Add Question{% endblocktrans %}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/polls/" class="addlink">
-                            {% blocktrans %}Start Session{% endblocktrans %}
-                        </a>
-                    </li>
-                {% endblock object-tools-items %}
-            </ul>
-        {% endblock object-tools %}
-        
-        <div class="module" id="changelist">
-        <form id="changelist-form" action="" method="post">
+	<div id="content-main">
+		{% block object-tools %}
+			<ul class="object-tools">
+				{% block object-tools-items %}
+					<li>
+						<a href="/admin/courses/question/add/" class="addlink">
+							{% blocktrans %}Add Question{% endblocktrans %}
+						</a>
+					</li>
+					<li>
+						<a href="/polls/" class="addlink">
+							{% blocktrans %}Start Session{% endblocktrans %}
+						</a>
+					</li>
+				{% endblock object-tools-items %}
+			</ul>
+		{% endblock object-tools %}
+		
+		<div class="module" id="changelist">
 
-        <div class="actions"><label>
-                Menu:
-                <select name="action">
-                <option value selected="selected">------------</option>
-                
-                </select>
-        </label></div>
-        
-        {% if question_list %}
-        {% block result_list %}
-        <div class="results">
-            <table id="result_list">
-                <thead>
-                    <tr>
-                        <th scope="col" class="action-checkbox-column">
-                            <div class="text"><span>
-                                <input type="checkbox" id="action-toggle" style="display: inline-block;">
-                            </span></div>
-                            <div class="clear"></div>
-                        </th>
-                        <th scope="col" class="sortable column-question_text">
-                            <div class="text"><a href="?o=1">Questions</a></div>
-                            <div class="clear"></div>
-                        </th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for question in question_list %}
-                        <tr class="{% cycle 'row1' 'row2' %}">
-                            <td class="action-checkbox">
-                                <input class="action-select" name="_selected_action" type="checkbox" value="{{ question.id }}">
-                            </td>
-                            <th>
-                                <a href="/teacher/{{ course_id }}/{{ lecture_id }}/{{ question.id }}/">{{ question.question_text }}</a>
-                            </th>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% endblock result_list %}
-        {% else %}
-            <p>No questions are available.</p>
-        {% endif %}
-        </form>
-        </div>
-    </div>
+		<div class="actions"><label>
+				Menu:
+				<select name="action">
+				<option value selected="selected">------------</option>
+				
+				</select>
+		</label></div>
+		
+		{% if question_list %}
+		{% block result_list %}
+		<div class="results">
+			<table id="result_list">
+				<thead>
+					<tr>
+						<th scope="col" class="action-checkbox-column">
+							<div class="text"><span>
+								<input type="checkbox" id="action-toggle" style="display: inline-block;">
+							</span></div>
+							<div class="clear"></div>
+						</th>
+						<th scope="col" class="sortable column-question_text">
+							<div class="text"><a href="?o=1">Questions</a></div>
+							<div class="clear"></div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for question in question_list %}
+						<tr class="{% cycle 'row1' 'row2' %}">
+							<td width="2%" class="action-checkbox">
+								<input class="action-select" name="_selected_action" type="checkbox" value="{{ question.id }}">
+							</td>
+							<td width="73%">
+								<a href="/teacher/{{ course_id }}/{{ lecture_id }}/{{ question.id }}/">
+									{{ question.question_text }}
+								</a>
+							</td>
+							<td width="15%" align="center">
+							{% if question.answerable = True %}
+								<form action="{% url 'teacher:closeVoting' course_id lecture_id %}">
+									<button type="submit" class="toggleButton" name="question_id" value="{{ question.id }}">
+										Close question
+									</button>
+								</form>
+							{% else %}
+								<form action="{% url 'teacher:openVoting' course_id lecture_id %}">
+									<button type="submit" class="toggleButton" name="question_id" value="{{ question.id }}">
+										Open question
+									</button>
+								</form>
+							{% endif %}
+							</td>
+							<td width="10%" align="center">
+								<form action="{% url 'teacher:editToggleQuestion' course_id lecture_id %}">
+									<button type="submit" class="edit" name="question_id" value="{{ question.id }}">
+										Edit
+									</button>
+								</form>
+							</td>
+						</tr>
+						{% if question.editable %}
+						<tr>
+							<td colspan="4">
+								<table>
+									<form action="{% url 'teacher:saveChangesQuestion' course_id lecture_id %}" method="post">
+										<tr>
+											<td width="10%" class="edit" align="center">
+													Edit Question:
+											</td>
+											<td width="30%" align="center">
+												{% csrf_token %}
+												<input type="text" size="100%" name="questionText" value="{{ question.question_text }}">
+											</td>
+											<td width="10%" class="edit" align="center">
+													Edit Answer Time:
+											</td>
+											<td width="15%" align="center">
+												{% csrf_token %}
+												<input type="text" size="25%" name="answerTime" value="{{ question.answer_time }}">
+											</td>
+											<td width="10%" class="edit" align="center">
+													Edit Vote Time
+											</td>
+											<td width="15%" align="center">
+												{% csrf_token %}
+												<input type="text" size="25%" name="voteTime" value="{{ question.vote_duration }}">
+											</td>
+											<td width="10%" align="center">
+												<button type="submit" class="edit" name="question_id" value="{{ question.id }}">
+													Save Changes
+												</button>
+											</td>
+										</tr>
+									</form>
+								</table>
+							</td>							
+						</tr>
+						{% endif %}
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		{% endblock result_list %}
+		{% else %}
+			<p>No questions are available.</p>
+		{% endif %}
+		</div>
+	</div>
 {% endblock %}

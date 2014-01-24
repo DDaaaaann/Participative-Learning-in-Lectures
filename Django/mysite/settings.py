@@ -14,7 +14,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 ROOT_PATH = os.path.join(os.path.dirname(__file__), "..")
 
-MEDIA_ROOT = os.path.join(ROOT_PATH, 'templates', 'polls', 'media')
+MEDIA_ROOT = os.path.join(ROOT_PATH, 'templates', 'media')
 MEDIA_URL = 'http://127.0.0.1:8000/media/'
 
 STATICFILES_DIRS = (
@@ -31,12 +31,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, "../static_root")
 SECRET_KEY = '_cv^3oz)3)=30j)ru^xejygi)j_-y8@hrwy9qn&z49s*vi5h7p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+#voor als het af is:
+#DEBUG = False
+#ALLOWED_HOSTS = '*'
+
 DEBUG = True
 
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
