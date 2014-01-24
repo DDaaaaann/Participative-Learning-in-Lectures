@@ -65,8 +65,6 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-        
-        //alert("{% url 'courses:results' lecture.course_id lecture.id question.id %}");
 
             // Calculate round end time for the first voting round
             var voteStart = {{ question.vote_start|date:"U" }};
