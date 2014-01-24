@@ -510,11 +510,25 @@ div.resultsVotes {
 #ProfilePage
 {
     /* Move it off the top of the page, then centre it horizontally */
-    margin: 50px auto;
-    width: 635px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    float: left;
+    /*width: 635px;*/
 
 /* For visibility. Delete me */
 /*border: 1px solid red;*/
+}
+.profile {
+    width: 100%;
+    
+}
+.profile td, th {
+    border: none;
+    vertical-align: middle;
+}
+
+.profile  #rightcol {
+    width: 50%;
 }
 
 #LeftCol

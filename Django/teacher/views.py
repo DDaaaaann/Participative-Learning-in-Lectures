@@ -496,6 +496,7 @@ def saveChangesQuestion(request, course_id, lecture_id):
 
 def profile_page(request):
     a=User.objects.get(pk=request.user.id)
+    course_list = request.user.course_set.all()
     # profile = a.get_profile().username
     tid = request.user.id
     pw = request.user.password
@@ -505,6 +506,7 @@ def profile_page(request):
         'title': 'My profile',
         'profile': a,
         'teach_id': tid,
+        'course_list': course_list,
     })
 
     return HttpResponse(template.render(context))
