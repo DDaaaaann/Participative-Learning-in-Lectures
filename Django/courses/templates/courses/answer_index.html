@@ -1,4 +1,4 @@
-{% extends "admin/base.html" %}
+{% extends "courses/question_index.html" %}
 {% load i18n %}
 {% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
 
@@ -9,28 +9,12 @@
 
 
 {% block breadcrumbs %}
-    <div class="breadcrumb">
-        <a href="{% if user.is_superuser %}{% url 'admin:index' %} 
-                 {% elif user.is_staff %}{% trans '/teacher/' %} 
-                 {% else %}{% trans '/courses/' %}
-                 {% endif %}">{% trans 'Home' %}</a>
-        &rsaquo;
-        <a href="{% url 'courses:course_index' %}">
-            {% trans 'Courses' %}
-        </a>
-        &rsaquo;
-        <a href="/courses/{{ course_id }}/">
-            {% trans 'Lectures' %}
-        </a>
-        &rsaquo;
-        <a href="/courses/{{ course_id }}/{{ lecture_id }}/">
-            {% trans 'Questions' %}
-        </a>
-        &rsaquo;
-        <a href="/courses/{{ course_id }}/{{ lecture_id }}/{{ answer_id }}">
-            {% trans 'Answers' %}
-        </a>
-    </div>
+    {{ block.super }}
+    &rsaquo;
+    <a href="/courses/{{ course_id }}/{{ lecture_id }}/{{ answer_id }}">
+        {% trans 'Answers' %}
+    </a>
+
 {% endblock %}
 
 {{ title }}

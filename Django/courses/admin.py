@@ -57,13 +57,23 @@ def resetAnswers(modeladmin, request, queryset):
 resetAnswers.short_description = "Reset all the 'openForVoting'-booleans"
 
 def patternRecognition(modeladmin, request, queryset):
+    # This function only works with one question at a time. The site completely
+    # blocks when multiple questions are selected at the question_index page. I
+    # think, however, this isn't a problem we should be worrying about, since
+    # this function should be automatically called at the teacher's answer_index
+    # page.
     """
     Search the answers of a question for commonalities. This might help the
     teacher to get an overall impression of the students' knowledge on the
     subject.
     """
+    # Get the language from the question.
+    englishQuestion = Question.objects.filter(id=queryset)[0].english
     # Set up a list of all the words that should be filtered.
-    nonNouns = ['a', 'an', 'of', 'the']
+    if englishQuestion:
+        nonNouns = ['a', 'an', 'of', 'the']
+    else:
+        nonNouns = ['de', 'het', 'een', 'of']
     # Get all the answers out of the database.
     list_of_answers = Answer.objects.filter(question_id=queryset)
     # Put all the words of the answers into an array, or a list.

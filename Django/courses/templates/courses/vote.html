@@ -5,14 +5,13 @@
 {% endblock %}
 
 {% block branding %}
-	<div id="logo" class="logo" href="/courses" onclick="window.location = '/courses';">
-	</div>
+{{ block.super }}
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
 
 {% block breadcrumbs %}
-	<div class="breadcrumb">
+	
 		<a href="{% url 'admin:index' %}">
 			{% trans 'Home' %}
 		</a>
@@ -28,7 +27,7 @@
 		<a href="/courses/{{ course_id }}/{{ lecture_id }}/">
 			{% trans 'Questions' %}
 		</a>
-	</div>
+	
 {% endblock %}
 
 {{ title }}
