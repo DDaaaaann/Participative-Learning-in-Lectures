@@ -60,6 +60,9 @@ class Question(models.Model):
     # Answerable is the boolean to decide if the poll / question is still
     # vulnerable for new votes.
     answerable = models.BooleanField('Open for voting',default=True)
+    # English is the boolean to set the language, True for English, False for
+    # Dutch.
+    english = models.BooleanField('Language', default=True)
     # Tags are the keywords the teacher wants to see in the student's answers.
     tags = models.CharField(max_length=200, default='')
     # Voting is an unknown boolean.
