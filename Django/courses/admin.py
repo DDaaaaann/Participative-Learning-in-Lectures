@@ -1,4 +1,5 @@
 from django.contrib import admin
+from collections import Counter
 from models import Question, Course, Lecture, Answer
 import math
 
@@ -55,6 +56,29 @@ def resetAnswers(modeladmin, request, queryset):
         answer.save()
 resetAnswers.short_description = "Reset all the 'openForVoting'-booleans"
 
+def patternRecognition(modeladmin, request, queryset):
+    """
+    Search the answers of a question for commonalities. This might help the
+    teacher to get an overall impression of the students' knowledge on the
+    subject.
+    """
+    # Set up a list of all the words that should be filtered.
+    nonNouns = ['a', 'an', 'of', 'the']
+    # Get all the answers out of the database.
+    list_of_answers = Answer.objects.filter(question_id=queryset)
+    # Put all the words of the answers into an array, or a list.
+    words = []
+    for answer in list_of_answers:
+        words += answer.answer_text.lower().split()
+    # Remove the abundant words.
+    newList = [item for item in words if item not in nonNouns]
+    # Search for repeating words.
+    count = Counter(newList)
+    # Show the most repeating words, nicely.
+    print "Top 5:"
+    print count.most_common(5)
+patternRecognition.short_description = "Count the keywords"
+
 class LectureInline(admin.TabularInline):
     model = Lecture
     extra = 3
@@ -97,7 +121,7 @@ class QuestionAdmin(admin.ModelAdmin):
                     'has_been_published', 'receiving_answers')
     list_filter = ['pub_date']
     Search_fields = ['question_text']
-    actions = [openVoting, closeVoting, filterAnswers, resetAnswers]
+    actions = [openVoting, closeVoting, filterAnswers, resetAnswers, patternRecognition]
 
 
 class AnswerAdmin(admin.ModelAdmin):
