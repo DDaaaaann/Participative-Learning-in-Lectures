@@ -5,14 +5,13 @@
 {% endblock %}
 
 {% block branding %}
-	<div id="logo" href="/courses" onclick="window.location = '/courses';">
-	</div>
+{{ block.super }}
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
 
 {% block breadcrumbs %}
-	<div class="breadcrumb">
+	
 		<a href="{% url 'admin:index' %}">
 			{% trans 'Home' %}
 		</a>
@@ -28,52 +27,159 @@
 		<a href="/courses/{{ course_id }}/{{ lecture_id }}/">
 			{% trans 'Questions' %}
 		</a>
-	</div>
+	
 {% endblock %}
 
 {{ title }}
-{% block content %}
-	{% load poll_extras %}
-	
-	<div id="content-main">
-		<div class="module" id="changelist">
 
-			{% block answer %}
-			<div class="results">
-				<table id="result_list">
-					<thead>
-						<tr>
-							<th scope="col"> 
-								<span class="text"><a href="?o=1">Questions</a></span>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<h1>{{ question.question_text }}</h1>
-						<h1>Choose the best possible answer</h1>
-						<form action="{% url 'courses:vote' lecture.course_id lecture.id question.id %}" method="post">
-							<table border="0" width="100%" height="100%"> 
-								<tr align="center" valign="center" height="100%">
-								{% csrf_token %}
-								{% for answer in question.answers.filter|voteFilter|slice:":2" %}
-									<td width="50%" height="100%">
-										<button type="submit" name="answer" id="answer{{ forloop.counter }}" value="{{ answer.id }}" style="height: 200px; width: 80%">
-											{{ answer.answer_text }}
-										</button> 
-									</td>
-								{% endfor %}
-								</tr>
-							</table>
-							<form action="{% url 'courses:results' lecture.course_id lecture.id question.id %}" method="post">
-								<br/><button type="submit" value="skip" >
-									Skip
-								</button>
-							</form>
-						</form>
-					</tbody>
-				</table>
-			</div>
-			{% endblock answer %}
-		</div>
-	</div>
+{% block content %}
+
+	{% load poll_extras %}
+
+
+    {% block answer %}
+    <div class="results">
+
+        <div class="title">
+            <div class="question">{{ question.question_text }}</div>
+            <div class="description">Choose the best possible answer</div>
+        </div>
+
+        <div class="voteWrapper">
+
+            {% for answer in question.answers.filter|voteFilter|slice:":2" %}
+                <div class="voteButton">
+                    <button type="submit" name="answer" id="answer" value="{{ answer.id }}" class="voteButton">{{ answer.answer_text }}</button>
+                </div>
+            {% endfor %}
+
+            <div id="voteTimer" class="voteTimer"></div>
+
+        </div>
+
+        <div class="voteSkip"><button type="submit" value="skip" >skip</button></div>
+
+    </div>
+    {% endblock answer %}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            // Calculate round end time for the first voting round
+            var voteStart = {{ question.vote_start|date:"U" }};
+            var roundDuration = {{ question.vote_duration }};
+            var round = Math.floor(((new Date().getTime()/1000) - {{ question.vote_start|date:"U" }}) / roundDuration) + 1;
+
+            //If the voting has already started, check which round we have to start. Else start countdown
+            if ({{ question.vote_start|date:"U" }} < (new Date().getTime()/1000)) {
+                //Calculate remaining round time
+                time = (voteStart + (round) * roundDuration) - Math.round((new Date().getTime()/1000));
+                drawStartRound(time, round);
+            } else {
+                drawCountdown({{ question.vote_start|date:"U" }} - Math.round((new Date().getTime()/1000)));
+            }
+
+            function drawStartRound(time, round) {
+                if (round > 30000) {
+                    clearVotingScreen();
+                    setDescription("Voting done. Please continue to result screen.", 1);
+                    goToResult();
+                } else {
+                    setTimer("#voteTimer", time, "");
+                    setDescription("Choose the best possible answer - voting round = " + round, 1);
+                }
+            }
+            
+            function goToResult() {
+                window.location = "{% url 'courses:results' lecture.course_id lecture.id question.id %}";
+            }
+            
+            function clearVotingScreen() {
+                $('.voteButton').empty();
+                $('.voteSkip').empty();
+            }
+            
+            function setDescription(description, highlight) {
+                $('.description').html(description);
+                if (highlight) {
+                    $('.description').effect("highlight", {}, 3000);
+                }
+            }
+
+            function drawCountdown(time) {
+                setTimer("#voteTimer", time, "");
+                clearVotingScreen();
+                setDescription("Please wait until the voting starts", 1);
+            }
+
+            function saveVote(value) {
+
+                if (value != "") {
+
+                    var data = { choice:value };
+                    var args = { type:"POST", url:"/courses/{{ lecture.course_id }}/{{ lecture.id }}/{{ question.id }}/ajaxvote/", data:data, complete:create_vote_complete };
+                    $.ajax(args);
+                
+                } else {
+                    
+                }
+                return false;
+            };
+            
+            var create_vote_complete = function(res, status) {
+                if (status == "success") {
+                    clearVotingScreen();
+                    setDescription("Vote saved! Please wait for the next round!", 1);
+                }
+                else
+                {
+                    clearVotingScreen();
+                    setDescription("Error! The vote wasn't saved, please contact us if you keep seeing this message.", 1);
+                }
+            }
+
+            $("button").click(function(){
+                var update = $(this).attr("value");
+
+                var currentTime = Math.round(new Date().getTime() / 1000);
+                var roundEndTime = Math.round(new Date().getTime() / 1000) + 300;
+                
+                //alert('You clicked the button with value = ' + update);
+                
+                saveVote(update);
+
+                //ajax stuff
+            });
+            
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            var csrftoken = getCookie('csrftoken');
+
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+            $.ajaxSetup({
+                crossDomain: false, // obviates need for sameOrigin test
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type)) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+        });
+    </script>
 {% endblock %}

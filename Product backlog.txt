@@ -1,5 +1,11 @@
 Product backlog
 
+Accounts
+- Er zijn 3 soorten accounts
+- Admin: Een admin heeft op alle klassen rechten, deze kan users toevoegen, vragen verwijderen en toevoegen, editten, kan nieuwe admins maken, docenten toevoegen.
+- Staff(teacher): Als teacher moet je een vak kunnen aanmaken als deze nog niet bestaat, je kan een sessie starten en vragen stellen, sessies sluiten, klein inzicht in het profiel van studenten, 
+- Student: Studenten kunnen vakken zoeken, meedoen aan vakken, lectures en sessies, hun startpagina(profiel) zien, studenten kunnen antwoorden en voten
+
 Vraag, Antwoord en Raten
 - Een docent heeft op de homepage al zijn/haar vakken staan
 - Bij elk vak kan een nieuwe sessie gestart worden (lecture)
@@ -7,10 +13,13 @@ Vraag, Antwoord en Raten
 - De docent kan de vraag 'open' maken, de vraag is zichtbaar voor studenten
 - De vraag kan nu beantwoord worden door alle studenten
 - Heeft een student geen idee, dan kan deze de vraag passen
+
 - Als dit gedaan is kunnen studenten de antwoorden van hun mede-studenten gaan ranken met behulp van voten
 - Heeft een student niet gevote, dan kan deze in de volgende ronden niet meedoen
 - Een student heeft wel de optie om een vote te skippen, bijvoorbeeld bij 2 foute antwoorden
 - Als een student skipt mag deze in de volgende ronden wel gewoon mee stemmen
+- Als de student niet kan kiezen welk antwoord het beste is, is het mogelijk om op beide vragen te stemmen (button)
+
 - Er zijn 3 stemronden met elk 3 schermen
 - Na de stemronden komt er een top 3 of top 5 van de hoogst gerate antwoorden
 - Vervolgens moet de docent deze sessie kunnen sluiten
@@ -38,13 +47,14 @@ Mobiele versie
 - duidelijke simpele interface
 
 
+# # # # Optioneel # # # #
 Blackboard/Sakai
 - De app moet kunnen werken in blackboard
 - Een gebruiker logt in en gaat vervolgens naar de app
 - Blackboard geeft nodige informatie (variabelen) aan de app
 
 
-Analytics
+Analytics (Staan in de database opgeslagen dus kan altijd nog een functie voor geschreven worden)
 - Verkregen data moet verwerkt worden om nuttig gebruikt te kunnen worden
 - Dit houdt in dat de docent kan zien welke studenten goed mee doen en welke extra aandacht nodig hebben
 - Door met studentnummers te werken, krijgt de docent een persoon gebonden overzicht 

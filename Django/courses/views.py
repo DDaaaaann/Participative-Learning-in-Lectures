@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseServerError
 from django.template import RequestContext, loader
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -48,10 +48,10 @@ def course_index(request):
     
 @user_login_required
 def lecture_index(request, course_id):
-    course = Course.objects.get(id=course_id)
-    #course = course.lectures.get(teacher_id=request.user.id)
+    course_list = request.user.course_set.all()
+    course = get_object_or_404(course_list, id=course_id)
+    
     lecture_list = course.lectures.order_by('lecture_text')
-    #lecture_list = course.lectures.filter(teacher_id=request.user.id).order_by('-lecture_text')
 
     template = loader.get_template('courses/lecture_index.html')
 
@@ -65,6 +65,9 @@ def lecture_index(request, course_id):
 
 @user_login_required
 def question_index(request, course_id, lecture_id):
+    course_list = request.user.course_set.all()
+    get_object_or_404(course_list, id=course_id)
+    
     lecture = Lecture.objects.get(id=lecture_id)
     question_list = lecture.questions.order_by('-pub_date')
     template = loader.get_template('courses/question_index.html')
@@ -139,3 +142,16 @@ def answer(request, course_id, lecture_id, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('courses:vote', args=(course_id, lecture_id, question_id,)))
+
+def ajax_vote(request, course_id, lecture_id, question_id):
+    q = get_object_or_404(Question, pk=question_id)
+    l = get_object_or_404(Lecture, pk=lecture_id)
+
+    try:
+        selected_choice = q.answers.get(pk=request.POST['choice'])
+    except (KeyError, Answer.DoesNotExist):
+        return HttpResponseServerError("You didn't select a choice.")
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+        return HttpResponseRedirect(reverse('courses:results', args=(course_id, lecture_id, question_id,)))

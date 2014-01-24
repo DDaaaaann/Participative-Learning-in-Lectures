@@ -6,9 +6,7 @@
 {% endblock %}
 
 {% block branding %}
-	<div id="logo" href="/admin" onclick="window.location = '/admin';">
-	</div>
-	<h1 id="site-name">{% trans ' ' %}</h1>
+	{{ block.super }}
 {% endblock %}
 
 {% block nav-global %}{% endblock %}

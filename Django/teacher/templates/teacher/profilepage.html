@@ -10,25 +10,23 @@
 
 
 {% block breadcrumbs %}
-<div class="breadcrumbs">
-<a href="{% if user.is_superuser %}{% url 'admin:index' %} 
-         {% elif user.is_staff %}{% trans '/teacher/' %} 
-         {% else %}{% trans '/courses/' %}
-         {% endif %}">{% trans 'Home' %}</a>
-&rsaquo; <a href="{% url 'teacher:course_index' %}">{% trans 'Courses' %}</a>
-</div>
+{{ block.super }}
 {% endblock %}
 
 {% block coltype %}flex{% endblock %}
 {{ title }}
 
 {% block content %}
+<div id="content-main">
 
 {% if user.is_authenticated %}
     <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
 {% else %}
     <p>Welcome, new user. Please log in.</p>
 {% endif %}
+<table class="profile">
+<tr>
+<td>
 <div id="ProfilePage">
     <div id="LeftCol">
         <div id="Photo"><img src="{{ STATIC_URL }}polls/images/dummypic.jpg" alt="dummypic" title="dummypic" width="200" height="200" /></div>
@@ -62,8 +60,45 @@
             <span>{{ profile.last_login }}</span>
         </p>
     </div>
-
     <!-- Needed because other elements inside ProfilePage have floats -->
     <div style="clear:both"></div>
+</div>
+</td>
+<td id="rightcol">
+<div class="module" id="changelist">
+    {% if course_list %}
+        {% block result_list %}
+            <div class="results">
+                <table id="result_list">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <span class="text">
+                                    <a href="/courses/">
+                                        My Courses
+                                    </a>
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for course in course_list %}
+                            <tr class="{% cycle 'row1' 'row2' %}">
+                                <td>
+                                    <a href="/courses/{{ course.id }}/">
+                                        {{ course.course_text }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endblock result_list %}
+    {% endif %}
+</div>
+</td>
+</tr>
+</table>
 </div>
 {% endblock content %}
