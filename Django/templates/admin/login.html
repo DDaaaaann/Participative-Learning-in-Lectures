@@ -1,13 +1,14 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_static %}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />{% endblock %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static 'admin/css/login.css' %}" />{% endblock %}
 
 {% block bodyclass %}login{% endblock %}
 
 {% block nav-global %}{% endblock %}
 {% block branding %} {{ block.super }} {% endblock %}
 {% block user-tools %}{% endblock %}
+{% block menu %}{% endblock %}
 
 
 {% block content_title %}{% endblock %}
@@ -49,6 +50,11 @@
     {% endif %}
     <div class="submit-row">
         <button class="btn btn-primary" type="submit" >{% trans 'Log in' %}</button>
+    </div>
+</form>
+<form action="/">
+    <div class="admin-login">
+        <button class="btn btn-primary" type="submit">Click here to log in as user</button>        
     </div>
 </form>
 
