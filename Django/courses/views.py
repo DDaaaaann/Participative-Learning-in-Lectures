@@ -15,11 +15,18 @@ from models import Answer
 
 @user_login_required
 def course_enroll(request):
+    course_info = []
     course_list = Course.objects.order_by('course_text')
     template = loader.get_template('courses/course_enroll.html')
+    #teacher_list = User.object.filter(is_staff=1)
+    
+    for course in course_list:
+        teachers = course.teachers.filter(is_staff=1)
+        course_info.append((course, teachers))
     
     context = RequestContext(request, {
         'course_list': course_list,
+        'course_info': course_info,
         'title': 'Select a course you want to enroll',
     })
     
