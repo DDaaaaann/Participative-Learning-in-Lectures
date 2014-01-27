@@ -1,12 +1,15 @@
 #header {
+    position:relative;
     background-color: #666;
     /*background: #666 url(images/logo_pils_niet_groen_vinkje.png) left center no-repeat;
     background-size: 200px 40px;*/
     height:40px;
     width:100%;
+    z-index:1;
 } 
 
 div.logowrapper {
+    float:left;
     width: 200px;
     height: 40px;
 }
@@ -151,13 +154,16 @@ a:active {color: #003439;}  /* selected link */
 /* MENU */
 
 #cssmenu {
+    position: absolute;
+    top: 0;
+    left: 200px;
     padding: 0; 
     margin: 0; 
     border: 0;
     background: #666;
-    border-bottom: 4px solid #1F919B;
     font-weight: bold;
-    font-size: 12px; 
+    font-size: 12px;
+    z-index:500;
 }
 
 #cssmenu ul {
@@ -192,7 +198,7 @@ a:active {color: #003439;}  /* selected link */
 }
 
 #cssmenu ul ul {
-    visibility: hidden;
+    display: none;
     position: absolute;
     top: 100%;
     left: 0;
@@ -229,7 +235,7 @@ a:active {color: #003439;}  /* selected link */
 }
 
 #cssmenu > ul > li > a {
-    line-height: 38px;
+    line-height: 40px;
 }
 
 #cssmenu ul ul li:first-child > a {
@@ -271,7 +277,7 @@ a:active {color: #003439;}  /* selected link */
 }
 
 #cssmenu ul li:hover > ul {
-    visibility: visible;
+    display:block;
 }
 
 #cssmenu ul li:hover > a, #cssmenu ul li.active > a {

@@ -1,13 +1,11 @@
 {% extends "admin/base.html" %}
 {% load i18n admin_urls admin_static admin_list %}
 {% load cycle from future %}
-
 {% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
 
 
 {% block nav-global %}{% endblock %}
 {% block branding %} {{ block.super }} {% endblock %}
-
 
 {% block breadcrumbs %}
 {{ block.super }}
@@ -29,8 +27,7 @@
                     </li>
                 {% endblock object-tools-items %}
             </ul>
-        {% endblock object-tools %}
-        
+        {% endblock object-tools %}        
         <div class="module" id="changelist">
 
         <div class="actions"><label>
