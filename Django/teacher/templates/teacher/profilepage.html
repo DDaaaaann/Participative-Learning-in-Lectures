@@ -14,10 +14,12 @@
 {% endblock %}
 
 {% block coltype %}flex{% endblock %}
+
 {{ title }}
 
 {% block content %}
 <div id="content-main">
+
 
 {% if user.is_authenticated %}
     <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
