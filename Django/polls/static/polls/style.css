@@ -614,6 +614,8 @@ border: 1px solid brown;
 /* Primary submit button */
 
 .button, input[type=submit], input[type=button], .submit-row input {
+    background: #666;
+    color: #FFF;
     display: inline-block;
     padding: 6px 12px;
     margin-bottom: 0;
@@ -637,7 +639,15 @@ border: 1px solid brown;
 .button.default, input[type=submit].default, .submit-row input.default {
     color: #fff;
     background: #666;
-    border-color: #666
+    border-color: #666;
+    float: none;
+}
+
+
+.button.default, input[name="_addanother"] input[type=submit].default {
+    color: #fff;
+    background: #ff9231;
+    border-color: #ff9231;
 }
 
 .button.default:hover, input[type=submit].default:hover {
