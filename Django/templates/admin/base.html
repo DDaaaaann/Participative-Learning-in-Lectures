@@ -1,43 +1,43 @@
 {% load admin_static %}{% load firstof from future %}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
-<title>{% block bootstrap3 %} PILS | {{title}}{% endblock %}</title>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-<script type="text/javascript" src="/media/timer/jquery.pietimer.js"></script>
-<link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}" />
-{% block extrastyle %}{% endblock %}
-<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="{% block stylesheet_ie %}{% static "admin/css/ie.css" %}{% endblock %}" /><![endif]-->
-{% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
-<script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
+    <title>{% block bootstrap3 %} PILS | {{title}}{% endblock %}</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="/media/timer/jquery.pietimer.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}" />
+    {% block extrastyle %}{% endblock %}
+    <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="{% block stylesheet_ie %}{% static "admin/css/ie.css" %}{% endblock %}" /><![endif]-->
+    {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
+    <script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
 
-{% block extrahead %}
-<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
-<script type="text/javascript" src="/static/admin/js/core.js"></script>
-<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
-<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
-<script type="text/javascript" src="/static/admin/js/actions.js"></script>
-<script type="text/javascript" src="/media/sound-mouseover.js"></script>
-<script type="text/javascript" src="/media/jquery.hoverIntent.js"></script>
-<script type="text/javascript">
-(function($) {
-    $(document).ready(function($) {
-        $("tr input.action-select").actions();
-    });
-})(django.jQuery);
-django.jQuery;
-</script>
-{% endblock %}
+    {% block extrahead %}
+    <script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+    <script type="text/javascript" src="/static/admin/js/core.js"></script>
+    <script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+    <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+    <script type="text/javascript" src="/static/admin/js/actions.js"></script>
+    <script type="text/javascript" src="/media/sound-mouseover.js"></script>
+    <script type="text/javascript" src="/media/jquery.hoverIntent.js"></script>
+    <script type="text/javascript">
+    (function($) {
+        $(document).ready(function($) {
+            $("tr input.action-select").actions();
+        });
+    })(django.jQuery);
+    django.jQuery;
+    </script>
+    {% endblock %}
 
-{% block blockbots %}
-<meta name="robots" content="NONE,NOARCHIVE" />
-<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
-<link rel="shortcut icon" href="{% static 'polls/images/favicon.ico' %}" type="image/x-icon" /> 
-<link rel="icon" href="{% static 'polls/images/favicon.ico' %}" type="image/x-icon" />
-<link rel="stylesheet" type="text/css" href="{% static 'admin/css/changelists.css' %}" />{% endblock %}
-{% load bootstrap3 %}
-{% bootstrap_javascript %}
-{% bootstrap_css %}
+    {% block blockbots %}
+    <meta name="robots" content="NONE,NOARCHIVE" />
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+    <link rel="shortcut icon" href="{% static 'polls/images/favicon.ico' %}" type="image/x-icon" /> 
+    <link rel="icon" href="{% static 'polls/images/favicon.ico' %}" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/changelists.css' %}" />{% endblock %}
+    {% load bootstrap3 %}
+    {% bootstrap_javascript %}
+    {% bootstrap_css %}
 </head>
 {% load i18n %}
 
