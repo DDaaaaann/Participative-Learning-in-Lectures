@@ -64,24 +64,43 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-
             // Calculate round end time for the first voting round
-            var voteStart = {{ question.vote_start|date:"U" }};
+           
+            // Set votestart var, if votestart isn't correct in the database, stop execution of js code and return to index
+            if (!setVoteStart()) {
+                return;
+            }
+            
+            function setVoteStart() {
+            
+                voteStart = Number({{ question.vote_start|date:"U" }});
+                
+                if (voteStart == '') {
+                    clearScreen();
+                    setDescription("There was a problem with your request. Please try again later", 1);
+                    
+                    setTimeout('window.location = "{% url 'courses:course_index' %}"', 2500);
+                    
+                    return false;
+                    
+                }
+            }       
+            
             var roundDuration = {{ question.vote_duration }};
-            var round = Math.floor(((new Date().getTime()/1000) - {{ question.vote_start|date:"U" }}) / roundDuration) + 1;
+            var round = Math.floor(((new Date().getTime()/1000) - voteStart) / roundDuration) + 1;
 
             //If the voting has already started, check which round we have to start. Else start countdown
-            if ({{ question.vote_start|date:"U" }} < (new Date().getTime()/1000)) {
+            if (voteStart < (new Date().getTime()/1000)) {
                 //Calculate remaining round time
                 time = (voteStart + (round) * roundDuration) - Math.round((new Date().getTime()/1000));
                 drawStartRound(time, round);
             } else {
-                drawCountdown({{ question.vote_start|date:"U" }} - Math.round((new Date().getTime()/1000)));
+                drawCountdown(voteStart - Math.round((new Date().getTime()/1000)));
             }
 
             function drawStartRound(time, round) {
                 if (round > 30000) {
-                    clearVotingScreen();
+                    clearScreen();
                     setDescription("Voting done. Please continue to result screen.", 1);
                     goToResult();
                 } else {
@@ -94,7 +113,7 @@
                 window.location = "{% url 'courses:results' lecture.course_id lecture.id question.id %}";
             }
             
-            function clearVotingScreen() {
+            function clearScreen() {
                 $('.voteButton').empty();
                 $('.voteSkip').empty();
             }
@@ -108,7 +127,7 @@
 
             function drawCountdown(time) {
                 setTimer("#voteTimer", time, "");
-                clearVotingScreen();
+                clearScreen();
                 setDescription("Please wait until the voting starts", 1);
             }
 
@@ -128,12 +147,12 @@
             
             var create_vote_complete = function(res, status) {
                 if (status == "success") {
-                    clearVotingScreen();
+                    clearScreen();
                     setDescription("Vote saved! Please wait for the next round!", 1);
                 }
                 else
                 {
-                    clearVotingScreen();
+                    clearScreen();
                     setDescription("Error! The vote wasn't saved, please contact us if you keep seeing this message.", 1);
                 }
             }
