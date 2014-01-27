@@ -76,7 +76,8 @@
                         <tr>
                             <th scope="col">
                                 <span class="text">
-                                    <a href="/courses/">
+                                    <a href="{% if user.is_staff %}{% trans '/teacher/' %}
+                                            {% else %}{% trans '/courses/' %}{% endif %}">
                                         My Courses
                                     </a>
                                 </span>
