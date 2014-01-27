@@ -519,16 +519,15 @@ div.resultsVotes {
 /* For visibility. Delete me */
 /*border: 1px solid red;*/
 }
-.profile {
+.userprofile {
     width: 100%;
     
 }
-.profile td, th {
-    border: none;
+.userprofile td, th {
     vertical-align: middle;
 }
 
-.profile  #rightcol {
+.userprofile  #rightcol {
     width: 50%;
 }
 
