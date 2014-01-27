@@ -43,7 +43,7 @@ def course_detail(request, course_id):
 def course_index(request):
     #course_list = Course.objects.order_by('course_text')
     #course_list = Course.objects.filter(teachers_id=request.user.id).order_by('course_text')
-    course_list = request.user.course_set.all()
+    course_list = request.user.course_set.all().order_by('course_text')
     
     template = loader.get_template('courses/course_index.html')
 

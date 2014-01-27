@@ -314,7 +314,7 @@ def course_change(request, course_id):
     
 @staff_member_required
 def course_index(request):
-    course_list = request.user.course_set.all()
+    course_list = request.user.course_set.all().order_by('course_text')
     #course_list = Course.objects.filter(teachers_id=request.user.id).order_by('-course_text')
 
     template = loader.get_template('teacher/course_index.html')
@@ -496,7 +496,7 @@ def saveChangesQuestion(request, course_id, lecture_id):
 
 def profile_page(request):
     a=User.objects.get(pk=request.user.id)
-    course_list = request.user.course_set.all()
+    course_list = request.user.course_set.all().order_by('course_text')
     # profile = a.get_profile().username
     tid = request.user.id
     pw = request.user.password
