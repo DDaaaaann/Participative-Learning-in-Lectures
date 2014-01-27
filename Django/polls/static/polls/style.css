@@ -121,6 +121,7 @@ a:active {color: #003439;}  /* selected link */
 
 .object-tools a:hover, .object-tools li:hover a {
     background: #FF9231 url(images/tool-right_over.gif) 100% 0 no-repeat;
+    text-decoration: none;
 }
 
 .object-tools a.viewsitelink, .object-tools a.golink {
@@ -505,7 +506,7 @@ div.resultsVotes {
     position: relative;
 }
     
-/*Profile Page */
+/* Profile Page */
 
 #ProfilePage
 {
@@ -608,4 +609,40 @@ border: 1px solid brown;
 /* For visibility. Delete me */
 /* border: 1px solid purple; */
 
+}
+
+
+/* Primary submit button */
+
+.button, input[type=submit], input[type=button], .submit-row input {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.428571429;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    color: #fff;
+    background: #666;
+    border-color: #666
+}
+
+.button.default:hover, input[type=submit].default:hover {
+    color: #fff;
+    background: #ff9231;
+    border-color: #ff9231;
 }

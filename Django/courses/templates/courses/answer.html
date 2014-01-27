@@ -43,7 +43,37 @@
 			<div class="results">
                 <script type="text/javascript">
                     $(function() {                   
-                        voteStart = {{ question.vote_start|date:"U" }};
+                        
+                        if (!setVoteStart()) {
+                            return;
+                        }
+                        
+                        function setVoteStart() {
+                        
+                            voteStart = Number({{ question.vote_start|date:"U" }});
+                            
+                            if (voteStart == '') {
+                                clearScreen();
+                                setDescription("There was a problem with your request. Please try again later", 1);
+                                
+                                setTimeout('window.location = "{% url 'courses:course_index' %}"', 2500);
+                                
+                                return false;
+                                
+                            }
+                        }
+                        
+                        function setDescription(description, highlight) {
+                            $('.description').html(description);
+                            if (highlight) {
+                                $('.description').effect("highlight", {}, 3000);
+                            }
+                        }
+                        
+                        function clearScreen() {
+                            $('.answerFormWrapper').empty();
+                        }
+                        
                         if (Math.round((new Date().getTime()/1000)) > voteStart) {
                             $(".answerwrapper").remove();
                             window.location = "{% url 'courses:vote' lecture.course_id lecture.id question.id %}";
@@ -55,12 +85,15 @@
 
                 <div class="answerwrapper">
                     <div class="answerform">
-                        <h1>{{ question.question }}</h1>
-                        <form action="{% url 'courses:answer' lecture.course_id lecture.id question.id %}" method="post" id="formAnswer">
-                            {% csrf_token %}
-                            <textarea name="answer" cols=40 rows=6 class="answerarea"></textarea>
-                            <p><input type="submit" value="Answer" />
-                        </form>
+                        <div class="question">{{ question.question_text }}</div>
+                        <div class="description">What is the answer to this question? Watch your time!</div>
+                        <div class="answerFormWrapper">
+                            <form action="{% url 'courses:answer' lecture.course_id lecture.id question.id %}" method="post" id="formAnswer">
+                                {% csrf_token %}
+                                <textarea name="answer" cols=40 rows=6 class="answerarea"></textarea>
+                                <p><input type="submit" value="Answer" />
+                            </form>
+                        </div>
                     </div>
                     <div id="timer"></div>
                 </div>
