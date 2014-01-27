@@ -64,7 +64,7 @@ django.jQuery;
                 {% endif %}
             {% endblock %}
         </div>
-        
+            
         {% if user.is_active %}
         <div id="user-tools">
             {% block user-tools %}
@@ -94,7 +94,9 @@ django.jQuery;
         {% endif %}
         {% block nav-global %}{% endblock %}
     </div>
+    {% block menu %}{% include "menu.html" %}{% endblock %}
     <!-- END Header -->
+
     {% block crumbs %}
     <div class="breadcrumb">
     {% block breadcrumbs %}
