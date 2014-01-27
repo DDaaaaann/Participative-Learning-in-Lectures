@@ -115,7 +115,7 @@ a:active {color: #003439;}  /* selected link */
     float: left;
     color: white;
     padding: .1em 14px .1em 8px;
-    height: 14px;
+    height: 16px;
     background: #666 url(images/tool-right.gif) 100% 0 no-repeat;
 }
 
@@ -207,15 +207,14 @@ a:active {color: #003439;}  /* selected link */
     bottom: 0;
     left: 0;
     margin-top: 0;
-    border-top: 4px solid #FF9231;
     text-transform: none;
     min-width: 190px; 
 }
 
 #cssmenu ul ul a {
+    opacity: 0.98;
     background: #666;
     color: #FFF;
-    border: 2px solid #FF9231;
     border-top: 0 none;
     line-height: 100%;
     padding: 16px 20px; 
@@ -238,10 +237,6 @@ a:active {color: #003439;}  /* selected link */
     line-height: 40px;
 }
 
-#cssmenu ul ul li:first-child > a {
-    border-top: 1px solid #FF9231;
-}
-
 #cssmenu ul ul li:hover > a {
     background: #FF9231;
     content: '>';
@@ -249,11 +244,10 @@ a:active {color: #003439;}  /* selected link */
 
 #cssmenu ul ul li:last-child > a {
       border-radius: 0 0 3px 3px;
-      box-shadow: 0 1px 0 #FF9231; 
 }
 
 #cssmenu ul ul li:last-child:hover > a {
-    border-radius: 0 0 0 3px;
+    border-radius: 0 0 3px 3px;
 }
 
 #cssmenu ul ul li.has-sub > a:after {
@@ -282,7 +276,7 @@ a:active {color: #003439;}  /* selected link */
 
 #cssmenu ul li:hover > a, #cssmenu ul li.active > a {
     background: #FF9231;
-    color: #003439;
+    color: #FFF;
 }
 
 #cssmenu ul li.has-sub > a:after {
