@@ -178,6 +178,7 @@ def answer(request, course_id, lecture_id, question_id):
     l = get_object_or_404(Lecture, pk=lecture_id)
     try:
         givenAnswer = request.POST['answer']
+
         print givenAnswer
     except (KeyError, Answer.DoesNotExist):
         # Redisplay the poll answering form.

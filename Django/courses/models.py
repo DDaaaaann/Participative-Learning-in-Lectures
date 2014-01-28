@@ -20,6 +20,8 @@ class Lecture(models.Model):
     # setVoteTime, is visible.
     editable = models.BooleanField(default=False)
 
+    #student = models.ManyToManyField(User)
+
     def __str__(self):
         return self.lecture_text
 
