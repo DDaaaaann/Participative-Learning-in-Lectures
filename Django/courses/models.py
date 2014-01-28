@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class Course(models.Model):
     course_text = models.CharField(max_length=50, default='')
-    #teachers = models.ForeignKey(User, related_name='courses')
+    cat_number = models.CharField(max_length=10, unique=True)
 
     teachers = models.ManyToManyField(User)
     

@@ -71,9 +71,11 @@ class AnswerInline(admin.TabularInline):
 class CourseAdmin(admin.ModelAdmin):
     fieldsets = [
             ('Course name', {'fields': ['course_text']}),
-            ('Teachers', {'fields': ['teachers']})
+            ('Teachers', {'fields': ['teachers']}),
+            ('Catalogue number', {'fields': ['cat_number']}),
     ]
-    list_display = ('course_text',)
+
+    list_display = ('course_text','cat_number')
     inlines = [LectureInline]
     search_fields = ['course_text']
 
