@@ -29,7 +29,7 @@ def course_enroll(request):
             request.user.course_set.add(*courses)
 
     course_info = []
-    course_list = Course.objects.order_by('course_text')
+    course_list = Course.objects.exclude(id__in=request.user.course_set.all()).order_by('course_text')
     template = loader.get_template('courses/course_enroll.html')
     #teacher_list = User.object.filter(is_staff=1)
     
