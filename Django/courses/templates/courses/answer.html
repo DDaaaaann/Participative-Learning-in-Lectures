@@ -61,6 +61,8 @@
                                 return false;
                                 
                             }
+                            
+                            return true;
                         }
                         
                         function setDescription(description, highlight) {
@@ -75,7 +77,8 @@
                         }
                         
                         if (Math.round((new Date().getTime()/1000)) > voteStart) {
-                            $(".answerwrapper").remove();
+                            $(".answerFormWrapper").remove();
+                            setDescription("Time over! You will be redirected to the vote page!", 1);
                             window.location = "{% url 'courses:vote' lecture.course_id lecture.id question.id %}";
                         }
                         time = (voteStart - Math.round((new Date().getTime()/1000)));

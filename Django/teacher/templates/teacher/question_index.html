@@ -25,8 +25,8 @@
 							{% blocktrans %}Add Question{% endblocktrans %}
 						</a>
 					</li>
-					<li>
-						<a href="/polls/" class="addlink">
+                    <li>
+                        <a href="{% url 'teacher:startSession' course_id lecture_id %}" class="addlink">
 							{% blocktrans %}Start Session{% endblocktrans %}
 						</a>
 					</li>
