@@ -12,12 +12,14 @@ from models import Course
 from models import Lecture
 from models import Question
 from models import Answer
+from models import Lecture_student
 
 @user_login_required
 def course_enroll(request):
     course_info = []
     course_list = Course.objects.order_by('course_text')
     template = loader.get_template('courses/course_enroll.html')
+    #teacher_list = User.object.filter(is_staff=1)
     
     for course in course_list:
         teachers = course.teachers.filter(is_staff=1)
@@ -30,7 +32,6 @@ def course_enroll(request):
     })
     
     return HttpResponse(template.render(context))
-    
 
 def course_results(request, course_id):
     response = "You're looking at the results of course %s."
@@ -188,6 +189,8 @@ def answer(request, course_id, lecture_id, question_id):
         })
     else:
         q.answers.create(answer_text=givenAnswer, votes=0)
+        lecture = Lecture_student(lecture_id = lecture_id, user_id = request.user.id)
+        lecture.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.

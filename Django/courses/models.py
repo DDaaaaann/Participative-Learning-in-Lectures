@@ -24,6 +24,11 @@ class Lecture(models.Model):
     def __str__(self):
         return self.lecture_text
 
+class Lecture_student(models.Model):
+    lecture = models.ForeignKey(Lecture, related_name='lecture')
+    user = models.ForeignKey(User, related_name='student')
+
+
 class Question(models.Model):
     def __str__(self):
         return self.question_text
