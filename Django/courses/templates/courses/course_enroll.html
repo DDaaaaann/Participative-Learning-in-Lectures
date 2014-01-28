@@ -50,7 +50,31 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for course in course_info %}
+                            <form id="changelist-form" action method="post">
+                            {% csrf_token %}
+                                <div class="actions">
+                                    <label>
+                                        Action: 
+                                        <select name="action">
+                                            <option
+                                            value="my_onclick()">Enroll to
+                                            selected courses</option>
+                                        </select>
+                                    </label>
+                                    <input class="select-across"
+                                    name="select_across" type="hidden"
+                                    value="0">
+                                    <button type="submit" class="button" title="Run the selected action" name="index" value="0">Go
+                                <script type="text/javascript">
+                                    function my_onclick() {
+                                    document.getElementById["changelist-form"].submit();
+                                    } document.form.index.onclick = my_onclick
+                                </script>
+                                     </button>
+                               
+                                </div>
+                            </form>
+                            {% for course in course_info %}
 
                                 <tr class="{% cycle 'row1' 'row2' %}">
                                     <td class="action-checkbox">
@@ -74,8 +98,9 @@
                                     </td>
                                 </tr>
                                 {% endfor %}
-                            </tbody>
+                           </tbody>
                         </table>
+
                     </div>
                     {% endblock result_list %}
                     {% else %}
