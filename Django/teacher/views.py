@@ -328,9 +328,10 @@ def course_index(request):
     
 @staff_member_required
 def lecture_index(request, course_id):
-    course = Course.objects.get(id=course_id)
-    #course = course.lectures.get(teacher_id=request.user.id)
-    lecture_list = course.lectures.filter(teacher_id=request.user.id).order_by('-lecture_text')
+    course_list = request.user.course_set.all()
+    course = get_object_or_404(course_list, id=course_id)
+    
+    lecture_list = course.lectures.order_by('lecture_text')
 
     template = loader.get_template('teacher/lecture_index.html')
 
