@@ -10,6 +10,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
+from datetime import datetime, timedelta
 
 # Avoid shadowing the login() and logout() views below.
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout, get_user_model
@@ -328,9 +329,10 @@ def course_index(request):
     
 @staff_member_required
 def lecture_index(request, course_id):
-    course = Course.objects.get(id=course_id)
-    #course = course.lectures.get(teacher_id=request.user.id)
-    lecture_list = course.lectures.filter(teacher_id=request.user.id).order_by('-lecture_text')
+    course_list = request.user.course_set.all()
+    course = get_object_or_404(course_list, id=course_id)
+    
+    lecture_list = course.lectures.order_by('lecture_text')
 
     template = loader.get_template('teacher/lecture_index.html')
 
@@ -346,6 +348,18 @@ def lecture_index(request, course_id):
 def question_index(request, course_id, lecture_id):
     lecture = Lecture.objects.get(id=lecture_id)
     question_list = lecture.questions.order_by('-pub_date')
+    
+    if question_list:
+        for q in question_list:
+        
+            votingstart = q.vote_start - timedelta(seconds=q.answer_time)
+            votingend = q.vote_start + timedelta(seconds=(3*q.vote_duration))
+            now = datetime.now() + timedelta(hours=1)
+        
+            if votingend < now:
+                q.voting = 0
+        
+            q.save()
 
     template = loader.get_template('teacher/question_index.html')
 
@@ -386,6 +400,16 @@ def openVoting(request, course_id, lecture_id):
     else:
         m = l.questions.get(id=givenQuestionID)
         m.answerable=True
+        m.voting=True
+        
+        if m.vote_duration is 0:
+            m.vote_duration = 30;
+        
+        if m.answer_time is 0:
+            m.answer_time = 60;
+        
+        m.vote_start = datetime.now() + timedelta(seconds=m.answer_time) + timedelta(hours=1);
+        
         m.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
@@ -403,11 +427,46 @@ def closeVoting(request, course_id, lecture_id):
     else:
         m = l.questions.get(id=givenQuestionID)
         m.answerable=False
+        m.voting=False
+        m.vote_start = datetime.now() + timedelta(hours=1);
         m.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('teacher:question_index', args=(course_id, lecture_id,)))
+        
+def startSession(request, course_id, lecture_id):
+    l = get_object_or_404(Lecture, pk=lecture_id)
+    
+    lecture = Lecture.objects.get(id=lecture_id)
+    question_list = lecture.questions.order_by('-pub_date')
+    
+    i = 0
+    
+    totaltime = 7200
+    
+    if question_list:
+        for q in question_list:
+            q.voting=True
+            q.answerable=True
+            
+            if q.vote_duration is 0:
+                q.vote_duration = 30;
+        
+            if q.answer_time is 0:
+                q.answer_time = 60;
+                
+            totaltime += q.answer_time
+                
+            q.vote_start = datetime.now() + timedelta(seconds=totaltime) 
+            
+            totaltime += (3 * q.vote_duration)
+            
+            i += 1
+            
+            q.save()
+    
+    return HttpResponseRedirect(reverse('teacher:question_index', args=(course_id, lecture_id,)))
 
 def editToggleLecture(request, course_id):
     c = get_object_or_404(Course, pk=course_id)

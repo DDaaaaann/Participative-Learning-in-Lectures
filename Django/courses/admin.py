@@ -1,5 +1,6 @@
 from django.contrib import admin
 from collections import Counter
+from django.contrib.auth.models import User
 from models import Question, Course, Lecture, Answer
 import math
 
@@ -69,20 +70,26 @@ class AnswerInline(admin.TabularInline):
     extra = 1
 
 class CourseAdmin(admin.ModelAdmin):
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "teachers":
+            kwargs["queryset"] = User.objects.filter(is_staff=True)
+        return super(CourseAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
+
     fieldsets = [
             ('Course name', {'fields': ['course_text']}),
-            ('Teachers', {'fields': ['teachers']})
+            ('Teachers', {'fields': ['teachers']}),
+            ('Catalogue number', {'fields': ['cat_number']}),
     ]
-    list_display = ('course_text',)
+    
+    list_display = ('course_text','cat_number')
     inlines = [LectureInline]
-    search_fields = ['course_text']
+    search_fields = ['course_text','cat_number']
 
 
 class LectureAdmin(admin.ModelAdmin):
     fieldsets = [
             ('Lecture name', {'fields': ['lecture_text']}),
             ('Course', {'fields': ['course']}),
-            ('Teacher', {'fields': ['teacher']})
     ]
     list_display = ('lecture_text',)
     inlines = [QuestionInline]
@@ -97,7 +104,7 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = ('question_text', 'pub_date',
                     'has_been_published', 'receiving_answers')
     list_filter = ['pub_date']
-    Search_fields = ['question_text']
+    search_fields = ['question_text']
     actions = [openVoting, closeVoting, filterAnswers, resetAnswers]
 
 
