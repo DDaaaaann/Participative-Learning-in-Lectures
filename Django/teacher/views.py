@@ -23,9 +23,6 @@ def vote(request, question_id):
 def course_detail(request, course_id):
     return HttpResponse("You're looking at course %s." % course_id)
 
-def course_change(request, course_id):
-    course = Course.objects.get(id=course_id)
-    return HttpResponse("You're looking at change_course for %s." % course_id)
     
 @staff_member_required
 def course_index(request):
