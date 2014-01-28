@@ -18,6 +18,16 @@ from models import Lecture_student
 
 @user_login_required
 def course_enroll(request):
+    try:
+        action = request.POST['action']
+        course_ids = request.POST.getlist('course_ids[]')
+    except KeyError:
+        pass
+    else:
+        if action == 'enroll':
+            courses = Course.objects.filter(id__in=map(int, list(course_ids)))
+            request.user.course_set.add(*courses)
+
     course_info = []
     course_list = Course.objects.order_by('course_text')
     template = loader.get_template('courses/course_enroll.html')

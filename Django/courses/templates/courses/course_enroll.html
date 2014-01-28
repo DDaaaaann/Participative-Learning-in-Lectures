@@ -23,8 +23,23 @@
             {% if course_info %}
                 {% block result_list %}
                     <div class="results">
+                        <form id="changelist-form" method="post">
+                        {% csrf_token %}
                         <table id="result_list">
                             <thead>
+                                <tr>
+                                    <th colspan="3">
+                                        <div class="actions">
+                                            <label>
+                                                Action: 
+                                                <select name="action">
+                                                    <option value="enroll">Enroll to selected courses</option>
+                                                </select>
+                                            </label>
+                                            <button type="submit" class="button" title="Run the selected action">Go</button>
+                                        </div>
+                                    </th>
+                                </tr>
                                 <tr>
                                     <th scope="col" class="action-checkbox-column">
                                         <div class="text"><span>
@@ -50,35 +65,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <form id="changelist-form" action method="post">
-                            {% csrf_token %}
-                                <div class="actions">
-                                    <label>
-                                        Action: 
-                                        <select name="action">
-                                            <option
-                                            value="my_onclick()">Enroll to
-                                            selected courses</option>
-                                        </select>
-                                    </label>
-                                    <input class="select-across"
-                                    name="select_across" type="hidden"
-                                    value="0">
-                                    <button type="submit" class="button" title="Run the selected action" name="index" value="0">Go
-                                <script type="text/javascript">
-                                    function my_onclick() {
-                                    document.getElementById["changelist-form"].submit();
-                                    } document.form.index.onclick = my_onclick
-                                </script>
-                                     </button>
-                               
-                                </div>
-                            </form>
                             {% for course in course_info %}
 
                                 <tr class="{% cycle 'row1' 'row2' %}">
                                     <td class="action-checkbox">
-                                        <input class="action-select" name="_selected_action" type="checkbox" value="{{ course.id }}">
+                                        <input class="action-select" name="course_ids[]" type="checkbox" value="{{ course.0.id }}">
                                     </td>
 
                                     <td>
@@ -100,7 +91,7 @@
                                 {% endfor %}
                            </tbody>
                         </table>
-
+                        </form>
                     </div>
                     {% endblock result_list %}
                     {% else %}
