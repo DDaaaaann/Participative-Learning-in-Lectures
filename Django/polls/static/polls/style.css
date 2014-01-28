@@ -655,3 +655,14 @@ border: 1px solid brown;
     background: #ff9231;
     border-color: #ff9231;
 }
+
+
+
+
+/* Admin add/change page text (form.css overwrite)*/
+
+.inline-group .tabular td.original p {
+    overflow: visible;
+    padding: 2px 10px;
+    font-size: 11px;
+}
