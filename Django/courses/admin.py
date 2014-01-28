@@ -3,6 +3,7 @@ from collections import Counter
 from django.contrib.auth.models import User
 from models import Question, Course, Lecture, Answer
 import math
+from teacher.admin import user_admin_site
 
 def openVoting(modeladmin, request, queryset):
     queryset.update(answerable=True)
@@ -81,11 +82,12 @@ class CourseAdmin(admin.ModelAdmin):
             ('Catalogue number', {'fields': ['cat_number']}),
     ]
     
+    filter_horizontal = ('teachers',)
     list_display = ('course_text','cat_number')
     inlines = [LectureInline]
     search_fields = ['course_text','cat_number']
 
-
+    
 class LectureAdmin(admin.ModelAdmin):
     fieldsets = [
             ('Lecture name', {'fields': ['lecture_text']}),
@@ -123,3 +125,4 @@ admin.site.register(Question, QuestionAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Lecture, LectureAdmin)
 admin.site.register(Answer, AnswerAdmin)
+user_admin_site.register(Course, CourseAdmin)
