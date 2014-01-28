@@ -7,6 +7,7 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 from teacher.decorators import user_login_required
 from collections import Counter
+import random
 
 from models import Course
 from models import Lecture
@@ -121,22 +122,20 @@ def patternRecognition(question_id):
     # Show the most repeating words, nicely.
     print "Counted the words:"
     print count
-    bullshit = []
+    finalRanking = []
     for item in list(count):
-        bullshit.append((item, count[item]))
-    print bullshit
-    return bullshit
+        finalRanking.append((item, count[item]))
+    random.shuffle(finalRanking)
+    return finalRanking
 
 @user_login_required
 def answer_index(request, course_id, lecture_id, question_id):
     question = Question.objects.get(id=question_id)
     answer_list = question.answers.order_by('answer_text')
     count = patternRecognition(question_id)
-    boolean = [1, 0]
     template = loader.get_template('courses/answer_index.html')    
     context = RequestContext(request, {
         'count': count,
-        'boolean': boolean,
         'answer_list': answer_list,
         'course_id': course_id,
         'lecture_id': lecture_id,
