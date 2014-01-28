@@ -7,6 +7,7 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 from teacher.decorators import user_login_required
 from collections import Counter
+from datetime import datetime, timedelta
 
 from models import Course
 from models import Lecture
@@ -77,7 +78,9 @@ def question_index(request, course_id, lecture_id):
     get_object_or_404(course_list, id=course_id)
     
     lecture = Lecture.objects.get(id=lecture_id)
-    question_list = lecture.questions.order_by('-pub_date')
+    
+    question_list = lecture.questions.filter(voting=1).order_by('-pub_date')    
+    
     template = loader.get_template('courses/question_index.html')
     context = RequestContext(request, {
         'lecture': lecture,

@@ -347,6 +347,18 @@ def lecture_index(request, course_id):
 def question_index(request, course_id, lecture_id):
     lecture = Lecture.objects.get(id=lecture_id)
     question_list = lecture.questions.order_by('-pub_date')
+    
+    if question_list:
+        for q in question_list:
+        
+            votingstart = q.vote_start - timedelta(seconds=q.answer_time)
+            votingend = q.vote_start + timedelta(seconds=(3*q.vote_duration))
+            now = datetime.now() + timedelta(hours=1)
+        
+            if votingend < now:
+                q.voting = 0
+        
+            q.save()
 
     template = loader.get_template('teacher/question_index.html')
 
@@ -387,6 +399,7 @@ def openVoting(request, course_id, lecture_id):
     else:
         m = l.questions.get(id=givenQuestionID)
         m.answerable=True
+        m.voting=True
         
         if m.vote_duration is 0:
             m.vote_duration = 30;
@@ -413,6 +426,7 @@ def closeVoting(request, course_id, lecture_id):
     else:
         m = l.questions.get(id=givenQuestionID)
         m.answerable=False
+        m.voting=False
         m.vote_start = datetime.now() + timedelta(hours=1);
         m.save()
         # Always return an HttpResponseRedirect after successfully dealing
@@ -428,11 +442,12 @@ def startSession(request, course_id, lecture_id):
     
     i = 0
     
-    totaltime = 0
+    totaltime = 7200
     
     if question_list:
         for q in question_list:
-            q.voting=1
+            q.voting=True
+            q.answerable=True
             
             if q.vote_duration is 0:
                 q.vote_duration = 30;
@@ -442,11 +457,13 @@ def startSession(request, course_id, lecture_id):
                 
             totaltime += q.answer_time
                 
-            q.vote_start = datetime.now() + totaltime
+            q.vote_start = datetime.now() + timedelta(seconds=totaltime) 
             
-            totaltime += 3 * q.vote_duration
+            totaltime += (3 * q.vote_duration)
             
             i += 1
+            
+            q.save()
     
     return HttpResponseRedirect(reverse('teacher:question_index', args=(course_id, lecture_id,)))
 
