@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class Course(models.Model):
     course_text = models.CharField(max_length=50, default='')
-    #teachers = models.ForeignKey(User, related_name='courses')
+    cat_number = models.CharField(max_length=10, unique=True)
 
     teachers = models.ManyToManyField(User)
     
@@ -14,7 +14,6 @@ class Course(models.Model):
 
 class Lecture(models.Model):
     lecture_text = models.CharField(max_length=50, default='')
-    teacher = models.ForeignKey(User, related_name='lectures')
     course = models.ForeignKey(Course, related_name='lectures')
     # Editable is the boolean that says if the edit row, with setAnswerTime and
     # setVoteTime, is visible.
