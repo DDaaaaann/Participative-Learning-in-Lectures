@@ -26,6 +26,13 @@
                         <table id="result_list">
                             <thead>
                                 <tr>
+                                    <th scope="col" class="action-checkbox-column">
+                                        <div class="text"><span>
+                                                <input type="checkbox" id="action-toggle" style="display: inline-block;">
+                                        </span></div>
+                                        <div class="clear"></div>
+                                    </th>
+
                                     <th scope="col">
                                         <span class="text">
                                             <a href="?o=1">
@@ -44,32 +51,36 @@
                             </thead>
                             <tbody>
                                 {% for course in course_info %}
-                                    
-                                    <tr class="{% cycle 'row1' 'row2' %}">
-                                        <td>
-                                            <a href="/courses/{{ course.0.id }}/">
-                                                {{ course.0.course_text }}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <p>{% for teacher in course.1 %}
-                                                {% if teacher.first_name and teacher.last_name %}
-                                                    {{ teacher.first_name }} {{ teacher.last_name }}
-                                                {% else %}
-                                                    {{ teacher.username }}
-                                                {% endif %}
-                                                {% trans ', ' %}{% endfor %}
-                                            </p>
-                                        </td>
-                                    </tr>
+
+                                <tr class="{% cycle 'row1' 'row2' %}">
+                                    <td class="action-checkbox">
+                                        <input class="action-select" name="_selected_action" type="checkbox" value="{{ course.id }}">
+                                    </td>
+
+                                    <td>
+                                        <a href="/courses/{{ course.0.id }}/">
+                                            {{ course.0.course_text }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <p>{% for teacher in course.1 %}
+                                        {% if teacher.first_name and teacher.last_name %}
+                                        {{ teacher.first_name }} {{ teacher.last_name }}
+                                        {% else %}
+                                        {{ teacher.username }}
+                                        {% endif %}
+                                        {% trans ', ' %}{% endfor %}
+                                        </p>
+                                    </td>
+                                </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
-                {% endblock result_list %}
-            {% else %}
-                <p>No courses are available.</p>
-            {% endif %}
-        </div>
-    </div>
-{% endblock %}
+                    {% endblock result_list %}
+                    {% else %}
+                    <p>No courses are available.</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endblock %}
