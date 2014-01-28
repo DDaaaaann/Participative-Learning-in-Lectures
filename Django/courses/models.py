@@ -72,11 +72,11 @@ class Question(models.Model):
     # Tags are the keywords the teacher wants to see in the student's answers.
     tags = models.CharField(max_length=200, default='')
     # AnswerTime is the time available for the students to answer the question
-    answer_time = models.IntegerField()
+    answer_time = models.IntegerField(default=300)
     # voting is a boolean, if 1 there is a voting round, if zero there is no voting
-    voting = models.BooleanField()
+    voting = models.BooleanField(default=0)
     # vote_duration is the time for one voting round
-    vote_duration = models.IntegerField()
+    vote_duration = models.IntegerField(default=30)
     # vote_start, the start time of the first voting round
     vote_start = models.DateTimeField()
     # Editable is the boolean that says if the edit row, with setAnswerTime and

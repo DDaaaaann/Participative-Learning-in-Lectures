@@ -83,7 +83,7 @@ class CourseAdmin(admin.ModelAdmin):
     
     list_display = ('course_text','cat_number')
     inlines = [LectureInline]
-    search_fields = ['course_text']
+    search_fields = ['course_text','cat_number']
 
 
 class LectureAdmin(admin.ModelAdmin):
