@@ -71,7 +71,7 @@
             {% trans 'Welcome,' %}
             <a href="/">
                 <strong>
-                    {% firstof user.get_short_name user.   get_username %}
+                    {% firstof user.get_short_name user.get_username %}
                     {% if user.is_active and user.is_superuser %}
                     (ADMIN)
                     {% elif user.is_active and user.is_staff %}
