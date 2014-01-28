@@ -83,7 +83,7 @@ class CourseAdmin(admin.ModelAdmin):
     
     list_display = ('course_text','cat_number')
     inlines = [LectureInline]
-    search_fields = ['course_text']
+    search_fields = ['course_text','cat_number']
 
 
 class LectureAdmin(admin.ModelAdmin):
@@ -104,7 +104,7 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = ('question_text', 'pub_date',
                     'has_been_published', 'receiving_answers')
     list_filter = ['pub_date']
-    Search_fields = ['question_text']
+    search_fields = ['question_text']
     actions = [openVoting, closeVoting, filterAnswers, resetAnswers]
 
 

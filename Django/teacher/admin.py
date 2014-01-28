@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin.sites import AdminSite
  
-from teacher.forms import UserAdminAuthenticationForm
+from teacher.forms import UserAdminAuthenticationForm, AdminAuthenticationForm
 from teacher.views import profile_page
  
 class UserAdmin(AdminSite):
@@ -20,12 +20,22 @@ class UserAdmin(AdminSite):
         """
         return request.user.is_active
  
+ 
+class Admin(AdminSite):
+    
+    login_form = AdminAuthenticationForm
+    
+    def has_permission(self, request):
+        return request.user.is_active and request.user.is_superuser
+ 
+ 
 user_admin_site = UserAdmin(name='usersadmin')
 # Run user_admin_site.register() for each model we wish to register
 # for our admin interface for users
  
 # Run admin.site.register() for each model we wish to register
 # with the REAL django admin!
+admin.site = Admin(name='admin')
 
 
 

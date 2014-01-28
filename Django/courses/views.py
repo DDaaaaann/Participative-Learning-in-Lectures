@@ -8,17 +8,20 @@ from django.contrib.auth.decorators import login_required
 from teacher.decorators import user_login_required
 from collections import Counter
 from datetime import datetime, timedelta
+import random
 
 from models import Course
 from models import Lecture
 from models import Question
 from models import Answer
+from models import Lecture_student
 
 @user_login_required
 def course_enroll(request):
     course_info = []
     course_list = Course.objects.order_by('course_text')
     template = loader.get_template('courses/course_enroll.html')
+    #teacher_list = User.object.filter(is_staff=1)
     
     for course in course_list:
         teachers = course.teachers.filter(is_staff=1)
@@ -31,7 +34,6 @@ def course_enroll(request):
     })
     
     return HttpResponse(template.render(context))
-    
 
 def course_results(request, course_id):
     response = "You're looking at the results of course %s."
@@ -123,22 +125,20 @@ def patternRecognition(question_id):
     # Show the most repeating words, nicely.
     print "Counted the words:"
     print count
-    bullshit = []
+    finalRanking = []
     for item in list(count):
-        bullshit.append((item, count[item]))
-    print bullshit
-    return bullshit
+        finalRanking.append((item, count[item]))
+    random.shuffle(finalRanking)
+    return finalRanking
 
 @user_login_required
 def answer_index(request, course_id, lecture_id, question_id):
     question = Question.objects.get(id=question_id)
     answer_list = question.answers.order_by('answer_text')
     count = patternRecognition(question_id)
-    boolean = [1, 0]
     template = loader.get_template('courses/answer_index.html')    
     context = RequestContext(request, {
         'count': count,
-        'boolean': boolean,
         'answer_list': answer_list,
         'course_id': course_id,
         'lecture_id': lecture_id,
@@ -181,6 +181,7 @@ def answer(request, course_id, lecture_id, question_id):
     l = get_object_or_404(Lecture, pk=lecture_id)
     try:
         givenAnswer = request.POST['answer']
+
         print givenAnswer
     except (KeyError, Answer.DoesNotExist):
         # Redisplay the poll answering form.
@@ -190,6 +191,8 @@ def answer(request, course_id, lecture_id, question_id):
         })
     else:
         q.answers.create(answer_text=givenAnswer, votes=0)
+        lecture = Lecture_student(lecture_id = lecture_id, user_id = request.user.id)
+        lecture.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
