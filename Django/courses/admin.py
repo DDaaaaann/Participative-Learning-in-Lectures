@@ -64,7 +64,7 @@ class LectureInline(admin.TabularInline):
 
 class QuestionInline(admin.TabularInline):
     model = Question
-    extra = 3
+    extra = 0
 
 class AnswerInline(admin.TabularInline):
     model = Answer
@@ -106,7 +106,7 @@ class CourseStaffAdmin(admin.ModelAdmin):
         return super(CourseStaffAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
     def course_link(self, obj):
-        return u'<a href="/courses/%s/">%s</a>' % (obj.id,obj)
+        return u'<a href="/courses/lecture/?course__id__exact=%s">%s</a>' % (obj.id, obj)
         
     course_link.allow_tags = True
     course_link.short_description = "Course"
@@ -145,11 +145,31 @@ class LectureAdmin(admin.ModelAdmin):
     
     
 class LectureStaffAdmin(admin.ModelAdmin):
+    def lecture_link(self, obj):
+        return u'<a href="/courses/question/?lecture__id__exact=%s">%s</a>' % (obj.id, obj)
+        
+    lecture_link.allow_tags = True
+    lecture_link.short_description = "Lecture"
+    
+    def edit_link(self, obj):
+        return u'<a class="changelink" href="/courses/lecture/%s/">Edit</a>' % (obj.id)
+    
+    edit_link.allow_tags = True
+    edit_link.short_description = "Edit Lecture"
+    
+    
+    def __init__(self, *args, **kwargs):
+        super(LectureStaffAdmin, self).__init__(*args, **kwargs)
+        self.list_display_links = (None, ) 
+    
+    
     fieldsets = [
             ('Lecture name', {'fields': ['lecture_text']}),
             ('Course', {'fields': ['course']}),
     ]
-    list_display = ('lecture_text',)
+    
+    list_filter = ('course',)
+    list_display = ('lecture_link','edit_link',)
     inlines = [QuestionInline]
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -165,7 +185,39 @@ class QuestionAdmin(admin.ModelAdmin):
     search_fields = ['question_text']
     actions = [openVoting, closeVoting, filterAnswers, resetAnswers]
 
+    
+class QuestionStaffAdmin(admin.ModelAdmin):
+    def question_link(self, obj):
+        return u'<a href="/courses/answer/?question__id__exact=%s">%s</a>' % (obj.id, obj)
+        
+    question_link.allow_tags = True
+    question_link.short_description = "Lecture"
+    
+    def edit_link(self, obj):
+        return u'<a class="changelink" href="/courses/question/%s/">Edit</a>' % (obj.id)
+    
+    edit_link.allow_tags = True
+    edit_link.short_description = "Edit Lecture"
+    
+    
+    def __init__(self, *args, **kwargs):
+        super(QuestionStaffAdmin, self).__init__(*args, **kwargs)
+        self.list_display_links = (None, ) 
+    
+    fieldsets = [
+            (None,               {'fields': ['question_text']}),
+            ('Lecture', {'fields': ['lecture']}),
+            ('Date information', {'fields': ['pub_date']}),
+    ]
+    inlines = [AnswerInline]
+    list_display = ('question_link', 'pub_date',
+                    'has_been_published', 'receiving_answers', 'edit_link',)
+    list_filter = ['pub_date']
+    search_fields = ['question_text']
+    actions = [openVoting, closeVoting, filterAnswers, resetAnswers]
 
+
+    
 class AnswerAdmin(admin.ModelAdmin):
     fieldsets = [
             ('Answer text', {'fields': ['answer_text']}),
@@ -183,3 +235,5 @@ admin.site.register(Lecture, LectureAdmin)
 admin.site.register(Answer, AnswerAdmin)
 user_admin_site.register(Course, CourseStaffAdmin)
 user_admin_site.register(Lecture, LectureStaffAdmin)
+user_admin_site.register(Question, QuestionStaffAdmin)
+user_admin_site.register(Answer, AnswerAdmin)

@@ -74,7 +74,7 @@
 								</a>
 							</td>
 							<td width="15%" align="center">
-							{% if question.voting = True %}
+							{% if question.answerable %}
 								<form action="{% url 'teacher:closeVoting' course_id lecture_id %}">
 									<button type="submit" class="toggleButton" name="question_id" value="{{ question.id }}">
 										Close question

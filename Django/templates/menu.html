@@ -3,7 +3,7 @@
         {% if user.is_active and user.is_superuser %}
         <li class='active'><a href='/admin'>Home</a></li>
         {% elif user.is_active and user.is_staff %}
-        <li class='active'><a href='/teacher'>Home</a></li>
+        <li class='active'><a href='/'>Home</a></li>
         {% elif user.is_active %}
         <li class='active'><a href='/courses'>Home</a></li>
         {% else %}
@@ -17,7 +17,7 @@
              
             </ul>
         </li>
-        <li><a href='/teacher'>My Courses</a></li>
+        <li><a href='/courses/course'>My Courses</a></li>
         <li><a href='#'>Student Analytics</a></li>
         {% elif user.is_active %}
         <li class='has-sub'><a href='#'>Sessions</a>
