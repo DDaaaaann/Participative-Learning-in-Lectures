@@ -69,7 +69,7 @@ def question_index(request, course_id, lecture_id):
         
             #votingstart = q.vote_start - timedelta(seconds=q.answer_time)
             votingend = q.vote_start + timedelta(seconds=(3*q.vote_duration))
-            now = datetime.now() + timedelta(hours=1)
+            now = datetime.now()
         
             if votingend < now:
                 q.voting = 0
@@ -169,7 +169,7 @@ def openVoting(request, course_id, lecture_id):
         if m.answer_time is 0:
             m.answer_time = 60;
         
-        m.vote_start = datetime.now() + timedelta(seconds=m.answer_time) + timedelta(hours=1);
+        m.vote_start = datetime.now() + timedelta(seconds=m.answer_time);
         
         m.save()
         # Always return an HttpResponseRedirect after successfully dealing
@@ -189,7 +189,7 @@ def closeVoting(request, course_id, lecture_id):
         m = l.questions.get(id=givenQuestionID)
         m.answerable=False
         m.voting=False
-        m.vote_start = datetime.now() + timedelta(hours=1);
+        m.vote_start = datetime.now()
         m.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
@@ -204,7 +204,7 @@ def startSession(request, course_id, lecture_id):
     
     i = 0
     
-    totaltime = 7200
+    totaltime = 0
     
     if question_list:
         for q in question_list:
@@ -223,9 +223,9 @@ def startSession(request, course_id, lecture_id):
             
             totaltime += (3 * q.vote_duration)
             
-            i += 1
-            
             q.save()
+            
+            i += 1
     
     return HttpResponseRedirect(reverse('teacher:question_index', args=(course_id, lecture_id,)))
 
