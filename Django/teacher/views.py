@@ -7,6 +7,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime, timedelta
 from collections import Counter
 from random import shuffle
+import string
 
 from courses.models import Course
 from courses.models import Lecture
@@ -110,16 +111,21 @@ def patternRecognition(question_id):
     words = []
     for answer in list_of_answers:
         words += answer.answer_text.lower().split()
+    # Remove all interpunction.
+    newWords = []
+    for word in words:
+        #newWord = ''.join(c for c in word if c not in '.,?:!/;')
+        newWords.append(''.join(c for c in word if c not in '.,?:!/;'))
     # Remove the abundant words.
-    newList = [item for item in words if item not in nonNouns]
+    newList = [item for item in newWords if item not in nonNouns]
     # Search for repeating words.
     count = Counter(newList).most_common(20)
     # Show the most repeating words, nicely.
     print "Counted the words:"
     print count
     finalRanking = []
-    for item, i in list(count):
-        finalRanking.append((item, i))
+    for item, amount in list(count):
+        finalRanking.append((item, amount))
     shuffle(finalRanking)
     return finalRanking
     
