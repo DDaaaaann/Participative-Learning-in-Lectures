@@ -12,7 +12,6 @@ class Course(models.Model):
     def __str__(self):
         return self.course_text
 
-
 class Lecture(models.Model):
     lecture_text = models.CharField(max_length=50, default='')
     course = models.ForeignKey(Course, related_name='lectures')
@@ -21,17 +20,6 @@ class Lecture(models.Model):
     editable = models.BooleanField(default=False)
 
     #student = models.ManyToManyField(User)
-
-    def __str__(self):
-        return self.lecture_text
-        
-class Session(models.Model):
-    session_text = models.CharField(max_length=50, default='')
-    lecture = models.ForeignKey(Lecture, related_name='lectures')
-    teacher = models.ForeignKey(User, related_name='teachers')
-    # Editable is the boolean that says if the edit row, with setAnswerTime and
-    # setVoteTime, is visible.
-    editable = models.BooleanField(default=False)
 
     def __str__(self):
         return self.lecture_text
@@ -68,8 +56,6 @@ class Question(models.Model):
     """
     All the variables and their explanations related to the class and database of Question.
     """
-    # Session is the Foreign Key of the lecture of which the question is part.
-    session = models.ForeignKey(Session, related_name='sessions')
     
     # Lecture is the Foreign Key of the lecture of which the question is part.
     lecture = models.ForeignKey(Lecture, related_name='questions')
