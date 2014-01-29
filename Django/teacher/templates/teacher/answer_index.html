@@ -80,10 +80,10 @@
         </form>
         </div>
     </div>
-	<div style="text-align:center;">
-		<table width="20%" style="margin-left:auto; margin-right:auto;">
+	<div style="text-align:center; width:20%; height:20%; margin-left:40%; margin-top:15%;">
+		<table style="margin-left:auto; margin-right:auto;">
 			<tr>
-				<td align="justify">
+				<td align="center">
 				{% for word, number in count %}
 					<font size="{{ number }}"> {{ word|cut:"." }} </font>
 				{% endfor %}

@@ -113,13 +113,13 @@ def patternRecognition(question_id):
     # Remove the abundant words.
     newList = [item for item in words if item not in nonNouns]
     # Search for repeating words.
-    count = Counter(newList)
+    count = Counter(newList).most_common(20)
     # Show the most repeating words, nicely.
     print "Counted the words:"
     print count
     finalRanking = []
-    for item in list(count):
-        finalRanking.append((item, count[item]))
+    for item, i in list(count):
+        finalRanking.append((item, i))
     shuffle(finalRanking)
     return finalRanking
     
