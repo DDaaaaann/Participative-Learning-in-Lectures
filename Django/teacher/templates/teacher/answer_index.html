@@ -66,7 +66,7 @@
                                 <input class="action-select" name="_selected_action" type="checkbox" value="{{ answer.id }}">
                             </td>
                             <th>
-                                <a href="/teacher/{{ course_id }}/{{ lecture_id }}/{{ question_id }}/{{ answer.id }}">{{ answer.answer_text }}</a>
+                                {{ answer.answer_text }}
                             </th>
                         </tr>
                     {% endfor %}
