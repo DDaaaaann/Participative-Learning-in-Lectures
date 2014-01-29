@@ -7,7 +7,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime, timedelta
 from collections import Counter
 from random import shuffle
-import string
+from operator import itemgetter
 
 from courses.models import Course
 from courses.models import Lecture
@@ -123,9 +123,12 @@ def patternRecognition(question_id):
     # Show the most repeating words, nicely.
     print "Counted the words:"
     print count
+    maxAmount = max(list(count), key=itemgetter(1))[1]
     finalRanking = []
+    maxFontSize = 7
     for item, amount in list(count):
-        finalRanking.append((item, amount))
+        fontSize = max(1, (maxFontSize * amount) / maxAmount)
+        finalRanking.append((item, fontSize))
     shuffle(finalRanking)
     return finalRanking
     
