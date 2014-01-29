@@ -106,7 +106,7 @@ class CourseStaffAdmin(admin.ModelAdmin):
         return super(CourseStaffAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
     def course_link(self, obj):
-        return u'<a href="/courses/%s/">%s</a>' % (obj.id,obj)
+        return u'<a href="/courses/lecture/?course__id__exact=%s">%s</a>' % (obj.id, obj)
         
     course_link.allow_tags = True
     course_link.short_description = "Course"
@@ -145,10 +145,13 @@ class LectureAdmin(admin.ModelAdmin):
     
     
 class LectureStaffAdmin(admin.ModelAdmin):
+
     fieldsets = [
             ('Lecture name', {'fields': ['lecture_text']}),
             ('Course', {'fields': ['course']}),
     ]
+    
+    
     list_display = ('lecture_text',)
     inlines = [QuestionInline]
 
