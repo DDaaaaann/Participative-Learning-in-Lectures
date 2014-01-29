@@ -56,7 +56,7 @@
                 {% if user.is_active and user.is_superuser %}
                     <div id="logo" href="/admin" class="logo" onclick="window.location = '/admin';" ></div>
                 {% elif user.is_active and user.is_staff %}
-                    <div id="logo" href="/teacher" class="logo" onclick="window.location = '/teacher';"></div>
+                    <div id="logo" href="/" class="logo" onclick="window.location = '/';"></div>
                 {% elif user.is_active %}
                     <div id="logo" href="/courses" class="logo" onclick="window.location = '/courses';"></div>
                 {% else %}
