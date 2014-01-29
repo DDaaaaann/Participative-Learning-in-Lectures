@@ -35,9 +35,9 @@
 					<tbody>
 						{% for question in question_list %}
 							{% if question.answerable %}
-								<tr class="{% cycle 'row1' 'row2' %}">
+								<tr class="{% cycle 'row1' 'row2' %} question open" id="{{ question.id }}">
 									<td>
-										<a href="/courses/{{ course_id }}/{{ lecture_id }}/{{ question.id }}/answer/">
+										<a class="question_link" id="{{ question.id }}" href="/courses/{{ course_id }}/{{ lecture_id }}/{{ question.id }}/answer/">
 											{{ question.question_text }}
 										</a>
 									</td>
@@ -55,7 +55,15 @@
 	</div>
 
     <script type="text/javascript">
-
+        $( document ).ready(function() {
+            $( ".question" ).each(function( index ) {
+                if($( this ).attr('id') == 49) {
+                    $( this ).addClass('open');
+                } else {
+                    $( this ).removeClass('open');
+                }
+            })
+        })
     </script>
 
 {% endblock %}

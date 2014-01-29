@@ -5,6 +5,7 @@ from django.template import RequestContext, loader
 from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime, timedelta
+from django.utils import timezone
 from collections import Counter
 from random import shuffle
 from operator import itemgetter
@@ -13,6 +14,8 @@ from courses.models import Course
 from courses.models import Lecture
 from courses.models import Question
 from courses.models import Answer
+from courses.models import Lecture_student
+from courses.models import Course_teachers
 
 
 
@@ -107,6 +110,8 @@ def patternRecognition(question_id):
         nonNouns = ['de', 'het', 'een', 'of']
     # Get all the answers out of the database.
     list_of_answers = Answer.objects.filter(question_id=question_id)
+    if not list_of_answers:
+        return []
     # Put all the words of the answers into an array, or a list.
     words = []
     for answer in list_of_answers:
@@ -219,7 +224,7 @@ def startSession(request, course_id, lecture_id):
                 
             totaltime += q.answer_time
                 
-            q.vote_start = datetime.now() + timedelta(seconds=totaltime) 
+            q.vote_start = timezone.now() + timedelta(seconds=totaltime) 
             
             totaltime += (3 * q.vote_duration)
             
@@ -361,7 +366,8 @@ def lecture(request, course_id):
             'course': c,
         })
     else:
-        c.lectures.create(lecture_text=givenLecture, teacher_id=15)
+        lecture = Lecture(lecture_text=givenLecture, course_id=course_id, editable=False)
+        lecture.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
@@ -371,12 +377,17 @@ def course(request):
     try:
         givenCourse = request.POST['course']
         print givenCourse
+        givenCatNumber = request.POST['catNumber']
+        print givenCatNumber
     except (KeyError, Course.DoesNotExist):
         # Redisplay the Set-The-Course screen.
         return render(request, 'teacher/course.html', {
         })
     else:
-        Course.objects.create(course_text=givenCourse)
+        course = Course(course_text=givenCourse, cat_number=givenCatNumber)
+        course.save()
+        course = Course_teachers(course_id=course.id, user_id=request.user.id)
+        course.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.

@@ -404,6 +404,15 @@ div.voteSkip button {
 }
 
 /************************
+==== Question_index.html ====
+*************************/
+
+tr.open {
+   background-color: lightgreen; 
+   font-weight: bold;
+}
+
+/************************
 ==== Results.html ====
 *************************/
 
