@@ -334,6 +334,26 @@ def profile_page(request):
 
     return HttpResponse(template.render(context))
 
+def answer(request, course_id, lecture_id, question_id):
+    q = get_object_or_404(Question, pk=question_id)
+    l = get_object_or_404(Lecture, pk=lecture_id)
+    try:
+        givenAnswer = request.POST['answer']
+
+        print givenAnswer
+    except (KeyError, Answer.DoesNotExist):
+        # Redisplay the poll answering form.
+        return render(request, 'teacher/answer.html', {
+            'question': q,
+            'lecture': l,
+        })
+    else:
+        q.answers.create(answer_text=givenAnswer, votes=0)
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse('teacher:answer_index', args=(course_id, lecture_id, question_id,)))
+
 def question(request, course_id, lecture_id):
     l = get_object_or_404(Lecture, pk=lecture_id)
     try:
@@ -390,23 +410,3 @@ def course(request):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('teacher:course_index',))
-
-def answer(request, course_id, lecture_id, question_id):
-    q = get_object_or_404(Question, pk=question_id)
-    l = get_object_or_404(Lecture, pk=lecture_id)
-    try:
-        givenAnswer = request.POST['answer']
-
-        print givenAnswer
-    except (KeyError, Answer.DoesNotExist):
-        # Redisplay the poll answering form.
-        return render(request, 'teacher/answer.html', {
-            'question': q,
-            'lecture': l,
-        })
-    else:
-        q.answers.create(answer_text=givenAnswer, votes=0)
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        return HttpResponseRedirect(reverse('teacher:answer_index', args=(course_id, lecture_id, question_id,)))
