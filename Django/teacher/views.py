@@ -12,6 +12,7 @@ from courses.models import Course
 from courses.models import Lecture
 from courses.models import Question
 from courses.models import Answer
+from courses.models import Session
 
 
 
@@ -141,6 +142,23 @@ def answer_index(request, question_id, course_id, lecture_id):
 
     return HttpResponse(template.render(context))
 
+@staff_member_required
+def session_index(request):
+    session_list = Session.objects.filter(teacher_id=request.user.id)
+    #course = course.lectures.get(teacher_id=request.user.id)
+    #lecture_list = session..filter(teacher_id=request.user.id).order_by('-lecture_text')
+    #session_list = session.questions.filter(teacher_id=18)
+
+    template = loader.get_template('teacher/session_index.html')
+
+    context = RequestContext(request, {
+        'title': 'Select a Session',
+        'session_list': session_list,
+    })
+
+    return HttpResponse(template.render(context))
+ 
+    
 def openVoting(request, course_id, lecture_id):
     l = get_object_or_404(Lecture, pk=lecture_id)
     try:
@@ -372,3 +390,18 @@ def course(request):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('teacher:course_index',))
+        
+def session(request):
+    try:
+        givenSession = request.POST['session']
+        print givenSession
+    except (KeyError, Session.DoesNotExist):
+        # Redisplay the Set-The-Session screen.
+        return render(request, 'teacher/session.html', {
+        })
+    else:
+        Session.objects.create(session_text=givenSession, lecture_id= 10, teacher_id=request.user.id)
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse('teacher:session_index',))

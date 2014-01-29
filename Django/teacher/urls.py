@@ -38,6 +38,9 @@ urlpatterns = patterns('',
         views.editToggleQuestion, name='editToggleQuestion'),
     url(r'^my_profile/$', views.profile_page,
         name='profile_page'),
-
+    url(r'^session/$',
+        views.session, name='session'),
+    url(r'^sessionindex/$',
+        views.session_index, name='session_index'),
 )
 

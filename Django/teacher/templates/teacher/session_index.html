@@ -1,0 +1,86 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_urls admin_static admin_list %}
+{% load cycle from future %}
+{% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
+
+
+{% block nav-global %}{% endblock %}
+{% block branding %} {{ block.super }} {% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+&rsaquo; <a href="{% url 'teacher:session_index' %}">{% trans 'Sessions' %}</a>
+
+{% endblock %}
+
+{% block coltype %}flex{% endblock %}
+{{ title }}
+{% block content %}
+    <div id="content-main">
+        {% block object-tools %}
+            <ul class="object-tools">
+                {% block object-tools-items %}
+                    <li>
+                        <a href="/admin/courses/session/add/" class="addlink">
+                            {% blocktrans %}Add Session{% endblocktrans %}
+                        </a>
+                    </li>
+                {% endblock object-tools-items %}
+            </ul>
+        {% endblock object-tools %}        
+        <div class="module" id="changelist">
+
+        <div class="actions"><label>
+                Menu:
+                <select name="action">
+                <option value selected="selected">------------</option>
+                
+                </select>
+        </label></div>
+        {% if session_list %}
+        {% block result_list %}
+        <div class="results">
+            <table id="result_list">
+                <thead>
+                    <tr>
+                        <th scope="col" class="action-checkbox-column">
+                            <div class="text"><span>
+                                <input type="checkbox" id="action-toggle" style="display: inline-block;">
+                            </span></div>
+                            <div class="clear"></div>
+                        </th>
+                        <th scope="col" class="sortable column-course_text">
+                            <div class="text"><a href="?o=1">Sessions</a></div>
+                            <div class="clear"></div>
+                        </th>
+                        <th scope="col">
+                            <div class="text"><a>Edit</a></div>
+                            <div class="clear"></div>
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for session in session_list %}
+                        <tr class="{% cycle 'row1' 'row2' %}">
+                            <td class="action-checkbox">
+                                <input class="action-select" name="_selected_action" type="checkbox" value="{{ session.id }}">
+                            </td>
+                            <th scope="row">
+                                <a href="/teacher/{{ session.id }}/">{{ session.session_text }}</a>
+                            </th>
+                            <td><a href="/teacher/{{ session.id }}/change/" class="changelink">{% trans 'Change' %}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        {% endblock result_list %}
+        {% else %}
+            <p>No sessions are available.</p>
+        {% endif %}
+        </div>
+    </div>
+{% endblock content %}
+
