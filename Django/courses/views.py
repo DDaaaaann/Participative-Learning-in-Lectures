@@ -6,9 +6,7 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from teacher.decorators import user_login_required
-from collections import Counter
 from datetime import datetime, timedelta
-import random
 
 from models import Course
 from models import Lecture
@@ -29,7 +27,7 @@ def course_enroll(request):
             request.user.course_set.add(*courses)
 
     course_info = []
-    course_list = Course.objects.order_by('course_text')
+    course_list = Course.objects.exclude(id__in=request.user.course_set.all()).order_by('course_text')
     template = loader.get_template('courses/course_enroll.html')
     #teacher_list = User.object.filter(is_staff=1)
     
@@ -104,51 +102,12 @@ def question_index(request, course_id, lecture_id):
 
     return HttpResponse(template.render(context))
 
-def patternRecognition(question_id):
-    # This function only works with one question at a time. The site completely
-    # blocks when multiple questions are selected at the question_index page. I
-    # think, however, this isn't a problem we should be worrying about, since
-    # this function should be automatically called at the teacher's answer_index
-    # page.
-    """
-    Search the answers of a question for commonalities. This might help the
-    teacher to get an overall impression of the students' knowledge on the
-    subject.
-    """
-    # Get the language from the question.
-    englishQuestion = Question.objects.filter(id=question_id)[0].english
-    # Set up a list of all the words that should be filtered.
-    if englishQuestion:
-        nonNouns = ['a', 'an', 'of', 'the']
-    else:
-        nonNouns = ['de', 'het', 'een', 'of']
-    # Get all the answers out of the database.
-    list_of_answers = Answer.objects.filter(question_id=question_id)
-    # Put all the words of the answers into an array, or a list.
-    words = []
-    for answer in list_of_answers:
-        words += answer.answer_text.lower().split()
-    # Remove the abundant words.
-    newList = [item for item in words if item not in nonNouns]
-    # Search for repeating words.
-    count = Counter(newList)
-    # Show the most repeating words, nicely.
-    print "Counted the words:"
-    print count
-    finalRanking = []
-    for item in list(count):
-        finalRanking.append((item, count[item]))
-    random.shuffle(finalRanking)
-    return finalRanking
-
 @user_login_required
 def answer_index(request, course_id, lecture_id, question_id):
     question = Question.objects.get(id=question_id)
     answer_list = question.answers.order_by('answer_text')
-    count = patternRecognition(question_id)
     template = loader.get_template('courses/answer_index.html')    
     context = RequestContext(request, {
-        'count': count,
         'answer_list': answer_list,
         'course_id': course_id,
         'lecture_id': lecture_id,

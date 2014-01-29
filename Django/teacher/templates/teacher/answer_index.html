@@ -80,4 +80,15 @@
         </form>
         </div>
     </div>
+	<div style="text-align:center; width:20%; height:20%; margin-left:40%; margin-top:15%;">
+		<table style="margin-left:auto; margin-right:auto;">
+			<tr>
+				<td align="center">
+				{% for word, number in count %}
+					<font size="{{ number }}"> {{ word }} </font>
+				{% endfor %}
+				</td>
+			</tr>
+		</table>
+	</div>
 {% endblock %}

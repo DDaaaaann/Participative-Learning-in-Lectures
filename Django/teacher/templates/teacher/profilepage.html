@@ -31,7 +31,13 @@
 <td>
 <div id="ProfilePage">
     <div id="LeftCol">
+        {% if user.is_active and user.is_superuser %}
         <div id="Photo"><img src="{{ STATIC_URL }}polls/images/dummypic.jpg" alt="dummypic" title="dummypic" width="200" height="200" /></div>
+        {% elif user.is_active and user.is_staff %}
+        <div id="Photo"><img src="{{ STATIC_URL }}polls/images/dummypic.jpg" alt="dummypic" title="dummypic" width="200" height="200" /></div>
+        {% elif user.is_active %}
+        <div id="Photo"><img src="{{ STATIC_URL }}polls/images/dummystudent.jpg" alt="dummystudent" title="dummystudent" width="200" height="200" /></div>
+        {% endif %}
         <div id="ProfileOptions">
         
         </div>

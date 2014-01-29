@@ -3,6 +3,7 @@ from collections import Counter
 from django.contrib.auth.models import User
 from models import Question, Course, Lecture, Answer
 import math
+from teacher.admin import user_admin_site
 
 def openVoting(modeladmin, request, queryset):
     queryset.update(answerable=True)
@@ -70,23 +71,80 @@ class AnswerInline(admin.TabularInline):
     extra = 1
 
 class CourseAdmin(admin.ModelAdmin):
+    
+    # Only display staff accounts as option to link with a course
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == "teachers":
             kwargs["queryset"] = User.objects.filter(is_staff=True)
         return super(CourseAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
+   
     fieldsets = [
             ('Course name', {'fields': ['course_text']}),
             ('Teachers', {'fields': ['teachers']}),
             ('Catalogue number', {'fields': ['cat_number']}),
     ]
     
-    list_display = ('course_text','cat_number')
+    filter_horizontal = ('teachers',)
+    list_display = ('course_text','cat_number',)
+
     inlines = [LectureInline]
     search_fields = ['course_text','cat_number']
 
+class CourseStaffAdmin(admin.ModelAdmin):
 
+    # Only display the courses to which a teacher is added (at "/courses/course/")
+    def queryset(self, request):
+        qs = super(CourseStaffAdmin, self).queryset(request)
+        return qs.filter(id__in=request.user.course_set.all())
+                
+    
+    # Only display staff accounts as option to link with a course
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "teachers":
+            kwargs["queryset"] = User.objects.filter(is_staff=True)
+        return super(CourseStaffAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
+
+    def course_link(self, obj):
+        return u'<a href="/courses/%s/">%s</a>' % (obj.id,obj)
+        
+    course_link.allow_tags = True
+    course_link.short_description = "Course"
+    
+    def edit_link(self, obj):
+        return u'<a class="changelink" href="/courses/course/%s/">Edit</a>' % (obj.id)
+    
+    edit_link.allow_tags = True
+    edit_link.short_description = "Edit Course"
+    
+    def __init__(self, *args, **kwargs):
+        super(CourseStaffAdmin, self).__init__(*args, **kwargs)
+        self.list_display_links = (None, )    
+        
+    fieldsets = [
+            ('Course name', {'fields': ['course_text']}),
+            ('Teachers', {'fields': ['teachers']}),
+            ('Catalogue number', {'fields': ['cat_number']}),
+    ]
+    
+    filter_horizontal = ('teachers',)
+    list_display = ('course_link','cat_number','edit_link',)
+
+    inlines = [LectureInline]
+    search_fields = ['course_text','cat_number']
+    
+    
+    
 class LectureAdmin(admin.ModelAdmin):
+    fieldsets = [
+            ('Lecture name', {'fields': ['lecture_text']}),
+            ('Course', {'fields': ['course']}),
+    ]
+    list_display = ('lecture_text',)
+    inlines = [QuestionInline]
+    
+    
+class LectureStaffAdmin(admin.ModelAdmin):
     fieldsets = [
             ('Lecture name', {'fields': ['lecture_text']}),
             ('Course', {'fields': ['course']}),
@@ -123,3 +181,5 @@ admin.site.register(Question, QuestionAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Lecture, LectureAdmin)
 admin.site.register(Answer, AnswerAdmin)
+user_admin_site.register(Course, CourseStaffAdmin)
+user_admin_site.register(Lecture, LectureStaffAdmin)

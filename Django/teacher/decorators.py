@@ -1,9 +1,9 @@
 from functools import wraps
 from django.utils.translation import ugettext as _
-#from django.contrib.auth.views import login
+from django.contrib.auth.views import login
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from teacher.forms import UserAdminAuthenticationForm
-from teacher.views import login
+
 
 
 def user_login_required(view_func):
