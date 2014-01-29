@@ -28,6 +28,9 @@ class Lecture_student(models.Model):
     lecture = models.ForeignKey(Lecture, related_name='lecture')
     user = models.ForeignKey(User, related_name='student')
 
+class Course_teachers(models.Model):
+    course = models.ForeignKey(Course, related_name='course')
+    user = models.ForeignKey(User, related_name='teacher')
 
 class Question(models.Model):
     def __str__(self):

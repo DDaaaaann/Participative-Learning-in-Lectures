@@ -13,6 +13,7 @@ from models import Lecture
 from models import Question
 from models import Answer
 from models import Lecture_student
+from models import Course_teachers
 
 @user_login_required
 def course_enroll(request):
