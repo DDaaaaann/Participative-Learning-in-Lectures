@@ -3,11 +3,6 @@ from django.conf.urls import patterns, url
 from teacher import views
 
 urlpatterns = patterns('',
-    # url(r'^$', views.index, name='index'),
-# This url shouldn't be necessary.
-    url(r'^(?P<course_id>\d+)/results/$', views.course_results, name='course_results'),
-# This url shouldn't be necessary.
-    url(r'^(?P<question_id>\d+)/vote/$', views.vote, name='vote'),
     url(r'^$',
         views.course_index, name='course_index'),
     url(r'^(?P<course_id>\d+)/$',
@@ -22,6 +17,8 @@ urlpatterns = patterns('',
         views.lecture, name='lecture'),
     url(r'^(?P<course_id>\d+)/(?P<lecture_id>\d+)/question/$',
         views.question, name='question'),
+    url(r'^(?P<course_id>\d+)/(?P<lecture_id>\d+)/(?P<question_id>\d+)/answer/$',
+        views.answer, name='answer'),
     url(r'^(?P<course_id>\d+)/(?P<lecture_id>\d+)/closeVoting$',
         views.closeVoting, name='closeVoting'),
     url(r'^(?P<course_id>\d+)/(?P<lecture_id>\d+)/openVoting$',
@@ -36,8 +33,8 @@ urlpatterns = patterns('',
         views.editToggleLecture, name='editToggleLecture'),
     url(r'^(?P<course_id>\d+)/(?P<lecture_id>\d+)/editToggleQuestion$',
         views.editToggleQuestion, name='editToggleQuestion'),
-    url(r'^my_profile/$', views.profile_page,
-        name='profile_page'),
+    url(r'^my_profile/$',
+        views.profile_page, name='profile_page'),
 
 )
 

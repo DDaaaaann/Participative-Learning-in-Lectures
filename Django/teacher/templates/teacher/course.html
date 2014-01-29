@@ -37,6 +37,7 @@
         <form action="{% url 'teacher:course' %}" method="post" id="formCourse">
             {% csrf_token %}
             <textarea name="course" cols=40 rows=6 class="courseArea">Enter the name of the course here...</textarea>
+			<textarea name="catNumber" cols=40 rows=6 class="courseArea">Enter the catalog number of the course here...</textarea>
             <!--
             Misschien dat hier nog een lisjtje met teachers toegevoegd moet worden,
             als niet automatisch wordt bepaald wie de teacher van de course is.

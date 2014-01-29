@@ -13,6 +13,8 @@ from courses.models import Course
 from courses.models import Lecture
 from courses.models import Question
 from courses.models import Answer
+from courses.models import Lecture_student
+from courses.models import Course_teachers
 
 
 
@@ -107,6 +109,8 @@ def patternRecognition(question_id):
         nonNouns = ['de', 'het', 'een', 'of']
     # Get all the answers out of the database.
     list_of_answers = Answer.objects.filter(question_id=question_id)
+    if not list_of_answers:
+        return []
     # Put all the words of the answers into an array, or a list.
     words = []
     for answer in list_of_answers:
@@ -169,8 +173,7 @@ def openVoting(request, course_id, lecture_id):
         if m.answer_time is 0:
             m.answer_time = 60;
         
-        m.vote_start = datetime.now() + timedelta(seconds=m.answer_time) + timedelta(hours=1);
-        
+        m.vote_start = datetime.now() + timedelta(seconds=m.answer_time) + timedelta(hours=1)
         m.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
@@ -189,7 +192,7 @@ def closeVoting(request, course_id, lecture_id):
         m = l.questions.get(id=givenQuestionID)
         m.answerable=False
         m.voting=False
-        m.vote_start = datetime.now() + timedelta(hours=1);
+        m.vote_start = datetime.now() + timedelta(hours=1)
         m.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
@@ -331,6 +334,26 @@ def profile_page(request):
 
     return HttpResponse(template.render(context))
 
+def answer(request, course_id, lecture_id, question_id):
+    q = get_object_or_404(Question, pk=question_id)
+    l = get_object_or_404(Lecture, pk=lecture_id)
+    try:
+        givenAnswer = request.POST['answer']
+
+        print givenAnswer
+    except (KeyError, Answer.DoesNotExist):
+        # Redisplay the poll answering form.
+        return render(request, 'teacher/answer.html', {
+            'question': q,
+            'lecture': l,
+        })
+    else:
+        q.answers.create(answer_text=givenAnswer, votes=0)
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse('teacher:answer_index', args=(course_id, lecture_id, question_id,)))
+
 def question(request, course_id, lecture_id):
     l = get_object_or_404(Lecture, pk=lecture_id)
     try:
@@ -361,7 +384,8 @@ def lecture(request, course_id):
             'course': c,
         })
     else:
-        c.lectures.create(lecture_text=givenLecture, teacher_id=15)
+        lecture = Lecture(lecture_text=givenLecture, course_id=course_id, editable=False)
+        lecture.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
@@ -371,12 +395,17 @@ def course(request):
     try:
         givenCourse = request.POST['course']
         print givenCourse
+        givenCatNumber = request.POST['catNumber']
+        print givenCatNumber
     except (KeyError, Course.DoesNotExist):
         # Redisplay the Set-The-Course screen.
         return render(request, 'teacher/course.html', {
         })
     else:
-        Course.objects.create(course_text=givenCourse)
+        course = Course(course_text=givenCourse, cat_number=givenCatNumber)
+        course.save()
+        course = Course_teachers(course_id=course.id, user_id=request.user.id)
+        course.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.

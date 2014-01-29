@@ -21,7 +21,7 @@
 			<ul class="object-tools">
 				{% block object-tools-items %}
 					<li>
-						<a href="/admin/courses/question/add/" class="addlink">
+						<a href="/teacher/{{ course_id }}/{{ lecture_id }}/question/" class="addlink">
 							{% blocktrans %}Add Question{% endblocktrans %}
 						</a>
 					</li>
@@ -74,7 +74,7 @@
 								</a>
 							</td>
 							<td width="15%" align="center">
-							{% if question.answerable = True %}
+							{% if question.answerable %}
 								<form action="{% url 'teacher:closeVoting' course_id lecture_id %}">
 									<button type="submit" class="toggleButton" name="question_id" value="{{ question.id }}">
 										Close question
