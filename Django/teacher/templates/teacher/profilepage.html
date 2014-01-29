@@ -94,8 +94,8 @@
                         {% for course in course_list %}
                             <tr class="{% cycle 'row1' 'row2' %}">
                                 <td>
-                                    <a href="{% if user.is_staff %}{% trans '/teacher/' %}{{ course.id }}/
-										{% else %}{% trans '/courses/' %}{{ course.id }}/{% endif %}">
+                                    <a href="{% if user.is_staff %}/courses/lecture/?course__id__exact={{ course.id }}
+                                             {% else %}/courses/{{ course.id }}{% endif %}">
                                         {{ course.course_text }}
                                     </a>
                                 </td>
