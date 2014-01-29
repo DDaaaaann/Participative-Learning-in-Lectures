@@ -68,7 +68,7 @@ class Question(models.Model):
     pub_date = models.DateTimeField('date published', default=timezone.now())
     # Answerable is the boolean to decide if the poll / question is still
     # vulnerable for new votes.
-    answerable = models.BooleanField('Open for voting',default=True)
+    answerable = models.BooleanField('Open for voting',default=False)
     # English is the boolean to set the language, True for English, False for
     # Dutch.
     english = models.BooleanField('Language', default=True)
@@ -77,7 +77,7 @@ class Question(models.Model):
     # AnswerTime is the time available for the students to answer the question
     answer_time = models.IntegerField(default=300)
     # voting is a boolean, if 1 there is a voting round, if zero there is no voting
-    voting = models.BooleanField(default=0)
+    voting = models.BooleanField(default=1)
     # vote_duration is the time for one voting round
     vote_duration = models.IntegerField(default=30)
     # vote_start, the start time of the first voting round
