@@ -186,8 +186,13 @@ class LectureStaffAdmin(admin.ModelAdmin):
     
     edit_link.allow_tags = True
     edit_link.short_description = "Edit Lecture"
-    
-    
+
+    def sessionButton(self, obj):
+        courseid = obj.course_id
+        return u'<form action="/teacher/%s/%s/startSession"> <button type="submit" class="toggleButton" name="question_id"> Start Session </button> </form>' % (courseid, obj.id)
+
+    sessionButton.allow_tags = True
+    sessionButton.short_description = "Start Session"
     def __init__(self, *args, **kwargs):
         super(LectureStaffAdmin, self).__init__(*args, **kwargs)
         self.list_display_links = (None, ) 
@@ -199,7 +204,7 @@ class LectureStaffAdmin(admin.ModelAdmin):
     ]
     
     list_filter = (CourseFilter,)
-    list_display = ('lecture_link','course', 'edit_link',)
+    list_display = ('lecture_link','course', 'edit_link', 'sessionButton',)
     inlines = [QuestionInline]
 
 class QuestionAdmin(admin.ModelAdmin):

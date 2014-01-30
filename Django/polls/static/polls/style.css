@@ -383,6 +383,19 @@ button.voteButton {
     height: 200px;
 }
 
+button.toggleButton {
+	background: none;
+    border: none;
+    color: #003439;
+    cursor: pointer;
+	padding:0!important;
+}
+
+button.toggleButton:hover {
+	color: #5b80b2;
+	text-decoration: underline;
+}
+
 div.voteTimer {
     float: none;
     position: absolute;
