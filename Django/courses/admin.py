@@ -270,6 +270,7 @@ class QuestionStaffAdmin(admin.ModelAdmin):
             return u'<form action="/teacher/%s/%s/openVoting"> <button type="submit" class="toggleButton" name="question_id" value="%s"> Open question </button> </form>' % (courseid, obj.lecture_id, obj.id)
         
     voteButton.allow_tags = True
+    voteButton.short_description = "Toggle Question"
     
     def __init__(self, *args, **kwargs):
         super(QuestionStaffAdmin, self).__init__(*args, **kwargs)
