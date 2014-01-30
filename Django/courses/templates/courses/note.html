@@ -43,7 +43,7 @@
                         <h1>Edit notes for current question: {{ question.question_text }}</h1>
                         <form action="{% url 'courses:note' lecture.course_id lecture.id question.id %}" method="post" id="formQuestion">
                             {% csrf_token %}
-                            <textarea name="note_text" cols=40 rows=6 class="questionArea">{{ note_list.note_text }}</textarea>
+                            <textarea name="note_text" cols=40 rows=6 class="questionArea" placeholder="Enter your note here...">{{ note_list.note_text }}</textarea>
                             <br>
                             <p><input type="submit" value="Save note" /></p>
                         </form>

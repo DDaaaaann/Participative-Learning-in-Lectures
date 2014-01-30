@@ -188,7 +188,7 @@ def note(request, course_id, lecture_id, question_id):
     try:
         note_list = Note.objects.get(user=request.user.id, question=question_id)
     except Note.DoesNotExist:
-        note = Note(note_text = "Enter your note here...", question_id = question_id, user_id = request.user.id)
+        note = Note(note_text = "", question_id = question_id, user_id = request.user.id)
         note.save()
         note_list = Note.objects.get(user=request.user.id, question=question_id)
     q = get_object_or_404(Question, pk=question_id)
