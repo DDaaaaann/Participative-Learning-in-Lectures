@@ -90,8 +90,6 @@
                     success: function(data)
                     {
 
-                        console.log(data);
-
                         $.each(data, function (i, info) {
 
                             //Check if the row already exists, if not add it to the screen
@@ -111,13 +109,24 @@
                                 '</tr>');
                             }
 
+
+                            //Remove if answerable is 0
+                            if (info[0]['answerable'] == 0) {
+                                if ($("#" + info[0]['id']).length > 0){
+                                    $("#" + info[0]['id']).remove();
+                                }
+                            }
+
                             //Add the correct css to the row
                             if (info[0]['response'] == 1) {
                                 $("#" + info[0]['id'] + " a").attr("href", "/courses/" + info[0]['course'] + "/" + info[0]['lecture'] + "/" + info[0]['id'] + "/answer/");
+                                $("#" + info[0]['id']).removeClass('open');
+                                $("#" + info[0]['id']).removeClass('done');
                                 $("#" + info[0]['id']).addClass('open');
                             } else if (info[0]['response'] == 2) {
                                 $("#" + info[0]['id'] + " a").attr("href", "/courses/" + info[0]['course'] + "/" + info[0]['lecture'] + "/" + info[0]['id'] + "/vote/");
                                 $("#" + info[0]['id']).removeClass('open');
+                                $("#" + info[0]['id']).removeClass('done');
                                 $("#" + info[0]['id']).addClass('voting');
                             } else if (info[0]['response'] == 3) {
                                 $("#" + info[0]['id'] + " a").attr("href", "/courses/" + info[0]['course'] + "/" + info[0]['lecture'] + "/" + info[0]['id'] + "/results/");

@@ -226,7 +226,7 @@ def question_index_ajax(request, course_id, lecture_id):
                 response = 3
                 q.voting = 0
             
-            result.append([{"id" : q.id, "title" : q.question_text, "response" : response, "lecture" : q.lecture_id, "course" : lecture.course_id}])
+            result.append([{"id" : q.id, "title" : q.question_text, "response" : response, "lecture" : q.lecture_id, "course" : lecture.course_id, "answerable" : q.answerable}])
         
             q.save()
             
