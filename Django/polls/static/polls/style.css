@@ -56,7 +56,7 @@ div.greenlogo {
 }
 
 a:link {color: #003439;}    /* unvisited link */
-a:visited {color: #295357;} /* visited link */
+a:visited {color: #003439;} /* visited link */
 a:hover {color: #FF9231;}   /* mouse over link */
 a:active {color: #003439;}  /* selected link */
 
@@ -311,6 +311,7 @@ a:active {color: #003439;}  /* selected link */
     text-align: left;
     color: #FFF;
     font-size: 10px;
+    opacity: 0.85;
 }
 
 #content {
@@ -336,7 +337,7 @@ div.answerform {
 }
 
 #timer {
-    margin: 5px 5px 5px 15px;
+    margin: 90px 5px 5px 15px;
     width: 80px;
 }
 
@@ -383,6 +384,19 @@ button.voteButton {
     height: 200px;
 }
 
+button.toggleButton {
+	background: none;
+    border: none;
+    color: #003439;
+    cursor: pointer;
+	padding:0!important;
+}
+
+button.toggleButton:hover {
+	color: #5b80b2;
+	text-decoration: underline;
+}
+
 div.voteTimer {
     float: none;
     position: absolute;
@@ -395,14 +409,11 @@ div.voteTimer {
 
 div.voteSkip {
     position: absolute;
+    width:200px;
     left: 50%;
     margin-top: 210px;
-    margin-left: -75px;
-}
+    margin-left: -20px;}
 
-div.voteSkip button {
-    min-width: 150px;
-}
 
 /************************
 ==== Question_index.html ====
@@ -467,13 +478,14 @@ div.resultsVotes {
     width: 3.33em;
     font-size: 0.3em;
     text-align:center;
-    display: none;
 }
 .pietimer > .slice {
     position:absolute;
     width:1em;
     height:1em;
     clip:rect(0px,1em,1em,0.5em);
+    display: none;
+    
 }
 .pietimer > .slice.gt50 {
     clip:rect(auto, auto, auto, auto);
@@ -633,7 +645,7 @@ border: 1px solid brown;
     color: #FFF;
     display: inline-block;
     padding: 6px 12px;
-    margin-bottom: 0;
+    margin-top: 10px;
     font-size: 14px;
     font-weight: normal;
     line-height: 1.428571429;
@@ -669,6 +681,12 @@ border: 1px solid brown;
     color: #fff;
     background: #ff9231;
     border-color: #ff9231;
+}
+
+.button:active, input[type=submit]:active, input[type=button]:active {
+    background-image: none;
+    color: #fff;
+    background: #FF9231;
 }
 
 
