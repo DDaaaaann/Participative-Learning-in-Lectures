@@ -196,7 +196,7 @@ def question_status(request, course_id, lecture_id, question_id):
         if votingend > now:
             response = 1
             
-    resJson = json.dumps([response, question_id])    
+    resJson = json.dumps([{"response" : response, "question" : question_id}])
     
     return HttpResponse(resJson, content_type="text/plain")
     
@@ -215,11 +215,14 @@ def question_index_ajax(request, course_id, lecture_id):
             votingend = q.vote_start + timedelta(seconds=(3*q.vote_duration))
             now = datetime.now()
             
-            if votingstart < now: 
+            if votingstart < now:
                 if votingend > now:
-                    response = 1
+                    response = 2
+                    if q.vote_start > now:
+                        response = 1
+                        print "answer"
             
-            result.append([q.id, q.question_text, response])
+            result.append([{"id" : q.id, "title" : q.question_text, "response" : response, "lecture" : q.lecture_id, "course" : lecture.course_id}])
         
             if votingend < now:
                 q.voting = 0

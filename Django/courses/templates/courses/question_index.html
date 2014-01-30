@@ -89,17 +89,42 @@
                     type : 'POST',
                     success: function(data)
                     {
-                        console.log(data);     
-                        
-                        if (data[0] == 1) {
-                            $("#" + data[1]).addClass('open');
-                        } else if (data[0] == 2) {
-                            $("#" + data[1]).removeClass('open');
-                            $("#" + data[1]).addClass('voting');
-                        } else {
-                            $("#" + data[1]).removeClass('open');
-                            $("#" + data[1]).removeClass('voting');
-                        }
+
+                        console.log(data);
+
+                        $.each(data, function (i, info) {
+
+                            //Check if the row already exists, if not add it to the screen
+                            if (!$("#" + info[0]['id']).length > 0){
+                                $('#result_list > tbody:last').append(
+                                    '<tr class="row2 question" id="' + info[0]['id'] + '">' +
+                                        '<td>' +
+                                            '<a class="question_link" id="' + info[0]['id'] + '" href="/courses/' + info[0]['course'] + '/' + info[0]['lecture'] + '/' + info[0]['id'] + '/answer/">' +
+                                                info[0]['title'] +
+                                            '</a>' +
+                                        '</td>' +
+                                        '<td>' +
+                                            '<a href="/courses/' + info[0]['course'] + '/' + info[0]['lecture'] + '/' + info[0]['id'] + '/note/">' +
+                                                'Add note' +
+                                            '</a>' +
+                                        '</td>' +
+                                '</tr>');
+                            }
+
+                            //Add the correct css to the row
+                            if (info[0]['response'] == 1) {
+                                $("#" + info[0]['id'] + " a").attr("href", "/courses/" + info[0]['course'] + "/" + info[0]['lecture'] + "/" + info[0]['id'] + "/answer/");
+                                $("#" + info[0]['id']).addClass('open');
+                            } else if (info[0]['response'] == 2) {
+                                $("#" + info[0]['id'] + " a").attr("href", "/courses/" + info[0]['course'] + "/" + info[0]['lecture'] + "/" + info[0]['id'] + "/vote/");
+                                $("#" + info[0]['id']).removeClass('open');
+                                $("#" + info[0]['id']).addClass('voting');
+                            } else {
+                                $("#" + info[0]['id'] + " a").attr("href", "/courses/" + info[0]['course'] + "/" + info[0]['lecture'] + "/" + info[0]['id'] + "/results/");
+                                $("#" + info[0]['id']).removeClass('open');
+                                $("#" + info[0]['id']).removeClass('voting');
+                            }
+                        });
                     }
                 });
             }
