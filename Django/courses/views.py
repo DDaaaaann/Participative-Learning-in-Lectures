@@ -239,4 +239,25 @@ def note(request, course_id, lecture_id, question_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect(reverse('courses:note', args=(course_id, lecture_id, question_id,)))  
+        return HttpResponseRedirect(reverse('courses:note', args=(course_id, lecture_id, question_id,)))         
+
+@user_login_required
+def active_questions(request):
+    question_list = []
+    course_list = request.user.course_set.all()
+    for course in course_list:
+        c = get_object_or_404(course_list, id=course.id)
+        lecture_list = Lecture.objects.filter(course_id = c.id)
+        for lecture in lecture_list:
+            l = get_object_or_404(lecture_list, id=lecture.id)
+            question_listtemp = Question.objects.filter(lecture_id = l.id, answerable = 1)
+            for q in question_listtemp:
+                question_list.append((q, c))
+                
+    context = RequestContext(request, {
+        'question_list': question_list,
+        'title': 'Active questions',
+    })
+    
+    template = loader.get_template('courses/active_questions.html')
+    return HttpResponse(template.render(context))

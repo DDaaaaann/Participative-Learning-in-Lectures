@@ -20,14 +20,7 @@
         <li><a href='/courses/course'>My Courses</a></li>
         <li><a href='/teacher/analytics'>Analytics</a></li>
         {% elif user.is_active %}
-        <li class='has-sub'><a href='#'>Sessions</a>
-            <ul>
-                <li><a href='#'>Active Sessions</a></li>
-                <li><a href='#'>Upcoming Sessions</a></li>
-                <li><a href='#'>Attended Sessions</a></li>
-                <li><a href='#'>Missed Sessions</a></li>   
-            </ul>
-        </li>
+        <li><a href='/courses/active_questions'>Active Questions</a></li>
         <li><a href='/courses'>My Courses</a></li>
         <li><a href='/courses/analytics'>Analytics</a></li>
         {% endif %}
