@@ -183,6 +183,11 @@ def ajax_vote(request, course_id, lecture_id, question_id):
         selected_choice.save()
         return HttpResponseRedirect(reverse('courses:results', args=(course_id, lecture_id, question_id,)))
 
+def analytics(request):
+    return render(request, 'courses/student_analytics.html', {
+        })
+
+
 @user_login_required
 def note(request, course_id, lecture_id, question_id):
     try:
@@ -213,4 +218,6 @@ def note(request, course_id, lecture_id, question_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect(reverse('courses:note', args=(course_id, lecture_id, question_id,)))       
+        return HttpResponseRedirect(reverse('courses:note', args=(course_id, lecture_id, question_id,)))   
+
+

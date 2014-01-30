@@ -410,3 +410,7 @@ def course(request):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('teacher:course_index',))
+
+def analytics(request):
+    return render(request, 'teacher/teacher_analytics.html', {
+        })

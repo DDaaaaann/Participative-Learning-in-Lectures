@@ -1,0 +1,47 @@
+{% extends "teacher/course_index.html" %}
+{% load i18n admin_urls admin_static admin_list %}
+{% load cycle from future %}
+{% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
+
+
+{% block nav-global %}{% endblock %}
+{% block branding %} {{ block.super }} {% endblock %}
+
+
+{% block breadcrumbs %}
+{{ block.super }}
+&rsaquo; <a href="/teacher/analytics/">{% trans 'Analytics' %}</a>
+
+{% endblock %}
+
+
+{{ title }}
+{% block content %}
+	<div id="content-main">
+		{% block object-tools %}
+			<ul class="object-tools">
+				
+			</ul>
+		{% endblock object-tools %}
+
+		<div class="module" id="changelist">
+
+			<div class="actions">
+				<label>
+					Analytics
+				
+				</label>
+			</div>
+			<div class="module" id="changelist">
+		
+				<!--  <img src="{{ STATIC_URL }}polls/images/analytics_pie.png" alt="pie" title="piechart" width="409" height="209" />
+				
+				  <img src="{{ STATIC_URL }}polls/images/analytics_table.png" alt="pie" title="piechart" width="611" height="147" /> -->
+			</div>
+			<div class="module" id="changelist">
+				Hi student, here you can find your analytics
+				<!-- <img src="{{ STATIC_URL }}polls/images/analytics_graph.png" alt="pie" title="piechart" width="517" height="346" /> -->
+			</div>
+		</div>
+	</div>
+{% endblock %}

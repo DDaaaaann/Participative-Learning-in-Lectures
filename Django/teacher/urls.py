@@ -35,6 +35,8 @@ urlpatterns = patterns('',
         views.editToggleQuestion, name='editToggleQuestion'),
     url(r'^my_profile/$',
         views.profile_page, name='profile_page'),
+    url(r'^analytics/$',
+        views.analytics, name='analytics'),
 
 )
 
