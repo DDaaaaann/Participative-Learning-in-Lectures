@@ -1,13 +1,5 @@
 TO DO:
 
-De 'Add course'-knop op ./teacher/ linkt nog naar de oude pagina. Het toevoegen werkt daarentegen wel.
-
-De 'Add lecture'-knop op ./teacher/<course_id> linkt nog naar de oude pagina. Het toevoegen werkt daarentegen wel.
-
-De 'Add question'-knop op ./teacher/<course_id>/<lecture_id>/ linkt nog naar de oude pagina. Het toevoegen werkt daarentegen wel.
-
-De 'Add answer'-knop op de ./teacher/<course_id>/<lecture_id>/<question_id>/ linkt nog naar de oude pagina. Het toevoegen werkt daarentegen wel.
-
 De 'Open question'-knop op de ./teacher/<course_id>/<lecture_id>/ werkt niet naar behoren, de boolean 'voting' wordt niet True. De tijd 'vote_start' wordt een uur te vroeg gezet. Ook wordt de tijd 'vote_start' van de andere vragen een uur terug gezet.
 
 De 'Close question'-knop op de ./teacher/<course_id>/<lecture_id>/ zet de tijd van de andere vragen een uur terug.
