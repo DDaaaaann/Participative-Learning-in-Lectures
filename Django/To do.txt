@@ -13,5 +13,3 @@ De 'Open question'-knop op de ./teacher/<course_id>/<lecture_id>/ werkt niet naa
 De 'Close question'-knop op de ./teacher/<course_id>/<lecture_id>/ zet de tijd van de andere vragen een uur terug.
 
 De 'Start session'-knop doet niks. Dit moet, of worden gefixed, of worden verwijderd.
-
-De 'Change'-knop heeft nog niet 
