@@ -1,7 +1,7 @@
 {% extends "courses/lecture_index.html" %}
 {% load i18n %}
 {% block title %}
-	{{ title }} | {% trans 'PILS' %}
+    {{ title }} | {% trans 'PILS' %}
 {% endblock %}
 
 {% block branding %} {{ block.super }} {% endblock %}
@@ -9,30 +9,35 @@
 {% block nav-global %}{% endblock %}
 
 {% block breadcrumbs %}
-	{{ block.super }}
+    {{ block.super }}
     &rsaquo;
-    <a href="/courses/{{ course_id }}/{{ lecture_id }}/">
+    <a href="/courses/{{ lecture.course_id }}/{{ lecture.id }}/">
         {% trans 'Questions' %}
     </a>
+    &rsaquo;
+    <a href="">
+        {% trans 'Notes' %}
+    </a>
+
 {% endblock %}
 
 {{ title }}
 {% block content %}
-	{% load staticfiles %}
-	<div id="content-main">
-		<div class="module" id="changelist">
+    {% load staticfiles %}
+    <div id="content-main">
+        <div class="module" id="changelist">
         {% if note_list %}
-			{% block result_list %}
-			<div class="results">
-				<table id="result_list">
-					<thead>
-						<tr>
-							<th scope="col"> 
-								<span class="text"><a href="?o=1">Notes</a></span>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
+            {% block result_list %}
+            <div class="results">
+                <table id="result_list">
+                    <thead>
+                        <tr>
+                            <th scope="col"> 
+                                <span class="text"><a href="?o=1">Notes</a></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
                             <tr class="{% cycle 'row1' 'row2' %}">
                                 <td>
                                     <a href="/courses/{{ lecture.course_id }}/{{ lecture.id }}/{{ question.id }}/note/">
@@ -47,17 +52,17 @@
                             <br>
                             <p><input type="submit" value="Save note" /></p>
                         </form>
-					</tbody>
-				</table>
-			</div>
-			{% endblock result_list %}
+                    </tbody>
+                </table>
+            </div>
+            {% endblock result_list %}
         {% elif not note_list %}
             <p>Bana</p>
         {% else %}
-			<p>No note is available.</p>
-		{% endif %}
-		</div>
-	</div>
+            <p>No note is available.</p>
+        {% endif %}
+        </div>
+    </div>
 
     <script type="text/javascript">
         

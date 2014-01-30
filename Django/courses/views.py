@@ -203,6 +203,9 @@ def note(request, course_id, lecture_id, question_id):
             'note_list': note_list,
             'question': q,
             'lecture': l,
+            'course_id': course_id,
+            'lecture_id': lecture_id,
+            'question_id': question_id,
         })
     else:
         note = Note(id = note_list.id, note_text = givenNote, question_id = question_id, user_id = request.user.id)
