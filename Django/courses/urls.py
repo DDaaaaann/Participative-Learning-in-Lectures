@@ -24,4 +24,6 @@ urlpatterns = patterns('',
     url(r'^(?P<course_id>\d+)/(?P<lecture_id>\d+)/(?P<question_id>\d+)/ajaxvote/$', 
         views.ajax_vote, name='ajax_vote'),
     url(r'^enroll/$', views.course_enroll, name='course_enroll'),
+    url(r'^(?P<course_id>\d+)/(?P<lecture_id>\d+)/(?P<question_id>\d+)/note/$',
+        views.note, name='note'),
 )

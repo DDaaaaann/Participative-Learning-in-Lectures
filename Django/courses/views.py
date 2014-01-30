@@ -14,6 +14,7 @@ from models import Question
 from models import Answer
 from models import Lecture_student
 from models import Course_teachers
+from models import Note
 
 @user_login_required
 def course_enroll(request):
@@ -122,6 +123,7 @@ def answer_index(request, course_id, lecture_id, question_id):
 def results(request, course_id, lecture_id, question_id):
     q = get_object_or_404(Question, pk=question_id)
     l = get_object_or_404(Lecture, pk=lecture_id)
+    
     return render(request, 'courses/results.html', {'question': q, 'lecture': l})
 
 @user_login_required
@@ -180,3 +182,32 @@ def ajax_vote(request, course_id, lecture_id, question_id):
         selected_choice.votes += 1
         selected_choice.save()
         return HttpResponseRedirect(reverse('courses:results', args=(course_id, lecture_id, question_id,)))
+
+@user_login_required
+def note(request, course_id, lecture_id, question_id):
+    try:
+        note_list = Note.objects.get(user=request.user.id, question=question_id)
+    except Note.DoesNotExist:
+        note = Note(note_text = "Enter your note here...", question_id = question_id, user_id = request.user.id)
+        note.save()
+        note_list = Note.objects.get(user=request.user.id, question=question_id)
+    q = get_object_or_404(Question, pk=question_id)
+    l = get_object_or_404(Lecture, pk=lecture_id)
+    try:
+        givenNote = request.POST['note_text']
+
+        print givenNote
+    except (KeyError, Note.DoesNotExist):
+        # Redisplay the poll answering form.
+        return render(request, 'courses/note.html', {
+            'note_list': note_list,
+            'question': q,
+            'lecture': l,
+        })
+    else:
+        note = Note(id = note_list.id, note_text = givenNote, question_id = question_id, user_id = request.user.id)
+        note.save()
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse('courses:note', args=(course_id, lecture_id, question_id,)))       

@@ -1,0 +1,66 @@
+{% extends "courses/lecture_index.html" %}
+{% load i18n %}
+{% block title %}
+	{{ title }} | {% trans 'PILS' %}
+{% endblock %}
+
+{% block branding %} {{ block.super }} {% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block breadcrumbs %}
+	{{ block.super }}
+    &rsaquo;
+    <a href="/courses/{{ course_id }}/{{ lecture_id }}/">
+        {% trans 'Questions' %}
+    </a>
+{% endblock %}
+
+{{ title }}
+{% block content %}
+	{% load staticfiles %}
+	<div id="content-main">
+		<div class="module" id="changelist">
+        {% if note_list %}
+			{% block result_list %}
+			<div class="results">
+				<table id="result_list">
+					<thead>
+						<tr>
+							<th scope="col"> 
+								<span class="text"><a href="?o=1">Notes</a></span>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+                            <tr class="{% cycle 'row1' 'row2' %}">
+                                <td>
+                                    <a href="/courses/{{ lecture.course_id }}/{{ lecture.id }}/{{ question.id }}/note/">
+                                        {{ note_list.note_text }}
+                                    </a>
+                                </td>
+                            </tr>
+                        <h1>Edit notes for current question: {{ question.question_text }}</h1>
+                        <form action="{% url 'courses:note' lecture.course_id lecture.id question.id %}" method="post" id="formQuestion">
+                            {% csrf_token %}
+                            <textarea name="note_text" cols=40 rows=6 class="questionArea">{{ note_list.note_text }}</textarea>
+                            <br>
+                            <p><input type="submit" value="Save note" /></p>
+                        </form>
+					</tbody>
+				</table>
+			</div>
+			{% endblock result_list %}
+        {% elif not note_list %}
+            <p>Bana</p>
+        {% else %}
+			<p>No note is available.</p>
+		{% endif %}
+		</div>
+	</div>
+
+    <script type="text/javascript">
+        
+    </script>
+
+{% endblock %}

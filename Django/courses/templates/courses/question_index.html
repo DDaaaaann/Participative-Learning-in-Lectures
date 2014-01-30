@@ -34,13 +34,28 @@
 					</thead>
 					<tbody>
 						{% for question in question_list %}
-							{% if question.answerable %}
+							{% if question.answerable = True %}
 								<tr class="{% cycle 'row1' 'row2' %}">
 									<td>
 										<a href="/courses/{{ course_id }}/{{ lecture_id }}/{{ question.id }}/answer/">
 											{{ question.question_text }}
 										</a>
 									</td>
+                                    {% if note_list %}
+                                    <td> Notes:
+                                    </td>
+                                    <td>
+										<a href="/courses/{{ course_id }}/{{ lecture_id }}/{{ question.id }}/note/">
+											{{ question.note_text }}
+										</a>
+									</td>
+                                    {% else %}
+                                    <td>
+										<a href="/courses/{{ course_id }}/{{ lecture_id }}/{{ question.id }}/note/">
+                                        Add note
+										</a>
+									</td>
+                                    {% endif %}
 								</tr>
 							{% endif %}
 						{% endfor %}
@@ -48,6 +63,7 @@
 				</table>
 			</div>
 			{% endblock result_list %}
+            
 		{% else %}
 			<p>No questions are available.</p>
 		{% endif %}
