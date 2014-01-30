@@ -1,0 +1,63 @@
+{% extends "admin/base.html" %}
+
+{% load i18n %}
+{% block title %}{{ title }} | {% trans 'PILS' %}{% endblock %}
+
+{% block branding %} {{ block.super }} {% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    &rsaquo;
+    <a href="{% url 'courses:course_index' %}">
+        {% trans 'Active questions' %}
+    </a>
+
+{% endblock %}
+
+
+{{ title }}
+{% block content %}
+    <div id="content-main">
+        <div class="module" id="changelist">
+            {% if question_list %}
+                    {% block result_list %}
+                    <div class="results">
+                        <table id="result_list">
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        <span class="text">
+                                            <a href="?o=1">
+                                                Active questions
+                                            </a>
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for question, course in question_list %}
+                                    <tr class="{% cycle 'row1' 'row2' %}">
+                                        <td>
+                                            <a href="/courses/{{ course.id }}/{{ question.lecture_id }}/{{ question.id }}/answer/">
+                                                {{ question }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/courses/{{ course.id }}/">
+                                                {{ course }}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endblock result_list %}
+            {% else %}
+                <p>No courses are available.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

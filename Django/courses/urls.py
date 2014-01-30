@@ -28,4 +28,6 @@ urlpatterns = patterns('',
         views.note, name='note'),
     url(r'^analytics/$',
         views.analytics, name='analytics'),
+    url(r'^active_questions/$',
+        views.active_questions, name='active_questions'),
 )
