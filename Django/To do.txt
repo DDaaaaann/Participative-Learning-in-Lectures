@@ -1,0 +1,7 @@
+TO DO:
+
+De 'Open question'-knop op de ./teacher/<course_id>/<lecture_id>/ werkt niet naar behoren, de boolean 'voting' wordt niet True. De tijd 'vote_start' wordt een uur te vroeg gezet. Ook wordt de tijd 'vote_start' van de andere vragen een uur terug gezet.
+
+De 'Close question'-knop op de ./teacher/<course_id>/<lecture_id>/ zet de tijd van de andere vragen een uur terug.
+
+De 'Start session'-knop doet niks. Dit moet, of worden gefixed, of worden verwijderd.
