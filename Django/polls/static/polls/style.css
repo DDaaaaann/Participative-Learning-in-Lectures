@@ -311,6 +311,7 @@ a:active {color: #003439;}  /* selected link */
     text-align: left;
     color: #FFF;
     font-size: 10px;
+    opacity: 0.85;
 }
 
 #content {
