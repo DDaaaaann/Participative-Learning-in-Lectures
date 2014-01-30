@@ -10,7 +10,7 @@
 {% block breadcrumbs %}
     {{ block.super }}
     &rsaquo;
-    <a href="{% url 'courses:course_index' %}">
+    <a href="/">
         {% trans 'Active questions' %}
     </a>
 
@@ -63,7 +63,7 @@
                     </div>
                 {% endblock result_list %}
             {% else %}
-                <p>No courses are available.</p>
+                <p>No active questions are available.</p>
             {% endif %}
         </div>
     </div>
