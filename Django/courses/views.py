@@ -196,13 +196,38 @@ def question_status(request, course_id, lecture_id, question_id):
         if votingend > now:
             response = 1
             
-    resJson = json.dumps([response, question_id])
-    
-    print resJson
-    
-    
+    resJson = json.dumps([response, question_id])    
     
     return HttpResponse(resJson, content_type="text/plain")
+    
+def question_index_ajax(request, course_id, lecture_id):
+    lecture = Lecture.objects.get(id=lecture_id)
+    question_list = lecture.questions.order_by('-pub_date')
+    
+    result = []
+    
+    if question_list:
+        for q in question_list:
+        
+            response = 0
+    
+            votingstart = q.vote_start - timedelta(seconds=q.answer_time)
+            votingend = q.vote_start + timedelta(seconds=(3*q.vote_duration))
+            now = datetime.now()
+            
+            if votingstart < now: 
+                if votingend > now:
+                    response = 1
+            
+            result.append([q.id, q.question_text, response])
+        
+            if votingend < now:
+                q.voting = 0
+        
+            q.save()
+            
+    return HttpResponse(json.dumps(result), content_type="text/plain")
+    
     
 def analytics(request):
     return render(request, 'courses/student_analytics.html', {

@@ -82,28 +82,26 @@
             }, 5000);
         
             function checkQuestions() {
-        
-                $( ".question" ).each(function( index ) {
-                    id = $( this ).attr('id')
                     
-                    $.ajax({
-                        url: '/courses/{{ lecture.course_id }}/{{ lecture.id }}/'+ $( this ).attr('id') +'/questionstatus/',
-                        dataType : 'json',
-                        type : 'POST',
-                        success: function(data)
-                        {
-                            if (data[0] == 1) {
-                                $("#" + data[1]).addClass('open');
-                            } else if (data[0] == 2) {
-                                $("#" + data[1]).removeClass('open');
-                                $("#" + data[1]).addClass('voting');
-                            } else {
-                                $("#" + data[1]).removeClass('open');
-                                $("#" + data[1]).removeClass('voting');
-                            }
+                $.ajax({
+                    url: '/courses/{{ lecture.course_id }}/{{ lecture.id }}/question_index_ajax/',
+                    dataType : 'json',
+                    type : 'POST',
+                    success: function(data)
+                    {
+                        console.log(data);     
+                        
+                        if (data[0] == 1) {
+                            $("#" + data[1]).addClass('open');
+                        } else if (data[0] == 2) {
+                            $("#" + data[1]).removeClass('open');
+                            $("#" + data[1]).addClass('voting');
+                        } else {
+                            $("#" + data[1]).removeClass('open');
+                            $("#" + data[1]).removeClass('voting');
                         }
-                    });
-                })
+                    }
+                });
             }
         });
         

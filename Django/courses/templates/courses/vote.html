@@ -161,11 +161,6 @@
 
             $("button").click(function(){
                 var update = $(this).attr("value");
-
-                var currentTime = Math.round(new Date().getTime() / 1000);
-                var roundEndTime = Math.round(new Date().getTime() / 1000) + 300;
-                
-                //alert('You clicked the button with value = ' + update);
                 
                 saveVote(update);
 
