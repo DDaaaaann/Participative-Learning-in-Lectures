@@ -1,6 +1,8 @@
 from django.contrib import admin
 from collections import Counter
 from django.contrib.auth.models import User
+from django.contrib.admin import SimpleListFilter
+from django.utils.translation import ugettext_lazy as _
 from models import Question, Course, Lecture, Answer
 import math
 from teacher.admin import user_admin_site
@@ -106,7 +108,7 @@ class CourseStaffAdmin(admin.ModelAdmin):
         return super(CourseStaffAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
     def course_link(self, obj):
-        return u'<a href="/courses/lecture/?course__id__exact=%s">%s</a>' % (obj.id, obj)
+        return u'<a href="/courses/lecture/?course=%s">%s</a>' % (obj.id, obj)
         
     course_link.allow_tags = True
     course_link.short_description = "Course"
@@ -144,9 +146,36 @@ class LectureAdmin(admin.ModelAdmin):
     inlines = [QuestionInline]
     
     
+class CourseFilter(SimpleListFilter):
+    title = _('Courses')
+    parameter_name = 'course'
+
+    def lookups(self, request, model_admin):
+        list_tuple = []
+        for course in request.user.course_set.all():
+            #print category
+            list_tuple.append((course.id, course.course_text))
+        return list_tuple
+    
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(course__id=self.value())
+        else:
+            return queryset
+    
+    
 class LectureStaffAdmin(admin.ModelAdmin):
+    def queryset(self, request):
+        qs = super(LectureStaffAdmin, self).queryset(request)
+        return qs.filter(course_id__in=request.user.course_set.all())
+    
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "course":
+            kwargs["queryset"] = request.user.course_set.all()
+        return super(LectureStaffAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
     def lecture_link(self, obj):
-        return u'<a href="/courses/question/?lecture__id__exact=%s">%s</a>' % (obj.id, obj)
+        return u'<a href="/courses/question/?lecture=%s">%s</a>' % (obj.id, obj)
         
     lecture_link.allow_tags = True
     lecture_link.short_description = "Lecture"
@@ -168,13 +197,13 @@ class LectureStaffAdmin(admin.ModelAdmin):
             ('Course', {'fields': ['course']}),
     ]
     
-    list_filter = ('course',)
+    list_filter = (CourseFilter,)
     list_display = ('lecture_link','edit_link',)
     inlines = [QuestionInline]
 
 class QuestionAdmin(admin.ModelAdmin):
     fieldsets = [
-            (None,               {'fields': ['question_text']}),
+            ('Question', {'fields': ['question_text']}),
             ('Lecture', {'fields': ['lecture']}),
             ('Date information', {'fields': ['pub_date']}),
     ]
@@ -186,18 +215,46 @@ class QuestionAdmin(admin.ModelAdmin):
     actions = [openVoting, closeVoting, filterAnswers, resetAnswers]
 
     
+class LectureFilter(SimpleListFilter):
+    title = _('Lecture')
+    parameter_name = 'lecture'
+
+    def lookups(self, request, model_admin):
+        list_tuple = []
+        qs = Lecture.objects.all()
+        lectures = qs.filter(course_id__in=request.user.course_set.all())
+        for lecture in lectures:
+            #print category
+            list_tuple.append((lecture.id, lecture.lecture_text))
+        return list_tuple
+    
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(lecture__id=self.value())
+        else:
+            return queryset    
+    
 class QuestionStaffAdmin(admin.ModelAdmin):
+    def queryset(self, request):
+        qs = super(QuestionStaffAdmin, self).queryset(request)
+        return qs.filter(lecture_id__course_id__in=request.user.course_set.all())
+    
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "lecture":
+            kwargs["queryset"] = Lecture.objects.all().filter(course_id__in=request.user.course_set.all())
+        return super(QuestionStaffAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        
     def question_link(self, obj):
         return u'<a href="/courses/answer/?question__id__exact=%s">%s</a>' % (obj.id, obj)
         
     question_link.allow_tags = True
-    question_link.short_description = "Lecture"
+    question_link.short_description = "Question"
     
     def edit_link(self, obj):
         return u'<a class="changelink" href="/courses/question/%s/">Edit</a>' % (obj.id)
     
     edit_link.allow_tags = True
-    edit_link.short_description = "Edit Lecture"
+    edit_link.short_description = "Edit Question"
     
     
     def __init__(self, *args, **kwargs):
@@ -205,14 +262,14 @@ class QuestionStaffAdmin(admin.ModelAdmin):
         self.list_display_links = (None, ) 
     
     fieldsets = [
-            (None,               {'fields': ['question_text']}),
+            ('Question', {'fields': ['question_text']}),
             ('Lecture', {'fields': ['lecture']}),
             ('Date information', {'fields': ['pub_date']}),
     ]
     inlines = [AnswerInline]
     list_display = ('question_link', 'pub_date',
                     'has_been_published', 'receiving_answers', 'edit_link',)
-    list_filter = ['pub_date']
+    list_filter = [LectureFilter, 'pub_date']
     search_fields = ['question_text']
     actions = [openVoting, closeVoting, filterAnswers, resetAnswers]
 
