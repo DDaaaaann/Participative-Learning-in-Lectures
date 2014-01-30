@@ -7,6 +7,7 @@ from models import Question, Course, Lecture, Answer
 import math
 from teacher.admin import user_admin_site
 
+
 def openVoting(modeladmin, request, queryset):
     queryset.update(answerable=True)
 openVoting.short_description = "Mark selected polls as open for voting"
@@ -198,7 +199,7 @@ class LectureStaffAdmin(admin.ModelAdmin):
     ]
     
     list_filter = (CourseFilter,)
-    list_display = ('lecture_link','edit_link',)
+    list_display = ('lecture_link','course', 'edit_link',)
     inlines = [QuestionInline]
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -256,6 +257,14 @@ class QuestionStaffAdmin(admin.ModelAdmin):
     edit_link.allow_tags = True
     edit_link.short_description = "Edit Question"
     
+    def voteButton(self, obj):
+        courseid = obj.lecture.course_id
+        if obj.voting:
+            return u'<form action="/teacher/%s/%s/closeVoting"> <button type="submit" class="toggleButton" name="question_id" value="%s"> Close question </button> </form>' % (courseid, obj.lecture_id, obj.id)
+        else:
+            return u'<form action="/teacher/%s/%s/openVoting"> <button type="submit" class="toggleButton" name="question_id" value="%s"> Open question </button> </form>' % (courseid, obj.lecture_id, obj.id)
+        
+    voteButton.allow_tags = True
     
     def __init__(self, *args, **kwargs):
         super(QuestionStaffAdmin, self).__init__(*args, **kwargs)
@@ -264,11 +273,12 @@ class QuestionStaffAdmin(admin.ModelAdmin):
     fieldsets = [
             ('Question', {'fields': ['question_text']}),
             ('Lecture', {'fields': ['lecture']}),
-            ('Date information', {'fields': ['pub_date']}),
+            ('Date information', {'fields': ['pub_date', 'vote_duration', 'answer_time']}),
+            
     ]
     inlines = [AnswerInline]
-    list_display = ('question_link', 'pub_date',
-                    'has_been_published', 'receiving_answers', 'edit_link',)
+    list_display = ('question_link', 'lecture', 'pub_date',
+                     'receiving_answers', 'edit_link', 'voteButton',)
     list_filter = [LectureFilter, 'pub_date']
     search_fields = ['question_text']
     actions = [openVoting, closeVoting, filterAnswers, resetAnswers]

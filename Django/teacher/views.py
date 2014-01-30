@@ -178,9 +178,10 @@ def openVoting(request, course_id, lecture_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect(reverse('teacher:question_index', args=(course_id, lecture_id,)))
+        return HttpResponseRedirect('/courses/question?lecture=%s' % lecture_id)
 
 def closeVoting(request, course_id, lecture_id):
+
     l = get_object_or_404(Lecture, pk=lecture_id)
     try:
         givenQuestionID = request.GET['question_id']
@@ -197,7 +198,7 @@ def closeVoting(request, course_id, lecture_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect(reverse('teacher:question_index', args=(course_id, lecture_id,)))
+        return HttpResponseRedirect('/courses/question?lecture=%s' % lecture_id)
         
 def startSession(request, course_id, lecture_id):
     l = get_object_or_404(Lecture, pk=lecture_id)
