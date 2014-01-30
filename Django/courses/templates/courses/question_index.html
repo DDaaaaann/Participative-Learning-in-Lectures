@@ -119,10 +119,16 @@
                                 $("#" + info[0]['id'] + " a").attr("href", "/courses/" + info[0]['course'] + "/" + info[0]['lecture'] + "/" + info[0]['id'] + "/vote/");
                                 $("#" + info[0]['id']).removeClass('open');
                                 $("#" + info[0]['id']).addClass('voting');
-                            } else {
+                            } else if (info[0]['response'] == 3) {
                                 $("#" + info[0]['id'] + " a").attr("href", "/courses/" + info[0]['course'] + "/" + info[0]['lecture'] + "/" + info[0]['id'] + "/results/");
                                 $("#" + info[0]['id']).removeClass('open');
                                 $("#" + info[0]['id']).removeClass('voting');
+                                $("#" + info[0]['id']).addClass('done');
+                            }else {
+                                $("#" + info[0]['id'] + " a").attr("href", "/courses/" + info[0]['course'] + "/" + info[0]['lecture'] + "/" + info[0]['id'] + "/answer/");
+                                $("#" + info[0]['id']).removeClass('open');
+                                $("#" + info[0]['id']).removeClass('voting');
+                                $("#" + info[0]['id']).removeClass('done');
                             }
                         });
                     }

@@ -214,18 +214,19 @@ def question_index_ajax(request, course_id, lecture_id):
             votingstart = q.vote_start - timedelta(seconds=q.answer_time)
             votingend = q.vote_start + timedelta(seconds=(3*q.vote_duration))
             now = datetime.now()
-            
+
+            # Check which status the current question has
             if votingstart < now:
                 if votingend > now:
                     response = 2
                     if q.vote_start > now:
                         response = 1
-                        print "answer"
+
+            if votingend < now:
+                response = 3
+                q.voting = 0
             
             result.append([{"id" : q.id, "title" : q.question_text, "response" : response, "lecture" : q.lecture_id, "course" : lecture.course_id}])
-        
-            if votingend < now:
-                q.voting = 0
         
             q.save()
             

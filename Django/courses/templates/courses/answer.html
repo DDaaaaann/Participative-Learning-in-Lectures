@@ -20,15 +20,15 @@
 			{% trans 'Courses' %}
 		</a>
 		&rsaquo;
-		<a href="/courses/{{ course_id }}/">
+		<a href="/courses/{{ lecture.course_id }}/">
 			{% trans 'Lectures' %}
 		</a>
 		&rsaquo;
-		<a href="/courses/{{ course_id }}/{{ lecture_id }}/">
+		<a href="/courses/{{ lecture.course_id }}/{{ lecture.id }}/">
 			{% trans 'Questions' %}
 		</a>
 		&rsaquo;
-		<a href="/courses/{{ course_id }}/{{ lecture_id }}/{{ answer_id }}">
+		<a href="/courses/{{ lecture.course_id }}/{{ lecture.id }}/{{ question.id }}">
 			{% trans 'Answers' %}
 		</a>
 	
@@ -74,7 +74,14 @@
                         
                         function clearScreen() {
                             $('.answerFormWrapper').empty();
-                        }                        
+                        }
+
+                        if (Math.round((new Date().getTime()/1000)) < voteStart - {{ question.answer_time }}) {
+                            $(".answerFormWrapper").remove();
+                            setDescription("Question is not open yet, please wait until the question is opened!", 1);
+                            time = (voteStart - {{ question.answer_time }}) - Math.round((new Date().getTime()/1000))
+                            setTimer("#timer", time, "/courses/{{ lecture.course_id }}/{{ lecture.id }}/{{ question.id }}/answer/");
+                        }
                         
                         if (Math.round((new Date().getTime()/1000)) > voteStart) {
                             $(".answerFormWrapper").remove();
