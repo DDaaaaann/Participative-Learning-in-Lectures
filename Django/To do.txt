@@ -1,3 +1,7 @@
 TO DO:
 
 De tijd 'vote_start' werkt nog niet naar behoren. De tijd, die in de database terecht komt, is een uur vroeger dan de tijd, die wordt ingevuld op de 'Add question'-pagina of de 'Edit question'-pagina. [Hier werkt Mathijs aan.]
+
+De 'Sessions +'-knop in de Header bar werkt nog niet, maar we werken nog niet met sessions. Dus de vraag is, is dit nodig of kan het verwijderd worden?
+
+De 'Student Analytics'-knop in de Header bar werkt nog niet. Alper en Daan zijn nu, volgens mij, bezig met een template.
