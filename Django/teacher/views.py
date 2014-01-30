@@ -17,8 +17,6 @@ from courses.models import Answer
 from courses.models import Lecture_student
 from courses.models import Course_teachers
 
-
-
 def course_results(request, course_id):
     response = "You're looking at the results of course %s."
     return HttpResponse(response % course_id)

@@ -35,7 +35,7 @@
 					<tbody>
 						{% for question in question_list %}
 							{% if question.answerable %}
-								<tr class="{% cycle 'row1' 'row2' %} question open" id="{{ question.id }}">
+								<tr class="{% cycle 'row1' 'row2' %} question" id="{{ question.id }}">
 									<td>
 										<a class="question_link" id="{{ question.id }}" href="/courses/{{ course_id }}/{{ lecture_id }}/{{ question.id }}/answer/">
 											{{ question.question_text }}
@@ -56,14 +56,75 @@
 
     <script type="text/javascript">
         $( document ).ready(function() {
-            $( ".question" ).each(function( index ) {
-                if($( this ).attr('id') == 49) {
-                    $( this ).addClass('open');
-                } else {
-                    $( this ).removeClass('open');
+        
+            checkQuestions();
+        
+            window.setInterval(function(){
+                checkQuestions();
+            }, 5000);
+        
+            function checkQuestions() {
+        
+                $( ".question" ).each(function( index ) {
+                    id = $( this ).attr('id')
+                    
+                    $.ajax({
+                        url: '/courses/{{ lecture.course_id }}/{{ lecture.id }}/'+ $( this ).attr('id') +'/questionstatus/',
+                        dataType : 'json',
+                        type : 'POST',
+                        success: function(data)
+                        {
+                            if (data[0] == 1) {
+                                $("#" + data[1]).addClass('open');
+                            } else if (data[0] == 2) {
+                                $("#" + data[1]).removeClass('open');
+                                $("#" + data[1]).addClass('voting');
+                            } else {
+                                $("#" + data[1]).removeClass('open');
+                                $("#" + data[1]).removeClass('voting');
+                            }
+                        }
+                    });
+                })
+            }
+        });
+        
+        $(document).ajaxSend(function(event, xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
                 }
-            })
-        })
+                return cookieValue;
+            }
+            function sameOrigin(url) {
+                // url could be relative or scheme relative or absolute
+                var host = document.location.host; // host + port
+                var protocol = document.location.protocol;
+                var sr_origin = '//' + host;
+                var origin = protocol + sr_origin;
+                // Allow absolute or scheme relative URLs to same origin
+                return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+                    (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+                    // or any other URL that isn't scheme relative or absolute i.e relative.
+                    !(/^(\/\/|http:|https:).*/.test(url));
+            }
+            function safeMethod(method) {
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+
+            if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        });
     </script>
 
 {% endblock %}

@@ -7,6 +7,7 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 from teacher.decorators import user_login_required
 from datetime import datetime, timedelta
+import json
 
 from models import Course
 from models import Lecture
@@ -180,3 +181,23 @@ def ajax_vote(request, course_id, lecture_id, question_id):
         selected_choice.votes += 1
         selected_choice.save()
         return HttpResponseRedirect(reverse('courses:results', args=(course_id, lecture_id, question_id,)))
+        
+def question_status(request, course_id, lecture_id, question_id):
+    q = get_object_or_404(Question, pk=question_id)
+    response = 0
+    
+    votingstart = q.vote_start - timedelta(seconds=q.answer_time)
+    votingend = q.vote_start + timedelta(seconds=(3*q.vote_duration))
+    now = datetime.now()
+    
+    if votingstart < now: 
+        if votingend > now:
+            response = 1
+            
+    resJson = json.dumps([response, question_id])
+    
+    print resJson
+    
+    
+    
+    return HttpResponse(resJson, content_type="text/plain")

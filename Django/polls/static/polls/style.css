@@ -412,6 +412,11 @@ tr.open {
    font-weight: bold;
 }
 
+tr.voting {
+   background-color: lightorange; 
+   font-weight: bold;
+}
+
 /************************
 ==== Results.html ====
 *************************/
