@@ -26,4 +26,8 @@ urlpatterns = patterns('',
     url(r'^(?P<course_id>\d+)/(?P<lecture_id>\d+)/(?P<question_id>\d+)/questionstatus/$', 
         views.question_status, name='question_status'),
     url(r'^enroll/$', views.course_enroll, name='course_enroll'),
+    url(r'^(?P<course_id>\d+)/(?P<lecture_id>\d+)/(?P<question_id>\d+)/note/$',
+        views.note, name='note'),
+    url(r'^analytics/$',
+        views.analytics, name='analytics'),
 )

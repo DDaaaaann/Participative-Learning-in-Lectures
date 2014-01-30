@@ -108,3 +108,12 @@ class Answer(models.Model):
     # OpenForVoting determines the fact if the answer can be voted on.
     openForVoting = models.BooleanField(default=True)
     
+class Note(models.Model):
+    note_text = models.CharField(max_length=2048, default="Enter your notes here...")
+    
+    # A note is related to a specific question and user
+    question = models.ForeignKey(Question, related_name='questions')
+    user = models.ForeignKey(User, related_name='students')
+    
+    def __str__(self):
+        return self.note_text    

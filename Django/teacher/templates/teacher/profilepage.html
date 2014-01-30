@@ -72,6 +72,8 @@
     <div style="clear:both"></div>
 </div>
 </td>
+</tr>
+<tr>
 <td id="rightcol">
 <div class="module" id="changelist">
     {% if course_list %}
@@ -82,7 +84,7 @@
                         <tr>
                             <th scope="col">
                                 <span class="text">
-                                    <a href="{% if user.is_staff %}{% trans '/teacher/' %}
+                                    <a href="{% if user.is_staff %}{% trans '/courses/course/' %}
                                             {% else %}{% trans '/courses/' %}{% endif %}">
                                         My Courses
                                     </a>
