@@ -204,7 +204,7 @@ class LectureStaffAdmin(admin.ModelAdmin):
     ]
     
     list_filter = (CourseFilter,)
-    list_display = ('lecture_link','course', 'edit_link', 'sessionButton',)
+    list_display = ('lecture_link','course', 'sessionButton', 'edit_link',)
     inlines = [QuestionInline]
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -284,7 +284,7 @@ class QuestionStaffAdmin(admin.ModelAdmin):
     ]
     inlines = [AnswerInline]
     list_display = ('question_link', 'lecture', 'pub_date',
-                     'receiving_answers', 'edit_link', 'voteButton',)
+                     'receiving_answers', 'voteButton', 'edit_link',)
     list_filter = [LectureFilter, 'pub_date']
     search_fields = ['question_text']
     actions = [openVoting, closeVoting, filterAnswers, resetAnswers]
