@@ -102,7 +102,7 @@ class Answer(models.Model):
     # Question is the class that holds the question, answers and votes.
     question = models.ForeignKey(Question, related_name='answers')
     # Answer_text is the string that holds the possible choice.
-    answer_text = models.CharField(max_length=200, default='')
+    answer_text = models.CharField(max_length=2000, default='')
     # Votes is the number of votes for the specific choice.
     votes = models.IntegerField(default=0)
     # OpenForVoting determines the fact if the answer can be voted on.
