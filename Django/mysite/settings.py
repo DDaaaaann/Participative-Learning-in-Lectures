@@ -32,10 +32,10 @@ SECRET_KEY = '_cv^3oz)3)=30j)ru^xejygi)j_-y8@hrwy9qn&z49s*vi5h7p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #voor als het af is:
-DEBUG = False
-ALLOWED_HOSTS = '*'
+#DEBUG = False
+#ALLOWED_HOSTS = '*'
 
-#DEBUG = True
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
