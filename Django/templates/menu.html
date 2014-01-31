@@ -6,13 +6,6 @@
         <li class='active'><a href='/'>Home</a></li>
         {% endif %}
         {% if user.is_active and user.is_staff %}
-        <li class='has-sub'><a href='#'>Sessions</a>
-            <ul>
-                <li><a href='#'>Active Sessions</a></li>
-                <li><a href='#'>Upcoming Sessions</a></li>
-             
-            </ul>
-        </li>
         <li><a href='/courses/course'>My Courses</a></li>
         <li><a href='/teacher/analytics'>Analytics</a></li>
         {% elif user.is_active %}
