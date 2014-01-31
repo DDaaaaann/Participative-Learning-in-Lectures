@@ -231,7 +231,7 @@ def startSession(request, course_id, lecture_id):
             
             i += 1
     
-    return HttpResponseRedirect(reverse('teacher:question_index', args=(course_id, lecture_id,)))
+    return HttpResponseRedirect('/courses/lecture/?course=%s' % course_id)
 
 def editToggleLecture(request, course_id):
     c = get_object_or_404(Course, pk=course_id)
